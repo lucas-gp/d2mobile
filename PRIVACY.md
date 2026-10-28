@@ -21,7 +21,7 @@ The server adds the time of the request. **Nothing else is stored by the statist
 
 **Technical intermediaries (hosting).** The game and the `/stats-api` relay are served by **Vercel** (Vercel Inc.); the statistics service is reached through a **Cloudflare** tunnel (Cloudflare, Inc.). Like any host, they see the IP address and the User-Agent of each request in order to deliver it and may keep access logs under their own policies; the statistics service itself receives the request after them and writes none.
 
-**Data controller.** _To be completed by the owner of the site: name and contact address._
+**Data controller.** lucas-gp, maintainer of this repository (https://github.com/lucas-gp/d2mobile). Contact: open an issue on the repository, or use GitHub's private "Report a vulnerability" form (Security tab) for anything you do not want to post publicly.
 
 **Retention.** Raw pings are deleted after 48 hours. What remains is one summary line per random id and per day (first and last ping, number of pings, number of sessions, version, site) kept for 400 days, plus the list of random ids ever seen (to count "new" versus "returning" players). The id is pseudonymous: it identifies a browser, not a person. Once it is removed from your device (see below), or replaced after 13 months, the owner has no way to link the old lines to you.
 
@@ -52,7 +52,7 @@ Le serveur ajoute l'heure de la requête. **Le service de statistiques ne conser
 
 **Intermédiaires techniques (hébergement).** Le jeu et le relais `/stats-api` sont servis par **Vercel** (Vercel Inc.) ; le service de statistiques est joint par un tunnel **Cloudflare** (Cloudflare, Inc.). Comme tout hébergeur, ils voient l'adresse IP et le User-Agent de chaque requête pour l'acheminer et peuvent tenir des journaux d'accès selon leurs propres règles ; le service de statistiques reçoit la requête après eux et n'en écrit aucun.
 
-**Responsable du traitement.** _À compléter par le propriétaire du site : nom et adresse de contact._
+**Responsable du traitement.** lucas-gp, mainteneur de ce dépôt (https://github.com/lucas-gp/d2mobile). Contact : ouvrez une issue sur le dépôt, ou utilisez le formulaire privé « Report a vulnerability » de GitHub (onglet Security) pour ce que vous ne voulez pas publier.
 
 **Conservation.** Les pings bruts sont supprimés après 48 heures. Il reste une ligne de synthèse par identifiant aléatoire et par jour (premier et dernier ping, nombre de pings, nombre de sessions, version, site), conservée 400 jours, plus la liste des identifiants aléatoires déjà vus (pour distinguer « nouveaux » et « de retour »). L'identifiant est pseudonyme : il désigne un navigateur, pas une personne. Une fois supprimé de votre appareil (voir ci-dessous) ou remplacé au bout de 13 mois, le propriétaire n'a plus aucun moyen de relier les anciennes lignes à vous.
 
