@@ -72,7 +72,7 @@
     "prettier": "^3.9.10",
     "three": "^0.186.1",
     "tsx": "^4.23.15",
-    "typescript": "~5.9",
+    "typescript": "~7.0",
     "typescript-eslint": "^8.71.2",
     "upng-js": "^2.1.0",
     "vite": "^8.3.5",
