@@ -68,7 +68,7 @@ const localCli = resolve('node_modules/.bin/vercel');
 const vercel = (args, cwd) =>
   existsSync(localCli)
     ? execFileSync(localCli, [...args, '--token', token], { cwd, stdio: 'inherit', env: { ...process.env, VERCEL_TELEMETRY_DISABLED: '1' } })
-    : execFileSync('npx', ['--yes', VERCEL_CLI, ...args, '--token', token], { cwd, stdio: 'inherit', env: { ...process.env, VERCEL_TELEMETRY_DISABLED: '1' } });
+    : execFileSync('npx', ['--yes', VERCEL_CLI, ...args, '--token', token], { cwd, stdio: 'inherit', env: { ...process.env, VERCEL_TELEMETRY_DISABLED: '1' }, shell: process.platform === 'win32' }); // npx est un .cmd sous Windows
 /** `vercel pull` écrit les variables du projet (secrets) dans .vercel/.env.*.local : fichiers créés en 0600, et remis en 0600 s'ils existaient déjà */
 const pullPrivate = () => {
   const old = process.umask(0o077);
