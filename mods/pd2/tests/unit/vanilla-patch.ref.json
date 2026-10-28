@@ -1,0 +1,70 @@
+{
+  "bases": {
+    "entries": "a7b8fcdb9edcbc38d26c03a31205f56875fc485e",
+    "index": "9e9f7ec642dcc0522cbc61b0ba33114ec03f2114"
+  },
+  "runes": {
+    "entries": "99e1a7766b16632c63e15bdcbb2c986565ba397b",
+    "index": "5e98b6bc677be078d7274ec95dd1a3942a2e277f"
+  },
+  "gems": {
+    "entries": "26845fd4dce0c289c6105ba57e04cd2b28b3f1f2",
+    "index": "51d1999bd292f2d279328411242d202c61b9cf65"
+  },
+  "uniques": {
+    "entries": "f3ba0126abb3df620e10c30b0d30c653173917bd",
+    "index": "8ba7edc204180283121928ac7509aefd0a24c7f1"
+  },
+  "setItems": {
+    "entries": "753bb77ce893c7f0189c6cb5e0d85fdc8b5d7a4a",
+    "index": "42220c6c0504fa232d312b9ec99857358dca1f82"
+  },
+  "sets": {
+    "entries": "c3abcb6a97995170963019c22290707500055558",
+    "index": "c7f1acd449beccdc8e514b53ccdb54ee5c8c81d6"
+  },
+  "levels": {
+    "entries": "240a9ce3ec0f7e3b33fe294c5e8257507c091df7",
+    "index": "0eceac01dcad1210ff9dd2a1874c497e0dfc1502"
+  },
+  "runs": {
+    "entries": "c91013ce3505f228a5efab649f2170aa69981a4e",
+    "index": "25d8cfda3ba436dcc2b0ef0fc7adfae9eaa3ab23"
+  },
+  "treasureClasses": {
+    "entries": "d1de4f8d77fd6dda0163901ca57a6953f7be288b",
+    "index": "e882563da317411ac2e38ec115be8d5443f6edda"
+  },
+  "monsterFidelity": {
+    "entries": "1a937729f20bd544359c691b14f663bdac37fdd7",
+    "index": "9b3535c6153bbe12c333a309375c90b0d30602f4"
+  },
+  "classes": {
+    "entries": "65d3f0773f7bfeae0d1ae7e0e52b1c89f8ff7e03",
+    "index": "97fc4d2595d951f2573efccefcba143211c8c0e9"
+  },
+  "affixes": {
+    "entries": "8f8880b7284e39845e4e3ad1b78f002849328afe",
+    "index": "2a6460681e287495afbfba8f932b45b933f06b4c"
+  },
+  "runewords": {
+    "entries": "22ddb18a9cf19133edcc8ea8f644c6ac2b0bf7a6",
+    "index": "6fdb86e0f2804757ca10bde036d6fdfcd9c662d8"
+  },
+  "cubeRecipes": {
+    "entries": "6f74079d4c182ed93c17926f15adbe50f0a101c9",
+    "index": "4c22b9b70e682ec06128c590e97331564bcafc77"
+  },
+  "skills": {
+    "entries": "f7d9cf9139f0a66fe2908755c25d4fe6c4dab647",
+    "index": "692185cc961a840a3c39f9b0ec31fdbce09d0707"
+  },
+  "mercs": {
+    "entries": "6ed8161ddd3c4b77cbb55b88809b4ab7327dd68b",
+    "index": "37c7b45b0bbdd90e3862cf3e48089cbf7c51da53"
+  },
+  "monsters": {
+    "entries": "e96d248bedc9cdb251837485675fd29fadedc817",
+    "index": "1a81ebd67c962d4ac2488b01fafd033c9f049985"
+  }
+}

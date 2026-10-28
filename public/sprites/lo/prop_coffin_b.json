@@ -1,0 +1,1 @@
+{"id":"prop_coffin_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_coffin_b-0.png","w":44,"h":28}],"frames":{"idle/0/0":[0,0,0,40,28,20,19]},"shadowPages":[{"file":"prop_coffin_b-s-0.png","w":24,"h":12}],"shadows":{"idle/0/0":[0,0,0,23,12,13,6.5]},"shadowScale":0.25}

@@ -1,0 +1,1 @@
+{"id":"prop_smithy_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_smithy_b-0.png","w":340,"h":312}],"frames":{"idle/0/0":[0,0,0,338,309,200,229]},"shadowPages":[{"file":"prop_smithy_b-s-0.png","w":176,"h":88}],"shadows":{"idle/0/0":[0,0,0,175,87,113.5,46.5]},"shadowScale":0.5}

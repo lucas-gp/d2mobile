@@ -1,0 +1,1 @@
+{"id":"prop_crystal_big","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_crystal_big-0.png","w":64,"h":116}],"frames":{"idle/0/0":[0,0,0,62,116,31,107]},"shadowPages":[{"file":"prop_crystal_big-s-0.png","w":40,"h":24}],"shadows":{"idle/0/0":[0,0,0,36,24,24,17.5]},"shadowScale":0.25}

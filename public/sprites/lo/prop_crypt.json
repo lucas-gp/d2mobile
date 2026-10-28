@@ -1,0 +1,1 @@
+{"id":"prop_crypt","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_crypt-0.png","w":116,"h":120}],"frames":{"idle/0/0":[0,0,0,112,120,56,92.5]},"shadowPages":[{"file":"prop_crypt-s-0.png","w":60,"h":32}],"shadows":{"idle/0/0":[0,0,0,56,32,33,20.25]},"shadowScale":0.25}

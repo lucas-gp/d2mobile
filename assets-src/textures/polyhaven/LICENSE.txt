@@ -1,0 +1,20 @@
+Poly Haven — https://polyhaven.com/license
+Licence : CC0 1.0 Universal (domaine public) — https://creativecommons.org/publicdomain/zero/1.0/
+Extrait de https://polyhaven.com/license (consulté le 2026-09-28) :
+"Our assets are all licensed as CC0, which is effectively Public Domain even in
+jurisdictions that do not support the Public Domain. [...] You can use our assets for
+any purpose, including commercial work. You do not need to give credit or attribution
+when using them (although it is appreciated)."
+
+Fichiers (diffuse 1K JPG, téléchargés via https://api.polyhaven.com/files/<id>) :
+- burned_ground_01_diff_1k.jpg        Burned Ground 01        — Rob Tuytel
+- brown_mud_leaves_01_diff_1k.jpg     Brown Mud Leaves 01     — Rob Tuytel
+- forrest_ground_01_diff_1k.jpg       Forest Ground 01        — Rob Tuytel
+- cobblestone_floor_04_diff_1k.jpg    Cobblestone Floor 04    — Rob Tuytel
+- snow_02_diff_1k.jpg                 Snow 02                 — Rob Tuytel
+- castle_brick_07_diff_1k.jpg         Castle Brick 07         — Rob Tuytel
+- monastery_stone_floor_diff_1k.jpg   Monastery Stone Floor   — Amal Kumar
+- large_sandstone_blocks_01_diff_1k.jpg Large Sandstone Blocks 01 — Rob Tuytel
+- dark_wooden_planks_diff_1k.jpg      Dark Wooden Planks      — Amal Kumar
+(Poly Haven ne fournit pas de fichier de licence dans le téléchargement : ce fichier
+reproduit la licence publiée sur le site.)

@@ -1,0 +1,1 @@
+{"id":"prop_inn_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_inn_b-0.png","w":392,"h":384}],"frames":{"idle/0/0":[0,0,0,388,382,193,295]},"shadowPages":[{"file":"prop_inn_b-s-0.png","w":208,"h":104}],"shadows":{"idle/0/0":[0,0,0,205,103,119.5,60]},"shadowScale":0.5}

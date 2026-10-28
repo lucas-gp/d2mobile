@@ -1,0 +1,1 @@
+{"id":"prop_rock_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_rock_b-0.png","w":40,"h":36}],"frames":{"idle/0/0":[0,0,0,36,35,18,24.5]},"shadowPages":[{"file":"prop_rock_b-s-0.png","w":20,"h":8}],"shadows":{"idle/0/0":[0,0,0,17,6,10.5,5.25]},"shadowScale":0.25}

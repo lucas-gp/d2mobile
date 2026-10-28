@@ -1,0 +1,1 @@
+{"id":"prop_weaponrack_prop","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_weaponrack_prop-0.png","w":36,"h":48}],"frames":{"idle/0/0":[0,0,0,33,45,16.5,37]},"shadowPages":[{"file":"prop_weaponrack_prop-s-0.png","w":20,"h":12}],"shadows":{"idle/0/0":[0,0,0,16,9,11.25,7.5]},"shadowScale":0.25}

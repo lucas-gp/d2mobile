@@ -1,0 +1,1 @@
+{"id":"prop_tomb_urn","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_tomb_urn-0.png","w":20,"h":16}],"frames":{"idle/0/0":[0,0,0,18,15,8.5,11]},"shadowPages":[{"file":"prop_tomb_urn-s-0.png","w":12,"h":8}],"shadows":{"idle/0/0":[0,0,0,9,6,5.25,4]},"shadowScale":0.25}

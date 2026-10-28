@@ -1,0 +1,2102 @@
+{
+ "version": 5,
+ "sheets": {
+  "sorceress": {
+   "hash": "1208e2916436f787",
+   "hi": {
+    "bytes": 573576,
+    "gpu": 8850496
+   },
+   "lo": {
+    "bytes": 188548,
+    "gpu": 2329344
+   },
+   "kind": "actor"
+  },
+  "npc_larzuk": {
+   "hash": "0d979b0f7992f281",
+   "hi": {
+    "bytes": 40233,
+    "gpu": 981760
+   },
+   "lo": {
+    "bytes": 12787,
+    "gpu": 265600
+   },
+   "kind": "actor"
+  },
+  "npc_malah": {
+   "hash": "3485ecf684127e1e",
+   "hi": {
+    "bytes": 32179,
+    "gpu": 832384
+   },
+   "lo": {
+    "bytes": 9346,
+    "gpu": 220032
+   },
+   "kind": "actor"
+  },
+  "npc_anya": {
+   "hash": "d0df114d6de97be1",
+   "hi": {
+    "bytes": 25704,
+    "gpu": 558208
+   },
+   "lo": {
+    "bytes": 8160,
+    "gpu": 149504
+   },
+   "kind": "actor"
+  },
+  "fallen": {
+   "hash": "fc96b09585a2a499",
+   "hi": {
+    "bytes": 112186,
+    "gpu": 2178048
+   },
+   "lo": {
+    "bytes": 35976,
+    "gpu": 558144
+   },
+   "kind": "actor"
+  },
+  "fallen_shaman": {
+   "hash": "bd525343d19eca5d",
+   "hi": {
+    "bytes": 124036,
+    "gpu": 2854144
+   },
+   "lo": {
+    "bytes": 40568,
+    "gpu": 756544
+   },
+   "kind": "actor"
+  },
+  "zombie": {
+   "hash": "6931bf367736e391",
+   "hi": {
+    "bytes": 251302,
+    "gpu": 7864320
+   },
+   "lo": {
+    "bytes": 92952,
+    "gpu": 2058432
+   },
+   "kind": "actor"
+  },
+  "skeleton_warrior": {
+   "hash": "89c31a1b0587bc08",
+   "hi": {
+    "bytes": 275149,
+    "gpu": 7055616
+   },
+   "lo": {
+    "bytes": 95525,
+    "gpu": 1830912
+   },
+   "kind": "actor"
+  },
+  "skeleton_archer": {
+   "hash": "403676af3f69ae43",
+   "hi": {
+    "bytes": 213044,
+    "gpu": 6433408
+   },
+   "lo": {
+    "bytes": 72324,
+    "gpu": 1558528
+   },
+   "kind": "actor"
+  },
+  "griswold": {
+   "hash": "2cebac232abf041a",
+   "hi": {
+    "bytes": 244562,
+    "gpu": 5895872
+   },
+   "lo": {
+    "bytes": 85930,
+    "gpu": 1514816
+   },
+   "kind": "actor"
+  },
+  "mummy": {
+   "hash": "49c3e8551ca6925d",
+   "hi": {
+    "bytes": 305541,
+    "gpu": 8441600
+   },
+   "lo": {
+    "bytes": 106763,
+    "gpu": 2180544
+   },
+   "kind": "actor"
+  },
+  "greater_mummy": {
+   "hash": "fa89bb9d2d8b5edf",
+   "hi": {
+    "bytes": 344887,
+    "gpu": 10567680
+   },
+   "lo": {
+    "bytes": 120211,
+    "gpu": 2707136
+   },
+   "kind": "actor"
+  },
+  "skeleton_mage": {
+   "hash": "61c1ec204431f419",
+   "hi": {
+    "bytes": 212855,
+    "gpu": 6596160
+   },
+   "lo": {
+    "bytes": 73954,
+    "gpu": 1684928
+   },
+   "kind": "actor"
+  },
+  "scarab": {
+   "hash": "9a4967c24ab672b5",
+   "hi": {
+    "bytes": 119960,
+    "gpu": 2681664
+   },
+   "lo": {
+    "bytes": 40390,
+    "gpu": 673920
+   },
+   "kind": "actor"
+  },
+  "duriel": {
+   "hash": "9e54b959c7be83bc",
+   "hi": {
+    "bytes": 497208,
+    "gpu": 14016192
+   },
+   "lo": {
+    "bytes": 173850,
+    "gpu": 3420480
+   },
+   "kind": "actor"
+  },
+  "hell_bovine": {
+   "hash": "01a119d1d20bac0d",
+   "hi": {
+    "bytes": 333824,
+    "gpu": 8720640
+   },
+   "lo": {
+    "bytes": 115432,
+    "gpu": 2165248
+   },
+   "kind": "actor"
+  },
+  "cow_king": {
+   "hash": "36b214bdada6f6fb",
+   "hi": {
+    "bytes": 295126,
+    "gpu": 6650304
+   },
+   "lo": {
+    "bytes": 100052,
+    "gpu": 1656832
+   },
+   "kind": "actor"
+  },
+  "minion_destruction": {
+   "hash": "1c6526235e6a3425",
+   "hi": {
+    "bytes": 396090,
+    "gpu": 10060480
+   },
+   "lo": {
+    "bytes": 140416,
+    "gpu": 2550912
+   },
+   "kind": "actor"
+  },
+  "venom_lord": {
+   "hash": "892cf965aa957dd8",
+   "hi": {
+    "bytes": 374508,
+    "gpu": 9720704
+   },
+   "lo": {
+    "bytes": 134027,
+    "gpu": 2482176
+   },
+   "kind": "actor"
+  },
+  "oblivion_knight": {
+   "hash": "5a04e7cb18fb6843",
+   "hi": {
+    "bytes": 307423,
+    "gpu": 8650752
+   },
+   "lo": {
+    "bytes": 111095,
+    "gpu": 2146304
+   },
+   "kind": "actor"
+  },
+  "soul_killer": {
+   "hash": "625f1232959733d1",
+   "hi": {
+    "bytes": 124245,
+    "gpu": 3496960
+   },
+   "lo": {
+    "bytes": 43375,
+    "gpu": 911168
+   },
+   "kind": "actor"
+  },
+  "blood_lord": {
+   "hash": "65aa8c4d9b0f2cd6",
+   "hi": {
+    "bytes": 368276,
+    "gpu": 8654976
+   },
+   "lo": {
+    "bytes": 128548,
+    "gpu": 2170880
+   },
+   "kind": "actor"
+  },
+  "baal": {
+   "hash": "3c48236aeaebe7cd",
+   "hi": {
+    "bytes": 513315,
+    "gpu": 12309760
+   },
+   "lo": {
+    "bytes": 163433,
+    "gpu": 2855616
+   },
+   "kind": "actor"
+  },
+  "hydra": {
+   "hash": "4d5a4e0d3961f72e",
+   "hi": {
+    "bytes": 183085,
+    "gpu": 3264128
+   },
+   "lo": {
+    "bytes": 63908,
+    "gpu": 867968
+   },
+   "kind": "actor"
+  },
+  "prop_house1_a": {
+   "hash": "e5dab7e253b24e42",
+   "hi": {
+    "bytes": 9950,
+    "gpu": 416448
+   },
+   "lo": {
+    "bytes": 4344,
+    "gpu": 104960
+   },
+   "group": "house1_a",
+   "kind": "prop"
+  },
+  "prop_house1_b": {
+   "hash": "40265570ce26727e",
+   "hi": {
+    "bytes": 8455,
+    "gpu": 407488
+   },
+   "lo": {
+    "bytes": 3820,
+    "gpu": 102720
+   },
+   "group": "house1_b",
+   "kind": "prop"
+  },
+  "prop_house2_a": {
+   "hash": "fae78a7d5482f38b",
+   "hi": {
+    "bytes": 8242,
+    "gpu": 313024
+   },
+   "lo": {
+    "bytes": 3687,
+    "gpu": 79424
+   },
+   "group": "house2_a",
+   "kind": "prop"
+  },
+  "prop_house2_b": {
+   "hash": "9f08f933ce3ccb2f",
+   "hi": {
+    "bytes": 7221,
+    "gpu": 319104
+   },
+   "lo": {
+    "bytes": 3283,
+    "gpu": 80896
+   },
+   "group": "house2_b",
+   "kind": "prop"
+  },
+  "prop_house3_a": {
+   "hash": "5fdf6b20b7b67db9",
+   "hi": {
+    "bytes": 10140,
+    "gpu": 370624
+   },
+   "lo": {
+    "bytes": 4698,
+    "gpu": 95296
+   },
+   "group": "house3_a",
+   "kind": "prop"
+  },
+  "prop_house3_b": {
+   "hash": "2650ae1f05f652f2",
+   "hi": {
+    "bytes": 9540,
+    "gpu": 375680
+   },
+   "lo": {
+    "bytes": 4387,
+    "gpu": 95296
+   },
+   "group": "house3_b",
+   "kind": "prop"
+  },
+  "prop_house4_a": {
+   "hash": "29d4ccadbb75107e",
+   "hi": {
+    "bytes": 8610,
+    "gpu": 400704
+   },
+   "lo": {
+    "bytes": 4091,
+    "gpu": 102528
+   },
+   "group": "house4_a",
+   "kind": "prop"
+  },
+  "prop_house4_b": {
+   "hash": "09f4538ba331936c",
+   "hi": {
+    "bytes": 7453,
+    "gpu": 403520
+   },
+   "lo": {
+    "bytes": 3724,
+    "gpu": 103936
+   },
+   "group": "house4_b",
+   "kind": "prop"
+  },
+  "prop_inn_a": {
+   "hash": "b669678b29def03b",
+   "hi": {
+    "bytes": 13016,
+    "gpu": 688640
+   },
+   "lo": {
+    "bytes": 5742,
+    "gpu": 172992
+   },
+   "group": "inn_a",
+   "kind": "prop"
+  },
+  "prop_inn_b": {
+   "hash": "82dbc1c0ea9ed342",
+   "hi": {
+    "bytes": 10406,
+    "gpu": 688640
+   },
+   "lo": {
+    "bytes": 4832,
+    "gpu": 172160
+   },
+   "group": "inn_b",
+   "kind": "prop"
+  },
+  "prop_smithy_a": {
+   "hash": "3f5af3851ff92a03",
+   "hi": {
+    "bytes": 10514,
+    "gpu": 517632
+   },
+   "lo": {
+    "bytes": 4651,
+    "gpu": 131392
+   },
+   "group": "smithy_a",
+   "kind": "prop"
+  },
+  "prop_smithy_b": {
+   "hash": "77ef4119123df7a7",
+   "hi": {
+    "bytes": 9013,
+    "gpu": 486272
+   },
+   "lo": {
+    "bytes": 4103,
+    "gpu": 123520
+   },
+   "group": "smithy_b",
+   "kind": "prop"
+  },
+  "prop_stable_a": {
+   "hash": "c0d7674a8930d432",
+   "hi": {
+    "bytes": 6388,
+    "gpu": 296512
+   },
+   "lo": {
+    "bytes": 2818,
+    "gpu": 77632
+   },
+   "group": "stable_a",
+   "kind": "prop"
+  },
+  "prop_stable_b": {
+   "hash": "422c73818731a0f3",
+   "hi": {
+    "bytes": 6322,
+    "gpu": 297408
+   },
+   "lo": {
+    "bytes": 2804,
+    "gpu": 73920
+   },
+   "group": "stable_b",
+   "kind": "prop"
+  },
+  "prop_bell_tower": {
+   "hash": "8bc1251ca2eb042e",
+   "hi": {
+    "bytes": 12432,
+    "gpu": 406272
+   },
+   "lo": {
+    "bytes": 5210,
+    "gpu": 102784
+   },
+   "group": "bell_tower",
+   "kind": "prop"
+  },
+  "prop_well": {
+   "hash": "330663d13a7965a3",
+   "hi": {
+    "bytes": 2386,
+    "gpu": 51328
+   },
+   "lo": {
+    "bytes": 1229,
+    "gpu": 13056
+   },
+   "group": "well",
+   "kind": "prop"
+  },
+  "prop_cart_a": {
+   "hash": "b6f6c7b65c021236",
+   "hi": {
+    "bytes": 1539,
+    "gpu": 24576
+   },
+   "lo": {
+    "bytes": 890,
+    "gpu": 6336
+   },
+   "group": "cart_a",
+   "kind": "prop"
+  },
+  "prop_cart_b": {
+   "hash": "4367d1994d87ee94",
+   "hi": {
+    "bytes": 1528,
+    "gpu": 25088
+   },
+   "lo": {
+    "bytes": 822,
+    "gpu": 6336
+   },
+   "group": "cart_b",
+   "kind": "prop"
+  },
+  "prop_market_a": {
+   "hash": "e31978dd3f8b325a",
+   "hi": {
+    "bytes": 2242,
+    "gpu": 58368
+   },
+   "lo": {
+    "bytes": 1216,
+    "gpu": 14592
+   },
+   "group": "market_a",
+   "kind": "prop"
+  },
+  "prop_market_b": {
+   "hash": "1f7729fb4508142e",
+   "hi": {
+    "bytes": 2271,
+    "gpu": 59968
+   },
+   "lo": {
+    "bytes": 1252,
+    "gpu": 16320
+   },
+   "group": "market_b",
+   "kind": "prop"
+  },
+  "prop_hay": {
+   "hash": "32458cdeff5375e7",
+   "hi": {
+    "bytes": 2340,
+    "gpu": 40832
+   },
+   "lo": {
+    "bytes": 1150,
+    "gpu": 10432
+   },
+   "group": "hay",
+   "kind": "prop"
+  },
+  "prop_cauldron": {
+   "hash": "468ff845b49f4199",
+   "hi": {
+    "bytes": 1103,
+    "gpu": 13696
+   },
+   "lo": {
+    "bytes": 610,
+    "gpu": 3648
+   },
+   "group": "cauldron",
+   "kind": "prop"
+  },
+  "prop_fence_a": {
+   "hash": "410a36bcc6a3a6ee",
+   "hi": {
+    "bytes": 929,
+    "gpu": 43072
+   },
+   "lo": {
+    "bytes": 598,
+    "gpu": 12032
+   },
+   "group": "fence_a",
+   "kind": "prop"
+  },
+  "prop_fence_b": {
+   "hash": "d7a2bbb835e71d67",
+   "hi": {
+    "bytes": 1063,
+    "gpu": 43072
+   },
+   "lo": {
+    "bytes": 688,
+    "gpu": 12032
+   },
+   "group": "fence_b",
+   "kind": "prop"
+  },
+  "prop_bonfire": {
+   "hash": "b7e38091f9d85bab",
+   "hi": {
+    "bytes": 1965,
+    "gpu": 23936
+   },
+   "lo": {
+    "bytes": 1016,
+    "gpu": 6144
+   },
+   "group": "bonfire",
+   "kind": "prop"
+  },
+  "prop_church_ruin_a": {
+   "hash": "370b135116138fed",
+   "hi": {
+    "bytes": 14234,
+    "gpu": 998016
+   },
+   "lo": {
+    "bytes": 6393,
+    "gpu": 249600
+   },
+   "group": "church_ruin_a",
+   "kind": "prop"
+  },
+  "prop_church_ruin_b": {
+   "hash": "44c00facdb7c36d0",
+   "hi": {
+    "bytes": 13039,
+    "gpu": 1153664
+   },
+   "lo": {
+    "bytes": 5838,
+    "gpu": 290176
+   },
+   "group": "church_ruin_b",
+   "kind": "prop"
+  },
+  "prop_ruin": {
+   "hash": "bd74c52b20d5a77b",
+   "hi": {
+    "bytes": 4753,
+    "gpu": 199296
+   },
+   "lo": {
+    "bytes": 2295,
+    "gpu": 51520
+   },
+   "group": "ruin",
+   "kind": "prop"
+  },
+  "prop_scaffold": {
+   "hash": "8e40ca8508dc9622",
+   "hi": {
+    "bytes": 7386,
+    "gpu": 124416
+   },
+   "lo": {
+    "bytes": 3086,
+    "gpu": 31488
+   },
+   "group": "scaffold",
+   "kind": "prop"
+  },
+  "prop_tree_dead_l": {
+   "hash": "27107395fb4f7d0d",
+   "hi": {
+    "bytes": 1603,
+    "gpu": 44096
+   },
+   "lo": {
+    "bytes": 835,
+    "gpu": 12160
+   },
+   "group": "tree_dead_l",
+   "kind": "prop"
+  },
+  "prop_tree_dead_m": {
+   "hash": "9ea7dc40c14790ee",
+   "hi": {
+    "bytes": 1078,
+    "gpu": 50944
+   },
+   "lo": {
+    "bytes": 644,
+    "gpu": 13056
+   },
+   "group": "tree_dead_m",
+   "kind": "prop"
+  },
+  "prop_tree_dead_s": {
+   "hash": "0b31c1b506b5548f",
+   "hi": {
+    "bytes": 910,
+    "gpu": 17792
+   },
+   "lo": {
+    "bytes": 570,
+    "gpu": 4544
+   },
+   "group": "tree_dead_s",
+   "kind": "prop"
+  },
+  "prop_tree_pine": {
+   "hash": "85806fa819f79d82",
+   "hi": {
+    "bytes": 1436,
+    "gpu": 117312
+   },
+   "lo": {
+    "bytes": 800,
+    "gpu": 29760
+   },
+   "group": "tree_pine",
+   "kind": "prop"
+  },
+  "prop_trees_small": {
+   "hash": "7c5d366c2f43b923",
+   "hi": {
+    "bytes": 2322,
+    "gpu": 83328
+   },
+   "lo": {
+    "bytes": 1182,
+    "gpu": 21696
+   },
+   "group": "trees_small",
+   "kind": "prop"
+  },
+  "prop_rock_a": {
+   "hash": "b61eb99c4c2c41fd",
+   "hi": {
+    "bytes": 541,
+    "gpu": 11968
+   },
+   "lo": {
+    "bytes": 385,
+    "gpu": 3456
+   },
+   "group": "rock_a",
+   "kind": "prop"
+  },
+  "prop_rock_b": {
+   "hash": "4c48541d914d4056",
+   "hi": {
+    "bytes": 1118,
+    "gpu": 23616
+   },
+   "lo": {
+    "bytes": 661,
+    "gpu": 6400
+   },
+   "group": "rock_b",
+   "kind": "prop"
+  },
+  "prop_rock_c": {
+   "hash": "151e41f613f0b390",
+   "hi": {
+    "bytes": 765,
+    "gpu": 10112
+   },
+   "lo": {
+    "bytes": 495,
+    "gpu": 2624
+   },
+   "group": "rock_c",
+   "kind": "prop"
+  },
+  "prop_grave_a": {
+   "hash": "398e99debcef3952",
+   "hi": {
+    "bytes": 1048,
+    "gpu": 12800
+   },
+   "lo": {
+    "bytes": 580,
+    "gpu": 3520
+   },
+   "group": "grave_a",
+   "kind": "prop"
+  },
+  "prop_grave_b": {
+   "hash": "02eeff36306fc36c",
+   "hi": {
+    "bytes": 993,
+    "gpu": 12608
+   },
+   "lo": {
+    "bytes": 560,
+    "gpu": 3520
+   },
+   "group": "grave_b",
+   "kind": "prop"
+  },
+  "prop_gravestone": {
+   "hash": "bf7624fd4f2a4f15",
+   "hi": {
+    "bytes": 848,
+    "gpu": 8064
+   },
+   "lo": {
+    "bytes": 547,
+    "gpu": 1920
+   },
+   "group": "gravestone",
+   "kind": "prop"
+  },
+  "prop_crypt": {
+   "hash": "7ca4c3b7e5c7d2c5",
+   "hi": {
+    "bytes": 9953,
+    "gpu": 251200
+   },
+   "lo": {
+    "bytes": 3636,
+    "gpu": 63360
+   },
+   "group": "crypt",
+   "kind": "prop"
+  },
+  "prop_post_skull": {
+   "hash": "e30a3c9cc3415735",
+   "hi": {
+    "bytes": 1343,
+    "gpu": 15488
+   },
+   "lo": {
+    "bytes": 749,
+    "gpu": 4032
+   },
+   "group": "post_skull",
+   "kind": "prop"
+  },
+  "prop_lantern": {
+   "hash": "0c33588efc383e8a",
+   "hi": {
+    "bytes": 1721,
+    "gpu": 39552
+   },
+   "lo": {
+    "bytes": 1032,
+    "gpu": 10304
+   },
+   "group": "lantern",
+   "kind": "prop"
+  },
+  "prop_bones": {
+   "hash": "daebc9ca9347d83f",
+   "hi": {
+    "bytes": 1447,
+    "gpu": 9792
+   },
+   "lo": {
+    "bytes": 714,
+    "gpu": 2816
+   },
+   "group": "bones",
+   "kind": "prop"
+  },
+  "prop_skull": {
+   "hash": "7d16d20bcad5da78",
+   "hi": {
+    "bytes": 707,
+    "gpu": 2816
+   },
+   "lo": {
+    "bytes": 442,
+    "gpu": 704
+   },
+   "group": "skull",
+   "kind": "prop"
+  },
+  "prop_wall_a": {
+   "hash": "5a0f1b66a3cc60b4",
+   "hi": {
+    "bytes": 5192,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 2194,
+    "gpu": 44160
+   },
+   "group": "wall_a",
+   "kind": "prop"
+  },
+  "prop_wall_b": {
+   "hash": "a98e049cdc154dfd",
+   "hi": {
+    "bytes": 5789,
+    "gpu": 173248
+   },
+   "lo": {
+    "bytes": 2283,
+    "gpu": 44800
+   },
+   "group": "wall_b",
+   "kind": "prop"
+  },
+  "prop_wall_broken_a": {
+   "hash": "b2f5d5e3567a0bb5",
+   "hi": {
+    "bytes": 5891,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 2427,
+    "gpu": 44160
+   },
+   "group": "wall_broken_a",
+   "kind": "prop"
+  },
+  "prop_wall_broken_b": {
+   "hash": "3fb4cfdbd1e12cd1",
+   "hi": {
+    "bytes": 6370,
+    "gpu": 173248
+   },
+   "lo": {
+    "bytes": 2581,
+    "gpu": 44800
+   },
+   "group": "wall_broken_b",
+   "kind": "prop"
+  },
+  "prop_wall_arched_a": {
+   "hash": "3894bc307941a44a",
+   "hi": {
+    "bytes": 5765,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 2390,
+    "gpu": 44800
+   },
+   "group": "wall_arched_a",
+   "kind": "prop"
+  },
+  "prop_wall_arched_b": {
+   "hash": "866844ed9e5c74da",
+   "hi": {
+    "bytes": 6228,
+    "gpu": 174080
+   },
+   "lo": {
+    "bytes": 2458,
+    "gpu": 45248
+   },
+   "group": "wall_arched_b",
+   "kind": "prop"
+  },
+  "prop_wall_door_a": {
+   "hash": "732b46b9cb082e33",
+   "hi": {
+    "bytes": 5532,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 2405,
+    "gpu": 44160
+   },
+   "group": "wall_door_a",
+   "kind": "prop"
+  },
+  "prop_wall_door_b": {
+   "hash": "860e12415703cf2f",
+   "hi": {
+    "bytes": 6286,
+    "gpu": 174080
+   },
+   "lo": {
+    "bytes": 2588,
+    "gpu": 44800
+   },
+   "group": "wall_door_b",
+   "kind": "prop"
+  },
+  "prop_pillar": {
+   "hash": "b9ac8e386cba3d58",
+   "hi": {
+    "bytes": 1505,
+    "gpu": 27648
+   },
+   "lo": {
+    "bytes": 793,
+    "gpu": 7104
+   },
+   "group": "pillar",
+   "kind": "prop"
+  },
+  "prop_pillar_deco": {
+   "hash": "73be1b54d5cd26be",
+   "hi": {
+    "bytes": 1758,
+    "gpu": 24512
+   },
+   "lo": {
+    "bytes": 827,
+    "gpu": 6784
+   },
+   "group": "pillar_deco",
+   "kind": "prop"
+  },
+  "prop_column": {
+   "hash": "b81fb720ac3f82a3",
+   "hi": {
+    "bytes": 1362,
+    "gpu": 29760
+   },
+   "lo": {
+    "bytes": 787,
+    "gpu": 8448
+   },
+   "group": "column",
+   "kind": "prop"
+  },
+  "prop_torch": {
+   "hash": "bc07a78c4ccb3f62",
+   "hi": {
+    "bytes": 1385,
+    "gpu": 17536
+   },
+   "lo": {
+    "bytes": 785,
+    "gpu": 4032
+   },
+   "group": "torch",
+   "kind": "prop"
+  },
+  "prop_torch_wall": {
+   "hash": "920fa59a565d620a",
+   "hi": {
+    "bytes": 927,
+    "gpu": 6912
+   },
+   "lo": {
+    "bytes": 585,
+    "gpu": 1728
+   },
+   "group": "torch_wall",
+   "kind": "prop"
+  },
+  "prop_barrel": {
+   "hash": "265c2892799fa266",
+   "hi": {
+    "bytes": 1609,
+    "gpu": 13568
+   },
+   "lo": {
+    "bytes": 838,
+    "gpu": 4096
+   },
+   "group": "barrel",
+   "kind": "prop"
+  },
+  "prop_crates": {
+   "hash": "5046360758e95993",
+   "hi": {
+    "bytes": 2724,
+    "gpu": 29504
+   },
+   "lo": {
+    "bytes": 1255,
+    "gpu": 7680
+   },
+   "group": "crates",
+   "kind": "prop"
+  },
+  "prop_rubble": {
+   "hash": "542235fb4258b274",
+   "hi": {
+    "bytes": 1688,
+    "gpu": 21120
+   },
+   "lo": {
+    "bytes": 806,
+    "gpu": 6080
+   },
+   "group": "rubble",
+   "kind": "prop"
+  },
+  "prop_coffin": {
+   "hash": "1938a16f2846b907",
+   "hi": {
+    "bytes": 1907,
+    "gpu": 23424
+   },
+   "lo": {
+    "bytes": 977,
+    "gpu": 6080
+   },
+   "group": "coffin",
+   "kind": "prop"
+  },
+  "prop_coffin_b": {
+   "hash": "44f586729820f0f8",
+   "hi": {
+    "bytes": 1820,
+    "gpu": 24768
+   },
+   "lo": {
+    "bytes": 969,
+    "gpu": 6080
+   },
+   "group": "coffin_b",
+   "kind": "prop"
+  },
+  "prop_banner_red": {
+   "hash": "c27d5e695b8d9d7c",
+   "hi": {
+    "bytes": 1270,
+    "gpu": 24000
+   },
+   "lo": {
+    "bytes": 682,
+    "gpu": 6720
+   },
+   "group": "banner_red",
+   "kind": "prop"
+  },
+  "prop_candles": {
+   "hash": "d95aa07b68eb2150",
+   "hi": {
+    "bytes": 820,
+    "gpu": 3968
+   },
+   "lo": {
+    "bytes": 542,
+    "gpu": 1088
+   },
+   "group": "candles",
+   "kind": "prop"
+  },
+  "prop_shrine_candles": {
+   "hash": "a2b35d863ac588d7",
+   "hi": {
+    "bytes": 1669,
+    "gpu": 25728
+   },
+   "lo": {
+    "bytes": 864,
+    "gpu": 6720
+   },
+   "group": "shrine_candles",
+   "kind": "prop"
+  },
+  "prop_crystal_red": {
+   "hash": "b607bf561e1f91eb",
+   "hi": {
+    "bytes": 720,
+    "gpu": 28928
+   },
+   "lo": {
+    "bytes": 486,
+    "gpu": 7232
+   },
+   "group": "crystal_red",
+   "kind": "prop"
+  },
+  "prop_crystal_big": {
+   "hash": "98a99f647a2a6a0a",
+   "hi": {
+    "bytes": 1400,
+    "gpu": 133376
+   },
+   "lo": {
+    "bytes": 827,
+    "gpu": 33536
+   },
+   "group": "crystal_big",
+   "kind": "prop"
+  },
+  "prop_chest_prop": {
+   "hash": "7743e80ee78e3ba3",
+   "hi": {
+    "bytes": 1316,
+    "gpu": 12032
+   },
+   "lo": {
+    "bytes": 742,
+    "gpu": 3200
+   },
+   "group": "chest_prop",
+   "kind": "prop"
+  },
+  "prop_spikes": {
+   "hash": "fea5bbf130a0209e",
+   "hi": {
+    "bytes": 2021,
+    "gpu": 52288
+   },
+   "lo": {
+    "bytes": 817,
+    "gpu": 13760
+   },
+   "group": "spikes",
+   "kind": "prop"
+  },
+  "prop_stonewall_a": {
+   "hash": "81e72bd240119c73",
+   "hi": {
+    "bytes": 2433,
+    "gpu": 74240
+   },
+   "lo": {
+    "bytes": 1231,
+    "gpu": 19200
+   },
+   "group": "stonewall_a",
+   "kind": "prop"
+  },
+  "prop_stonewall_b": {
+   "hash": "0853e15b58234af2",
+   "hi": {
+    "bytes": 1967,
+    "gpu": 73152
+   },
+   "lo": {
+    "bytes": 1074,
+    "gpu": 19200
+   },
+   "group": "stonewall_b",
+   "kind": "prop"
+  },
+  "prop_stonehouse_a": {
+   "hash": "af7ce6486819ceab",
+   "hi": {
+    "bytes": 11157,
+    "gpu": 532480
+   },
+   "lo": {
+    "bytes": 5021,
+    "gpu": 135040
+   },
+   "group": "stonehouse_a",
+   "kind": "prop"
+  },
+  "prop_stonehouse_b": {
+   "hash": "7e14c9e7730c6d60",
+   "hi": {
+    "bytes": 10011,
+    "gpu": 535296
+   },
+   "lo": {
+    "bytes": 4696,
+    "gpu": 135040
+   },
+   "group": "stonehouse_b",
+   "kind": "prop"
+  },
+  "prop_tower": {
+   "hash": "4a345fd9971ba58b",
+   "hi": {
+    "bytes": 6850,
+    "gpu": 266560
+   },
+   "lo": {
+    "bytes": 3076,
+    "gpu": 68032
+   },
+   "group": "tower",
+   "kind": "prop"
+  },
+  "prop_tent": {
+   "hash": "fa79a85064f4b6d7",
+   "hi": {
+    "bytes": 1312,
+    "gpu": 44288
+   },
+   "lo": {
+    "bytes": 720,
+    "gpu": 9472
+   },
+   "group": "tent",
+   "kind": "prop"
+  },
+  "prop_campfire": {
+   "hash": "c4885ed15f54491b",
+   "hi": {
+    "bytes": 1282,
+    "gpu": 22784
+   },
+   "lo": {
+    "bytes": 766,
+    "gpu": 6336
+   },
+   "group": "campfire",
+   "kind": "prop"
+  },
+  "prop_torch_post": {
+   "hash": "f55b667071f6900a",
+   "hi": {
+    "bytes": 700,
+    "gpu": 7680
+   },
+   "lo": {
+    "bytes": 456,
+    "gpu": 1792
+   },
+   "group": "torch_post",
+   "kind": "prop"
+  },
+  "prop_weaponrack_prop": {
+   "hash": "6b6f1220a63228fe",
+   "hi": {
+    "bytes": 1104,
+    "gpu": 27584
+   },
+   "lo": {
+    "bytes": 716,
+    "gpu": 7872
+   },
+   "group": "weaponrack_prop",
+   "kind": "prop"
+  },
+  "prop_flag": {
+   "hash": "b8aefa48fa8e3b96",
+   "hi": {
+    "bytes": 1217,
+    "gpu": 85632
+   },
+   "lo": {
+    "bytes": 769,
+    "gpu": 22080
+   },
+   "group": "flag",
+   "kind": "prop"
+  },
+  "prop_tombwall_a": {
+   "hash": "e22d6a300bda8c43",
+   "hi": {
+    "bytes": 5797,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 2347,
+    "gpu": 44160
+   },
+   "group": "tombwall_a",
+   "kind": "prop"
+  },
+  "prop_tombwall_b": {
+   "hash": "9941a87099ede662",
+   "hi": {
+    "bytes": 7063,
+    "gpu": 173248
+   },
+   "lo": {
+    "bytes": 2683,
+    "gpu": 44800
+   },
+   "group": "tombwall_b",
+   "kind": "prop"
+  },
+  "prop_tombwall_cracked_a": {
+   "hash": "d78b13dc1de2404c",
+   "hi": {
+    "bytes": 4969,
+    "gpu": 111936
+   },
+   "lo": {
+    "bytes": 1974,
+    "gpu": 28032
+   },
+   "group": "tombwall_cracked_a",
+   "kind": "prop"
+  },
+  "prop_tombwall_cracked_b": {
+   "hash": "dccceb411242c18b",
+   "hi": {
+    "bytes": 5760,
+    "gpu": 113088
+   },
+   "lo": {
+    "bytes": 2212,
+    "gpu": 28416
+   },
+   "group": "tombwall_cracked_b",
+   "kind": "prop"
+  },
+  "prop_tomb_pillar": {
+   "hash": "f0c74d74efa1a1f6",
+   "hi": {
+    "bytes": 1918,
+    "gpu": 24512
+   },
+   "lo": {
+    "bytes": 875,
+    "gpu": 6784
+   },
+   "group": "tomb_pillar",
+   "kind": "prop"
+  },
+  "prop_tomb_column": {
+   "hash": "43118c8adb048d8b",
+   "hi": {
+    "bytes": 1552,
+    "gpu": 29760
+   },
+   "lo": {
+    "bytes": 864,
+    "gpu": 8448
+   },
+   "group": "tomb_column",
+   "kind": "prop"
+  },
+  "prop_tomb_rubble": {
+   "hash": "40eb28d3aa74f11f",
+   "hi": {
+    "bytes": 1908,
+    "gpu": 26880
+   },
+   "lo": {
+    "bytes": 927,
+    "gpu": 6912
+   },
+   "group": "tomb_rubble",
+   "kind": "prop"
+  },
+  "prop_tomb_urn": {
+   "hash": "07a7c272b1060c0d",
+   "hi": {
+    "bytes": 873,
+    "gpu": 5568
+   },
+   "lo": {
+    "bytes": 523,
+    "gpu": 1664
+   },
+   "group": "tomb_urn",
+   "kind": "prop"
+  },
+  "prop_tomb_banner": {
+   "hash": "dffe4b4f69d4e5f3",
+   "hi": {
+    "bytes": 1022,
+    "gpu": 24000
+   },
+   "lo": {
+    "bytes": 583,
+    "gpu": 6720
+   },
+   "group": "tomb_banner",
+   "kind": "prop"
+  },
+  "prop_gate_a": {
+   "hash": "3bc7806083cbe220",
+   "hi": {
+    "bytes": 3025,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 1391,
+    "gpu": 44160
+   },
+   "group": "gate_a",
+   "kind": "prop"
+  },
+  "prop_gate_b": {
+   "hash": "3fec21e52e6b385f",
+   "hi": {
+    "bytes": 3910,
+    "gpu": 173248
+   },
+   "lo": {
+    "bytes": 1819,
+    "gpu": 44800
+   },
+   "group": "gate_b",
+   "kind": "prop"
+  },
+  "prop_throne_wall_a": {
+   "hash": "66b520c384c5e8b9",
+   "hi": {
+    "bytes": 3648,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 1573,
+    "gpu": 44160
+   },
+   "group": "throne_wall_a",
+   "kind": "prop"
+  },
+  "prop_throne_wall_b": {
+   "hash": "0ccff439647e665a",
+   "hi": {
+    "bytes": 2859,
+    "gpu": 173248
+   },
+   "lo": {
+    "bytes": 1340,
+    "gpu": 44800
+   },
+   "group": "throne_wall_b",
+   "kind": "prop"
+  },
+  "prop_throne_wall_arch_a": {
+   "hash": "894509f7a6455747",
+   "hi": {
+    "bytes": 3921,
+    "gpu": 172800
+   },
+   "lo": {
+    "bytes": 1676,
+    "gpu": 44800
+   },
+   "group": "throne_wall_arch_a",
+   "kind": "prop"
+  },
+  "prop_throne_wall_arch_b": {
+   "hash": "17ac8b0d8e3af02f",
+   "hi": {
+    "bytes": 3087,
+    "gpu": 174080
+   },
+   "lo": {
+    "bytes": 1419,
+    "gpu": 45248
+   },
+   "group": "throne_wall_arch_b",
+   "kind": "prop"
+  },
+  "prop_throne_pillar": {
+   "hash": "8e71bc99a05a571e",
+   "hi": {
+    "bytes": 1368,
+    "gpu": 32640
+   },
+   "lo": {
+    "bytes": 740,
+    "gpu": 7680
+   },
+   "group": "throne_pillar",
+   "kind": "prop"
+  },
+  "prop_brazier": {
+   "hash": "880d477adccd22ab",
+   "hi": {
+    "bytes": 1017,
+    "gpu": 12032
+   },
+   "lo": {
+    "bytes": 595,
+    "gpu": 3200
+   },
+   "group": "brazier",
+   "kind": "prop"
+  },
+  "prop_tombwall_half_a": {
+   "hash": "96b74ef2000a4da2",
+   "hi": {
+    "bytes": 3970,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1720,
+    "gpu": 29376
+   },
+   "group": "tombwall_half_a",
+   "kind": "prop"
+  },
+  "prop_tombwall_half_b": {
+   "hash": "68b4dbdf08eca7f0",
+   "hi": {
+    "bytes": 4734,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1890,
+    "gpu": 29376
+   },
+   "group": "tombwall_half_b",
+   "kind": "prop"
+  },
+  "prop_throne_wall_half_a": {
+   "hash": "0fdd38cd7c0d682d",
+   "hi": {
+    "bytes": 2323,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1121,
+    "gpu": 29376
+   },
+   "group": "throne_wall_half_a",
+   "kind": "prop"
+  },
+  "prop_throne_wall_half_b": {
+   "hash": "ece7be89f81eaaa1",
+   "hi": {
+    "bytes": 2003,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1065,
+    "gpu": 29376
+   },
+   "group": "throne_wall_half_b",
+   "kind": "prop"
+  },
+  "prop_wall_half_a": {
+   "hash": "74821976807106aa",
+   "hi": {
+    "bytes": 3504,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1523,
+    "gpu": 29376
+   },
+   "group": "wall_half_a",
+   "kind": "prop"
+  },
+  "prop_wall_half_b": {
+   "hash": "1a65cba03564e8c5",
+   "hi": {
+    "bytes": 4010,
+    "gpu": 111168
+   },
+   "lo": {
+    "bytes": 1694,
+    "gpu": 29376
+   },
+   "group": "wall_half_b",
+   "kind": "prop"
+  },
+  "druid": {
+   "hash": "f3b8460db0ed7e5c",
+   "hi": {
+    "bytes": 789182,
+    "gpu": 14179008
+   },
+   "lo": {
+    "bytes": 273995,
+    "gpu": 3698752
+   },
+   "kind": "actor"
+  },
+  "werewolf": {
+   "hash": "c435a59e9edad09f",
+   "hi": {
+    "bytes": 319103,
+    "gpu": 8650752
+   },
+   "lo": {
+    "bytes": 112157,
+    "gpu": 2172288
+   },
+   "kind": "actor"
+  },
+  "werebear": {
+   "hash": "811ac08738b6543c",
+   "hi": {
+    "bytes": 307651,
+    "gpu": 7678080
+   },
+   "lo": {
+    "bytes": 109693,
+    "gpu": 1999552
+   },
+   "kind": "actor"
+  },
+  "wolf": {
+   "hash": "841c9cce173284b1",
+   "hi": {
+    "bytes": 196569,
+    "gpu": 5570560
+   },
+   "lo": {
+    "bytes": 69756,
+    "gpu": 1453696
+   },
+   "kind": "actor"
+  },
+  "raven": {
+   "hash": "5560f076cbe0b5dd",
+   "hi": {
+    "bytes": 76950,
+    "gpu": 2628096
+   },
+   "lo": {
+    "bytes": 29931,
+    "gpu": 661440
+   },
+   "kind": "actor"
+  },
+  "diablo": {
+   "hash": "4f8323e7468d02d1",
+   "hi": {
+    "bytes": 520831,
+    "gpu": 12959808
+   },
+   "lo": {
+    "bytes": 181186,
+    "gpu": 3157440
+   },
+   "kind": "actor"
+  },
+  "merc_rogue": {
+   "hash": "b265e3edb68fb58e",
+   "hi": {
+    "bytes": 226246,
+    "gpu": 6348800
+   },
+   "lo": {
+    "bytes": 78011,
+    "gpu": 1591296
+   },
+   "kind": "actor"
+  },
+  "merc_desert": {
+   "hash": "3b69a4d59d789370",
+   "hi": {
+    "bytes": 282331,
+    "gpu": 7680640
+   },
+   "lo": {
+    "bytes": 102788,
+    "gpu": 1976640
+   },
+   "kind": "actor"
+  },
+  "merc_ironwolf": {
+   "hash": "b48bbb299f5d26b8",
+   "hi": {
+    "bytes": 253426,
+    "gpu": 7380480
+   },
+   "lo": {
+    "bytes": 88903,
+    "gpu": 1859776
+   },
+   "kind": "actor"
+  },
+  "merc_barbarian": {
+   "hash": "aa6079a8c40f0b8f",
+   "hi": {
+    "bytes": 390373,
+    "gpu": 10829824
+   },
+   "lo": {
+    "bytes": 138080,
+    "gpu": 2597184
+   },
+   "kind": "actor"
+  },
+  "npc_qual_kehk": {
+   "hash": "c746898f36077185",
+   "hi": {
+    "bytes": 39377,
+    "gpu": 1041600
+   },
+   "lo": {
+    "bytes": 12508,
+    "gpu": 269632
+   },
+   "kind": "actor"
+  },
+  "merc_ascendant": {
+   "hash": "7204042f2b2c54c3",
+   "hi": {
+    "bytes": 288513,
+    "gpu": 7585792
+   },
+   "lo": {
+    "bytes": 97873,
+    "gpu": 1947840
+   },
+   "kind": "actor"
+  },
+  "barbarian": {
+   "hash": "3c8958b7c5bb30c9",
+   "hi": {
+    "bytes": 803845,
+    "gpu": 19146880
+   },
+   "lo": {
+    "bytes": 286303,
+    "gpu": 5109696
+   },
+   "kind": "actor"
+  },
+  "paladin": {
+   "hash": "b845a34cce03938b",
+   "hi": {
+    "bytes": 885978,
+    "gpu": 18620416
+   },
+   "lo": {
+    "bytes": 308699,
+    "gpu": 4553344
+   },
+   "kind": "actor"
+  },
+  "amazon": {
+   "hash": "c4acf6622d9859d5",
+   "hi": {
+    "bytes": 684123,
+    "gpu": 14376384
+   },
+   "lo": {
+    "bytes": 233480,
+    "gpu": 3522112
+   },
+   "kind": "actor"
+  },
+  "assassin": {
+   "hash": "2636f1be4e4ddf43",
+   "hi": {
+    "bytes": 611049,
+    "gpu": 13901184
+   },
+   "lo": {
+    "bytes": 223175,
+    "gpu": 3538944
+   },
+   "kind": "actor"
+  },
+  "necromancer": {
+   "hash": "be1e17c0205bfcc5",
+   "hi": {
+    "bytes": 655673,
+    "gpu": 14794624
+   },
+   "lo": {
+    "bytes": 236852,
+    "gpu": 3764672
+   },
+   "kind": "actor"
+  },
+  "clay_golem": {
+   "hash": "6aa5fe56efe2868f",
+   "hi": {
+    "bytes": 313252,
+    "gpu": 7668352
+   },
+   "lo": {
+    "bytes": 112869,
+    "gpu": 2001280
+   },
+   "kind": "actor"
+  },
+  "blood_golem": {
+   "hash": "336ad42c6ec0d8e7",
+   "hi": {
+    "bytes": 274001,
+    "gpu": 7668352
+   },
+   "lo": {
+    "bytes": 99658,
+    "gpu": 2001280
+   },
+   "kind": "actor"
+  },
+  "iron_golem": {
+   "hash": "8502b6445ef405a8",
+   "hi": {
+    "bytes": 343373,
+    "gpu": 9162560
+   },
+   "lo": {
+    "bytes": 125247,
+    "gpu": 2457536
+   },
+   "kind": "actor"
+  },
+  "fire_golem": {
+   "hash": "5e41bf1fc93bc517",
+   "hi": {
+    "bytes": 250352,
+    "gpu": 7409408
+   },
+   "lo": {
+    "bytes": 91174,
+    "gpu": 1892672
+   },
+   "kind": "actor"
+  },
+  "valkyrie": {
+   "hash": "5fd0b76d698233ff",
+   "hi": {
+    "bytes": 353445,
+    "gpu": 8655616
+   },
+   "lo": {
+    "bytes": 129084,
+    "gpu": 2310720
+   },
+   "kind": "actor"
+  },
+  "bone_wall": {
+   "hash": "33f130ff6683558e",
+   "hi": {
+    "bytes": 136624,
+    "gpu": 5313536
+   },
+   "lo": {
+    "bytes": 49953,
+    "gpu": 1302720
+   },
+   "kind": "actor"
+  },
+  "dark_stalker": {
+   "hash": "ce21e6ecb56b6fed",
+   "hi": {
+    "bytes": 280289,
+    "gpu": 7487488
+   },
+   "lo": {
+    "bytes": 97887,
+    "gpu": 1769472
+   },
+   "kind": "actor"
+  },
+  "countess": {
+   "hash": "44e2bb14180f9e3f",
+   "hi": {
+    "bytes": 203623,
+    "gpu": 4931520
+   },
+   "lo": {
+    "bytes": 69678,
+    "gpu": 1178112
+   },
+   "kind": "actor"
+  },
+  "andariel": {
+   "hash": "975cb36aed215db0",
+   "hi": {
+    "bytes": 168671,
+    "gpu": 3719232
+   },
+   "lo": {
+    "bytes": 53394,
+    "gpu": 944064
+   },
+   "kind": "actor"
+  },
+  "mephisto": {
+   "hash": "e7a95c85a329c7e9",
+   "hi": {
+    "bytes": 290513,
+    "gpu": 9014656
+   },
+   "lo": {
+    "bytes": 96162,
+    "gpu": 2170880
+   },
+   "kind": "actor"
+  }
+ },
+ "tiles": {
+  "ground_grass": {
+   "hash": "54f6fd483fc1fa01",
+   "hi": {
+    "bytes": 28625,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 6579,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_deadgrass": {
+   "hash": "2560f4dccad94ddd",
+   "hi": {
+    "bytes": 30078,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 7638,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_dirt": {
+   "hash": "9c050151a413f24f",
+   "hi": {
+    "bytes": 29255,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 7720,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_mud": {
+   "hash": "31cce929cf732033",
+   "hi": {
+    "bytes": 18778,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 5411,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_cobble": {
+   "hash": "8ca44bf701174aa0",
+   "hi": {
+    "bytes": 39903,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 12484,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_flagstone": {
+   "hash": "8bb323e9b8afcce4",
+   "hi": {
+    "bytes": 30068,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 8831,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_sand": {
+   "hash": "826b51f414cee257",
+   "hi": {
+    "bytes": 42559,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 12265,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_sandstone": {
+   "hash": "2ab458bb9acdaccb",
+   "hi": {
+    "bytes": 37581,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 10809,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_crypt": {
+   "hash": "9ab70367888786f1",
+   "hi": {
+    "bytes": 25720,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 6629,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_snow": {
+   "hash": "f30a212652f7be37",
+   "hi": {
+    "bytes": 26732,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 8145,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_hellstone": {
+   "hash": "6a81e240b198b9c8",
+   "hi": {
+    "bytes": 28256,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 7661,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  },
+  "ground_lava": {
+   "hash": "bcb4ce091764936f",
+   "hi": {
+    "bytes": 35917,
+    "gpu": 1106496
+   },
+   "lo": {
+    "bytes": 10037,
+    "gpu": 280896
+   },
+   "kind": "ground"
+  }
+ }
+}

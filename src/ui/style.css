@@ -1,0 +1,4887 @@
+/* Interface — couche DOM indépendante du moteur de rendu (docs/internal/DIRECTION-ARTISTIQUE.md §10). */
+/* Polices : déclarées dans index.html (URL relatives à la page, déploiement en sous-dossier) */
+
+:root {
+  --ink: #e8dcc4;
+  --ink-dim: #a89878;
+  --bg: #0b0908;
+  --panel: rgba(18, 14, 11, 0.94);
+  --panel-2: rgba(32, 25, 19, 0.96);
+  --border: #5a4632;
+  --border-hi: #a0804a;
+  --gold: #c8a050;
+  --life: #b01818;
+  --mana: #2a3aa8;
+  --xp: #b09040;
+  --magic: #6969ff;
+  --rare: #ffff64;
+  --set: #00ff00;
+  --unique: #c7b377;
+  --crafted: #ffa800;
+  --corrupt: #ff4d4d;
+  --grey: #8a8a8a; /* objets de qualité basse, châsses : contraste ≥ 4,5:1 sur le fond (#696969 : 3,6:1) */
+  --s: 1;
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Alegreya SC', Georgia, serif;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  overscroll-behavior: none;
+  position: fixed;
+  inset: 0;
+}
+
+#app,
+#stage,
+#hud,
+#panels {
+  position: absolute;
+  inset: 0;
+}
+#stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+#hud {
+  pointer-events: none;
+  z-index: 10;
+}
+#hud > * {
+  pointer-events: auto;
+}
+#panels {
+  z-index: 20;
+  pointer-events: none;
+}
+#panels > * {
+  pointer-events: auto;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.icon.d2 {
+  background: var(--d2) center / contain no-repeat;
+  -webkit-mask: none;
+  mask: none;
+  border-radius: 3px;
+}
+
+/* ------------------------- Barres du HUD ------------------------- */
+.bars {
+  position: absolute;
+  left: calc(var(--sal) + 10px);
+  top: calc(var(--sat) + 8px);
+  width: calc(210px * var(--s));
+  pointer-events: none !important;
+}
+.bar {
+  position: relative;
+  height: calc(14px * var(--s));
+  margin-bottom: 4px;
+  background: #140c08;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px #000;
+}
+.bar.merc {
+  height: calc(10px * var(--s));
+  width: 62%;
+  margin-top: 3px;
+}
+.bar.merc > .fill {
+  background: linear-gradient(#5aa04a, #2c6424);
+}
+.bar.merc > .txt {
+  font-size: calc(8px * var(--s));
+  line-height: calc(10px * var(--s));
+}
+.bar.merc.dead > .txt {
+  color: #e07060;
+}
+.bar > .fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transition: transform 0.12s linear;
+}
+.bar.life > .fill {
+  background: linear-gradient(#e03020, #7a0808);
+}
+.bar.mana > .fill {
+  background: linear-gradient(#4a6af0, #101860);
+}
+.bar.xp {
+  height: calc(6px * var(--s));
+}
+.bar.xp > .fill {
+  background: linear-gradient(#e8c060, #806020);
+}
+.bar > .txt {
+  position: absolute;
+  inset: 0;
+  font-size: calc(11px * var(--s));
+  line-height: calc(14px * var(--s));
+  text-align: center;
+  color: #f4e8d0;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000;
+}
+.lvl {
+  font-family: 'Cinzel', serif;
+  font-size: calc(12px * var(--s));
+  color: var(--gold);
+  text-shadow: 0 1px 2px #000;
+}
+.buffs {
+  display: flex;
+  gap: 3px;
+  margin-top: 3px;
+}
+.buff {
+  width: calc(20px * var(--s));
+  height: calc(20px * var(--s));
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: #1a120c;
+  display: grid;
+  place-items: center;
+  font-size: calc(14px * var(--s));
+  position: relative;
+}
+.buff .t {
+  position: absolute;
+  bottom: -2px;
+  right: 1px;
+  font-size: 11px;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+
+/* Cible */
+.target {
+  position: absolute;
+  top: calc(var(--sat) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(260px * var(--s));
+  text-align: center;
+  pointer-events: none !important;
+  display: none;
+}
+.target .name {
+  font-family: 'Cinzel', serif;
+  font-size: calc(13px * var(--s));
+  text-shadow: 0 1px 2px #000;
+}
+.target .sub {
+  font-size: calc(10px * var(--s));
+  color: var(--ink-dim);
+}
+.target .bar {
+  height: calc(10px * var(--s));
+}
+.target .bar > .fill {
+  background: linear-gradient(#a02010, #500404);
+}
+/* Boss de carte : grande barre en haut de l'écran */
+.target.boss {
+  width: min(calc(440px * var(--s)), 44vw);
+}
+.target.boss .name {
+  font-size: calc(16px * var(--s));
+}
+.target.boss .bar {
+  height: calc(14px * var(--s));
+  border: 1px solid #8a6a2a;
+}
+.target.boss .bar > .fill {
+  background: linear-gradient(#c03010, #600808);
+}
+
+/* Boutons en haut à droite */
+.topright {
+  position: absolute;
+  right: calc(var(--sar) + 8px);
+  top: calc(var(--sat) + 6px);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+.tbtn {
+  width: max(40px, calc(40px * var(--s)));
+  height: max(40px, calc(40px * var(--s)));
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(20, 14, 10, 0.8);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: calc(22px * var(--s));
+  position: relative;
+  padding: 0;
+}
+.tbtn .badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #b02010;
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  font-family: sans-serif;
+}
+.minimap {
+  width: calc(96px * var(--s));
+  height: calc(96px * var(--s));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* ------------------------- Contrôles tactiles ------------------------- */
+.joy-zone {
+  position: absolute;
+  left: 0;
+  top: calc(var(--sat) + 64px);
+  bottom: 0;
+  width: 45%;
+  touch-action: none;
+}
+.joy-base,
+.joy-knob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.joy-base {
+  border: 2px solid rgba(200, 170, 120, 0.45);
+  background: radial-gradient(rgba(40, 30, 20, 0.2), rgba(20, 14, 10, 0.45));
+}
+.joy-knob {
+  background: radial-gradient(rgba(230, 200, 150, 0.8), rgba(140, 110, 70, 0.6));
+  border: 1px solid rgba(255, 230, 180, 0.6);
+}
+.joy-zone.active .joy-base,
+.joy-zone.active .joy-knob {
+  opacity: 1;
+}
+.joy-zone.ghost .joy-base {
+  opacity: 0.25;
+}
+
+.sbtn {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--border-hi);
+  background: radial-gradient(#2a1e14, #0e0906);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  box-shadow:
+    0 2px 6px #000,
+    inset 0 0 8px #000;
+  overflow: hidden;
+  padding: 0;
+}
+.sbtn .icon {
+  width: 62%;
+  height: 62%;
+}
+.sbtn.main {
+  border-width: 3px;
+  border-color: #c8a060;
+}
+.sbtn .cd {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(rgba(0, 0, 0, 0.72) var(--cd, 0deg), transparent 0);
+  pointer-events: none;
+}
+.sbtn.nomana {
+  filter: saturate(0.3) brightness(0.6);
+}
+.sbtn.empty {
+  opacity: 0.45;
+}
+.sbtn.pressed {
+  transform: scale(0.94);
+  border-color: #ffe0a0;
+}
+.sbtn .qty {
+  position: absolute;
+  bottom: 2px;
+  font-size: calc(11px * var(--s));
+  font-family: sans-serif;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+.sbtn.small {
+  border-width: 1px;
+}
+.pagebtn {
+  position: absolute;
+  width: max(42px, calc(42px * var(--s)));
+  height: max(42px, calc(42px * var(--s)));
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(20, 14, 10, 0.85);
+  color: var(--ink-dim);
+  font-size: calc(17px * var(--s));
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.ctxbtn {
+  position: absolute;
+  padding: 6px 12px;
+  border-radius: 18px;
+  border: 1px solid var(--border-hi);
+  background: rgba(30, 22, 14, 0.92);
+  color: var(--ink);
+  font-size: calc(13px * var(--s));
+  display: none;
+  white-space: nowrap;
+}
+
+/* Étiquettes au sol */
+.labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none !important;
+}
+.label {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 1px 6px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: auto;
+  line-height: 18px;
+  min-height: 18px;
+}
+.label.hidden-item {
+  opacity: 0.45;
+  font-style: italic;
+}
+.label.tier-exc {
+  border: 1px solid #d8b050;
+  background: rgba(30, 20, 4, 0.82);
+  font-size: 14px;
+}
+.label.tier-hr {
+  border: 1px solid #ff7a30;
+  background: rgba(50, 10, 0, 0.88);
+  color: #ffb060;
+  font-size: 16px;
+  padding: 1px 9px;
+  animation: glowpulse 0.9s ease-in-out infinite alternate;
+}
+.label.hl {
+  border: 1px solid currentColor;
+  background: rgba(0, 0, 0, 0.85);
+}
+.label::before {
+  content: '';
+  position: absolute;
+  inset: -12px -4px;
+}
+.q-normal,
+.q-superior {
+  color: #e8e8e8;
+}
+.q-low {
+  color: var(--grey);
+}
+.q-magic {
+  color: var(--magic);
+}
+.q-rare {
+  color: var(--rare);
+}
+.q-set {
+  color: var(--set);
+}
+.q-unique,
+.q-runeword {
+  color: var(--unique);
+}
+.q-crafted {
+  color: var(--crafted);
+}
+.q-rune {
+  color: #ff9a30;
+}
+.q-currency {
+  color: #ff8040;
+}
+.q-socket {
+  color: var(--grey);
+}
+.corrupt-dot {
+  color: var(--corrupt);
+  font-weight: bold;
+}
+.tip .corrupt-dot {
+  color: #ff2a2a;
+  font-size: 1.15em;
+}
+.corrupt {
+  color: var(--corrupt);
+}
+
+/* Messages */
+.msgs {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--sat) + 60px);
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none !important;
+  width: 80%;
+}
+.msg {
+  font-size: calc(13px * var(--s));
+  text-shadow:
+    0 1px 2px #000,
+    0 0 4px #000;
+  animation: fadeout 3.2s forwards;
+}
+.announces {
+  position: absolute;
+  left: 50%;
+  top: 24%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(6px * var(--s));
+  max-width: 94%;
+  pointer-events: none !important;
+}
+.banner {
+  position: relative;
+  font-family: 'Cinzel', serif;
+  font-size: calc(20px * var(--s));
+  color: var(--gold);
+  text-shadow:
+    0 2px 6px #000,
+    0 0 16px #603000;
+  pointer-events: none !important;
+  animation: banner 3.2s forwards;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.banner-p4 {
+  font-size: calc(16px * var(--s));
+  padding: 1px 10px;
+  background: rgba(20, 12, 2, 0.7);
+  border: 1px solid #c8a050;
+  border-radius: 3px;
+}
+.banner-p5 {
+  font-size: calc(19px * var(--s));
+  padding: 2px 12px;
+  background: rgba(40, 8, 0, 0.75);
+  border: 1px solid #ff7a30;
+  border-radius: 3px;
+  animation:
+    banner 3.2s forwards,
+    glowpulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes glowpulse {
+  from {
+    box-shadow: 0 0 4px #ff6a2a;
+  }
+  to {
+    box-shadow: 0 0 16px #ff6a2a;
+  }
+}
+@keyframes fadeout {
+  0%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes banner {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  8%,
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none !important;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(140, 0, 0, 0.55));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.perf {
+  position: absolute;
+  left: calc(var(--sal) + 6px);
+  bottom: calc(var(--sab) + 4px);
+  font: 11px monospace;
+  color: #9f9;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 5px;
+  pointer-events: none !important;
+  white-space: pre;
+}
+.death {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(40, 0, 0, 0.55);
+  font-family: 'Cinzel', serif;
+  font-size: calc(34px * var(--s));
+  color: #d02020;
+  text-shadow: 0 2px 8px #000;
+  pointer-events: none !important;
+}
+
+/* ------------------------- Panneaux ------------------------- */
+.panel {
+  position: absolute;
+  inset: calc(var(--sat) + 6px) calc(var(--sar) + 6px) calc(var(--sab) + 6px) calc(var(--sal) + 6px);
+  background: var(--panel);
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 30px #000;
+  overflow: hidden;
+}
+.panel header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(#2a1e14, #140e0a);
+}
+.panel header h2 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: var(--gold);
+  flex: 1;
+  font-weight: 700;
+}
+.panel .body {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+}
+.scroll {
+  overflow-anchor: none; /* la reconstruction d'un panneau restaure le défilement elle-même */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+.btn {
+  background: linear-gradient(#3a2a1c, #20160e);
+  color: var(--ink);
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+  padding: 7px 12px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 13px;
+  min-height: 34px;
+  position: relative;
+  overflow: hidden;
+}
+.btn:disabled {
+  opacity: 0.4;
+}
+.btn.primary {
+  border-color: var(--gold);
+  color: #ffe8b0;
+}
+.btn.danger {
+  border-color: #8a2a1a;
+  color: #ffb0a0;
+}
+.btn.sel {
+  background: linear-gradient(#5a3e22, #2a1c10);
+  border-color: var(--gold);
+}
+.close {
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-size: 22px;
+  width: 40px;
+  height: 36px;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+.hold .hold-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: rgba(200, 60, 40, 0.5);
+}
+.hold .hold-label {
+  position: relative;
+}
+
+/* Grilles d'objets */
+.grid {
+  display: grid;
+  gap: 3px;
+}
+.cell {
+  width: calc(44px * var(--s));
+  height: calc(44px * var(--s));
+  background: rgba(8, 6, 4, 0.85);
+  border: 1px solid #3a2c1e;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  padding: 0;
+  color: var(--ink);
+}
+.cell .icon {
+  width: 72%;
+  height: 72%;
+}
+.cell.sel {
+  border-color: #ffe0a0;
+  box-shadow: 0 0 6px #c8a050 inset;
+}
+.cell .n {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font: 10px sans-serif;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+.cell .slotname {
+  font-size: 11px;
+  color: #6a5a48;
+  position: absolute;
+  bottom: 1px;
+}
+.cell.bad {
+  background: rgba(80, 10, 10, 0.6);
+}
+.cell.upgrade::after {
+  content: '▲';
+  position: absolute;
+  top: 0;
+  left: 2px;
+  font-size: 11px;
+  color: #6f6;
+}
+.tip {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.tip .t {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.tip .base {
+  color: var(--ink-dim);
+}
+.tip .mod {
+  color: #8888ff;
+}
+.tip .req.bad {
+  color: #ff5050;
+}
+.tip .delta.up {
+  color: #6f6;
+}
+.tip .delta.down {
+  color: #f66;
+}
+.tip hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 5px 0;
+}
+.statrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  padding: 2px 0;
+}
+.statrow b {
+  color: #fff;
+}
+.plus {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: #2a1c10;
+  color: var(--gold);
+  font-size: 18px;
+  padding: 0;
+}
+
+/* Arbre de compétences */
+.tree {
+  display: grid;
+  grid-template-columns: repeat(3, calc(52px * var(--s)));
+  grid-auto-rows: calc(56px * var(--s));
+  gap: 6px 14px;
+  justify-content: center;
+}
+.sk {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #140e0a;
+  color: var(--ink-dim);
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.sk .icon {
+  width: 60%;
+  height: 60%;
+}
+/* icônes de D2 : elles portent leur propre cadre, on les agrandit pour qu'il remplisse le bouton */
+.icon.d2[class*='q-'] {
+  filter: drop-shadow(0 0 2px currentColor) drop-shadow(0 0 1px currentColor);
+}
+.cell .icon.d2 {
+  width: 94%;
+  height: 94%;
+}
+.sk .icon.d2,
+.sbtn .icon.d2 {
+  width: 88%;
+  height: 88%;
+}
+.sk.learned {
+  color: var(--ink);
+  border-color: var(--border-hi);
+}
+.sk.can {
+  box-shadow: 0 0 8px #c8a050;
+}
+.sk.sel {
+  border-color: #ffe0a0;
+  background: #2a1e10;
+}
+.sk .pts {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font: bold 11px sans-serif;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+.sk .bonus {
+  color: #8f8;
+}
+.fire {
+  color: #ff8a40;
+}
+.cold {
+  color: #8ac0ff;
+}
+.light {
+  color: #e0e080;
+}
+/* arbres du Druide */
+.elemental {
+  color: #ff9a60;
+}
+.shape {
+  color: #d8a868;
+}
+.summon {
+  color: #9ad060;
+}
+/* arbres des autres classes */
+.bar_combat {
+  color: #e08858;
+}
+.bar_mastery {
+  color: #d8b878;
+}
+.bar_warcry {
+  color: #e8c860;
+}
+.pal_combat {
+  color: #f0e0a0;
+}
+.pal_defense {
+  color: #98c8f0;
+}
+.pal_offense {
+  color: #f0a870;
+}
+.amz_bow {
+  color: #a8d878;
+}
+.amz_passive {
+  color: #d8c8a0;
+}
+.amz_javelin {
+  color: #98b8f0;
+}
+.asn_martial {
+  color: #e8a088;
+}
+.asn_shadow {
+  color: #b8a0e0;
+}
+.asn_traps {
+  color: #f0c060;
+}
+.nec_summon {
+  color: #c8d8b0;
+}
+.nec_poison {
+  color: #a8e070;
+}
+.nec_curse {
+  color: #d090c8;
+}
+
+.runs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.runcard {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  background: #140e0a;
+}
+.runcard h3 {
+  margin: 0 0 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: var(--gold);
+}
+.runcard .d {
+  font-size: 12px;
+  color: var(--ink-dim);
+  margin-bottom: 6px;
+}
+.runcard .diffs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  z-index: 50;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 20px;
+  text-align: center;
+}
+.loading .art {
+  width: min(256px, 52vh);
+  height: min(256px, 52vh);
+  margin: 0 auto 10px;
+  background-repeat: no-repeat;
+  /* bande verticale de 10 images carrées : l'image visible se choisit en pourcentage */
+  background-size: 100% auto;
+}
+.loading .bar {
+  width: 240px;
+  margin: 12px auto 0;
+}
+.loading .detail {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #c8b890;
+}
+.loading .eta {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #8a7e62;
+}
+.loading .problem {
+  max-width: 340px;
+  margin: 14px auto 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #e0a070;
+}
+.loading .problem .btn {
+  margin: 4px;
+}
+.loading .err-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+.loading .err-tech {
+  margin: 8px 0 0;
+  max-height: 22vh;
+  overflow: auto;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font: 11px/1.3 monospace;
+  color: #a89878;
+}
+.loading .err-copy {
+  width: 100%;
+  height: 80px;
+  margin-top: 8px;
+  font: 10px monospace;
+}
+/* écran d'erreur : sans l'image animée, tout reste visible sans défilement (900×800 et petits écrans) */
+.loading.has-problem .art {
+  display: none;
+}
+.loading.has-problem .bar {
+  display: none;
+}
+.loading {
+  overflow-y: auto;
+}
+.loading .problem {
+  max-width: min(420px, 92vw);
+}
+.loading .bar > .fill {
+  background: linear-gradient(#e8c060, #806020);
+}
+/* focus au clavier : anneau doré lisible sur le fond sombre ; aucun anneau sur un panneau qui reçoit le focus par programme */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.panel:focus,
+.panel:focus-visible {
+  outline: none;
+}
+.rotate {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  color: var(--gold);
+  display: none;
+  place-items: center;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  padding: 20px;
+}
+/* téléphone tenu en portrait seulement (écran étroit et allongé) : l'écran intérieur presque carré d'un pliable (Galaxy Z Fold déplié,
+   environ 673 à 884 px de large pour un rapport de 0,8) reste jouable en portrait (tools/e2e/fold.mjs) */
+@media (orientation: portrait) and (max-aspect-ratio: 3/4) and (max-width: 700px) {
+  /* a game mode playable in portrait (rule `ui.orientation`) removes the prompt */
+  html.in-game:not(.any-orientation) .rotate {
+    display: grid;
+  }
+}
+.rotate .ios-only {
+  display: none;
+}
+html.ios .rotate .ios-only {
+  display: inline;
+}
+.credits {
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+.runcard .reward {
+  color: var(--gold, #e8b04a);
+}
+
+/* Filtre de butin : aperçu sur des objets d'exemple */
+.filterpreview {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.fprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+  font-size: 13px;
+}
+.fprow.off {
+  opacity: 0.45;
+}
+.label-inline {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fstat {
+  flex: none;
+  font-size: 12px;
+  color: #b8ad98;
+}
+.fstat.s0 {
+  color: #7a6f60;
+}
+.fstat.s3,
+.fstat.s4 {
+  color: #f0c060;
+}
+.tabs.presets {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.tabs.presets .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Joueur empoisonné (poison D2 sur la durée) */
+.bar.life .fill.poisoned {
+  background: linear-gradient(#5aa040, #2f6a22);
+}
+
+/* Conseils de prise en main */
+.tip-card {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--sat) + 8px);
+  transform: translateX(-50%);
+  width: min(40%, calc(440px * var(--s)));
+  padding: calc(6px * var(--s)) calc(10px * var(--s));
+  background: rgba(20, 14, 8, 0.92);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  color: #e8dcc4;
+  font-size: calc(12px * var(--s));
+  line-height: 1.3;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: calc(8px * var(--s));
+  animation: tipin 0.3s ease-out;
+  z-index: 5;
+}
+.tip-card .tip-title {
+  grid-column: 1 / -1;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: calc(12px * var(--s));
+  letter-spacing: 0.08em;
+}
+.tip-card .btn {
+  min-height: 40px;
+}
+@keyframes tipin {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+}
+.tip-glow {
+  animation: tipglow 1.1s ease-in-out infinite;
+}
+@keyframes tipglow {
+  50% {
+    box-shadow:
+      0 0 0 3px var(--gold),
+      0 0 18px var(--gold);
+  }
+}
+
+.update-card {
+  top: 30%;
+  width: min(62%, calc(460px * var(--s)));
+  z-index: 40;
+  grid-template-columns: 1fr;
+  row-gap: calc(6px * var(--s));
+  border-width: 2px;
+}
+.update-card .upd-btns {
+  display: flex;
+  gap: calc(8px * var(--s));
+  justify-content: flex-end;
+}
+/* progression de l'installation d'une mise à jour */
+.upd-progress {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+}
+.upd-pbox {
+  width: min(86vw, 420px);
+  padding: 18px 20px;
+  background: #15100c;
+  border: 2px solid var(--gold, #c8a45a);
+  color: #e8dcc0;
+  font-family: inherit;
+  text-align: center;
+}
+.upd-ptitle {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--gold, #c8a45a);
+}
+.upd-pbar {
+  height: 14px;
+  border: 1px solid #6b5630;
+  background: #0b0908;
+}
+.upd-pbar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(#e0b84e, #9a6e1c);
+  transition: width 0.1s linear;
+}
+.upd-ptext {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+/* update buttons (lot 297: home screen and Settings): a carved trough under the label, filled with the gold of the overlay's bar;
+   "under way" (length unknown) a gold glint sliding along it, still under reduced motion */
+.btn.upd-btn {
+  position: relative;
+}
+.upd-btn .upd-lbl {
+  position: relative;
+}
+.upd-btn .upd-bar {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 3px;
+  height: 5px;
+  overflow: hidden;
+  border: 1px solid #6b5630;
+  background: #0b0908;
+  box-shadow: inset 0 1px 2px #000;
+  pointer-events: none;
+}
+.upd-btn .upd-bar[hidden] {
+  display: none;
+}
+.upd-btn .upd-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(#e0b84e, #9a6e1c);
+  transition: width 0.25s linear;
+}
+.upd-btn .upd-bar.ind i {
+  width: 35%;
+  animation: updglint 1.3s ease-in-out infinite alternate;
+}
+@keyframes updglint {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(290%);
+  }
+}
+.upd-btn[data-state^='error'] {
+  color: #e06a5a;
+}
+.upd-btn[data-state='uptodate'] .upd-lbl {
+  color: #9fc27a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .upd-btn .upd-bar.ind i {
+    animation: none;
+    transform: none;
+    width: 100%;
+    opacity: 0.45;
+  }
+  .upd-btn .upd-bar i,
+  .upd-pbar i {
+    transition: none;
+  }
+}
+/* ------------------------- Sélection du personnage ------------------------- */
+.charselect {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: radial-gradient(#2a160c, #0b0908 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: calc(var(--sat) + 10px) calc(var(--sar) + 16px) calc(var(--sab) + 10px) calc(var(--sal) + 16px);
+  color: var(--ink);
+}
+.charselect h2 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 22px;
+}
+.charselect .sub {
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.charselect .err {
+  color: #ff9a80;
+  font-size: 13px;
+  min-height: 16px;
+}
+.charselect .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.charselect .btn.big {
+  min-width: 140px;
+  font-size: 16px;
+}
+/* choice of the mode at launch (Diablo II, Project Diablo 2, game modes) */
+.charselect .modes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(440px, 100%);
+}
+.charselect .btn.mode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 56px;
+  padding: 8px 14px;
+  text-align: left;
+}
+.charselect .btn.mode b {
+  font-size: 17px;
+  color: var(--gold);
+}
+.charselect .btn.mode.cur {
+  border-color: var(--gold);
+}
+.charselect input {
+  background: var(--panel-2);
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+  color: var(--ink);
+  font-family: 'Alegreya SC', serif;
+  font-size: 16px;
+  padding: 8px 10px;
+  width: 200px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+/* personnage d'un jeu de règles absent de cette version (mod manquant) : grisé, conservé */
+.charselect .cards {
+  display: flex;
+  gap: 14px;
+  max-width: 720px;
+  width: 100%;
+}
+.charselect .card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: 'Alegreya SC', serif;
+}
+.charselect .card.sel {
+  border-color: var(--gold);
+  box-shadow: 0 0 14px rgba(200, 160, 80, 0.4);
+}
+.charselect .card b {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  color: var(--gold);
+}
+.charselect .card .portrait {
+  font-size: 46px;
+  line-height: 1;
+}
+.charselect .card .desc {
+  font-size: 13px;
+  text-align: center;
+}
+.charselect .sorceress .portrait {
+  color: #ff8a3a;
+}
+.charselect .druid .portrait {
+  color: #9ad060;
+}
+
+/* Écran de sélection façon Diablo II : campement de nuit, logo de feu, personnage près du feu */
+.charselect .cs-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+}
+.charselect.d2 {
+  background: #0d110e;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.charselect.d2 .cs-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--u-charselect-bg) left bottom / auto 100% no-repeat;
+  image-rendering: auto;
+}
+.charselect.d2 .cs-logo {
+  position: absolute;
+  left: 30%;
+  top: calc(var(--sat) + 4px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.charselect .cs-desc {
+  display: none;
+}
+.charselect.d2 .cs-desc {
+  display: block;
+  font-size: 13px;
+  text-align: center;
+  color: #d9c9a0;
+  text-shadow: 0 1px 2px #000;
+  min-height: 34px;
+}
+.charselect.d2 .cards {
+  gap: 4px;
+}
+.charselect.d2 .card {
+  min-width: 0;
+  padding: 4px 2px;
+}
+.charselect.d2 .card .desc {
+  display: none;
+}
+.charselect.d2 .card b {
+  font-size: 11px;
+  letter-spacing: -0.5px;
+  max-width: 100%;
+  overflow: visible;
+  white-space: nowrap;
+}
+.charselect.d2 .card .portrait {
+  font-size: 30px;
+}
+.charselect.d2 .cs-hero {
+  position: absolute;
+  left: 9%;
+  bottom: 9%;
+  pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(255, 140, 40, 0.35));
+}
+.charselect.d2 .cs-main {
+  width: min(470px, 66%);
+  margin-top: 20px;
+  z-index: 2;
+}
+.charselect.d2 h2 {
+  display: none;
+}
+.charselect.d2 .sub {
+  color: #d9c9a0;
+  text-shadow: 0 1px 2px #000;
+}
+.charselect.d2 .btn {
+  background: var(--u-btn-wide) center / 100% 100% no-repeat;
+  border: 0;
+  border-radius: 0;
+  height: 36px;
+  min-width: 128px;
+  padding: 0 14px;
+  color: #efe2b8;
+  text-shadow: 0 1px 2px #000;
+  font-size: 14px;
+  box-shadow: none;
+}
+.charselect.d2 .btn:active {
+  background-image: var(--u-btn-wide-down);
+}
+.charselect.d2 .btn.primary {
+  color: #ffd98a;
+}
+.charselect.d2 .btn.danger {
+  color: #f0a08a;
+}
+.charselect.d2 .row {
+  gap: 4px;
+}
+.charselect.d2 .card {
+  background: rgba(8, 8, 8, 0.72);
+  border: 1px solid #6c5a3a;
+  border-radius: 2px;
+  padding: 6px;
+}
+.charselect.d2 .card.sel {
+  border-color: #d8b25a;
+}
+.charselect.d2 input {
+  background: var(--u-textbox) center / 100% 100% no-repeat;
+  border: 0;
+  border-radius: 0;
+  height: 28px;
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  .charselect.d2 {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  .charselect.d2 .cs-main {
+    width: 100%;
+    margin-top: 0;
+  }
+  .charselect.d2 .cs-hero {
+    left: 4%;
+    bottom: 46%;
+  }
+}
+/* Formulaire de mot de passe des graphismes D2 */
+.d2-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: radial-gradient(#2a160c, #0b0908 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.d2-lock-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  width: min(320px, 86vw);
+  color: var(--ink);
+  text-align: center;
+}
+.d2-lock-box h2 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+}
+.d2-lock-box p {
+  margin: 0;
+  color: var(--ink-dim);
+}
+.d2-lock-box p.err {
+  color: #ff9a80;
+}
+.d2-lock-box small {
+  color: var(--ink-dim);
+  font-size: 11px;
+}
+.d2-lock-box input {
+  background: var(--panel-2);
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+  color: var(--ink);
+  font-size: 16px;
+  padding: 10px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Écran de choix des graphismes Diablo II (premier lancement) */
+.d2c {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: radial-gradient(#2a160c, #0b0908 70%);
+  color: var(--ink);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.d2c-scroll {
+  box-sizing: border-box;
+  min-height: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+.d2c h2 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 28px;
+}
+.d2c-lead {
+  margin: 0 auto;
+  max-width: 560px;
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.4;
+}
+.d2c-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+.d2c-cards.two {
+  flex-direction: row;
+  align-items: stretch;
+}
+.d2c-card {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: rgba(20, 14, 10, 0.82);
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+}
+.d2c-card h3 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 18px;
+}
+.d2c-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.d2c-card .d2c-help {
+  color: var(--ink-dim);
+  font-size: 13px;
+}
+.d2c-card .err,
+.d2c-card .warn {
+  color: #ff9a80;
+}
+.d2c-card small {
+  color: var(--ink-dim);
+  font-size: 11px;
+}
+.d2c-files {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+}
+.d2c-files code {
+  color: var(--gold);
+}
+.d2c-card input[type='password'] {
+  background: var(--panel-2);
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+  color: var(--ink);
+  font-size: 16px;
+  padding: 12px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.d2c-btn {
+  min-height: 46px;
+  font-size: 15px;
+}
+.d2c-check {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.d2c-check input {
+  margin-top: 2px;
+}
+.d2c-skip {
+  align-self: center;
+  background: none;
+  border: 0;
+  color: var(--ink-dim);
+  text-decoration: underline;
+  font-size: 13px;
+  padding: 12px 8px;
+  min-height: 44px;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .d2c-cards.two {
+    flex-direction: column;
+  }
+  .d2c-scroll {
+    justify-content: flex-start;
+    padding-top: 18px;
+  }
+}
+
+/* Coffre partagé entre les personnages */
+.btn.shared {
+  border-color: #6a8a4a;
+  color: #cfe8b0;
+}
+
+/* ------------------------- HUD façon Diablo II : globes de vie et de mana ------------------------- */
+.orb {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  transform-origin: left top;
+}
+.orb .oframe {
+  display: none;
+}
+.orb.life .oframe {
+  background-image: var(--u-orb-left);
+}
+.orb.mana .oframe {
+  background-image: var(--u-orb-right);
+}
+.orb .globe {
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+}
+.orb.life .globe {
+  left: 0;
+  background-image: var(--u-orb-life);
+}
+.orb.life .globe.poisoned {
+  background-image: var(--u-orb-poison);
+}
+.orb.mana .globe {
+  left: 0;
+  background-image: var(--u-orb-mana);
+}
+.orb .globe.empty {
+  filter: brightness(0.22) saturate(0.6);
+  clip-path: none;
+}
+.orb .otxt {
+  position: absolute;
+  top: 30px;
+  font-size: 14px;
+  font-family: 'Cinzel', serif;
+  color: #f4e8d0;
+  text-shadow:
+    0 0 3px #000,
+    0 0 3px #000;
+  width: 80px;
+  text-align: center;
+}
+.orb.life .otxt,
+.orb.mana .otxt {
+  left: 0;
+}
+.d2hud .bars .bar.life,
+.d2hud .bars .bar.mana {
+  display: none;
+}
+.d2hud .bars .bar.xp {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.d2hud .tbtn,
+.d2hud .pagebtn {
+  background:
+    var(--u-panel-char) -12px -335px no-repeat,
+    #1a1712;
+  border: 1px solid #8c7a4c;
+  border-color: #b6a56c #4a3d24 #4a3d24 #b6a56c;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 3px #000,
+    inset 0 0 6px rgba(0, 0, 0, 0.6);
+}
+.d2hud .pagebtn {
+  border-radius: 50%;
+}
+.d2hud .tbtn:active {
+  filter: brightness(0.7);
+  border-color: #4a3d24 #b6a56c #b6a56c #4a3d24;
+}
+.d2hud .minimap {
+  border: 1px solid #8c7a4c;
+  border-radius: 2px;
+}
+
+/* ------------------------- Panneaux façon Diablo II ------------------------- */
+.panel.d2 {
+  flex-direction: column;
+  background: rgba(6, 5, 4, 0.94);
+  border-color: #6c5a3a;
+  border-radius: 2px;
+}
+/* barre d'onglets horizontale en haut (maquette du joueur) : libère la largeur qu'occupait le menu vertical */
+.panel.d2 header {
+  flex-direction: row;
+  align-items: center;
+  flex: none;
+  height: 44px;
+  border-bottom: 1px solid #4a3d24;
+  background: rgba(14, 11, 8, 0.9);
+  padding: 3px 6px;
+  gap: 6px;
+  position: relative;
+}
+.panel.d2 header h2 {
+  display: none;
+}
+.panel.d2 header .tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: row;
+  gap: 4px;
+}
+.panel.d2 header .tabs .btn {
+  background: var(--u-btn-medium) center / 100% 100% no-repeat;
+  border: 0;
+  border-radius: 0;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 4px;
+  font-size: 12px;
+  color: #efe2b8;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.panel.d2 header .tabs .btn.sel {
+  background-image: var(--u-btn-medium-down);
+  color: #ffd98a;
+}
+.panel.d2 header .close {
+  position: static;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+}
+@media (max-height: 420px) {
+  .panel.d2 header {
+    height: 32px;
+    padding: 1px 6px;
+  }
+  .panel.d2 header .tabs .btn {
+    min-height: 28px;
+  }
+  .panel.d2 header .close {
+    width: 30px;
+    height: 30px;
+  }
+}
+.panel.d2 .body {
+  align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+/* zone de toucher élargie (≥ 44 px) autour des cases du panneau D2 */
+.d2panel .cell.d2cell::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+}
+.d2panel > .d2bg {
+  position: absolute;
+  left: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+.d2wrap {
+  margin-block: auto; /* centré en hauteur : pas de grand vide en bas quand la largeur limite l'échelle */
+  position: relative;
+}
+.d2panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: left top;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+.d2panel .cell.d2cell {
+  position: absolute;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+}
+.d2panel .cell.d2cell .icon {
+  width: 100%;
+  height: 100%;
+}
+/* emplacements d'équipement : image d'objet à sa taille d'origine (comme Diablo II), centrée : un objet plus petit que l'emplacement (ex. orbe dans l'emplacement d'arme 2×4) n'est plus agrandi */
+.d2panel .cell.d2cell.d2eq .icon.d2 {
+  background-size: auto;
+}
+.d2panel .cell.d2cell.sel {
+  outline: 2px solid #ffe0a0;
+  outline-offset: -2px;
+  box-shadow: none;
+  background: rgba(200, 160, 80, 0.18);
+}
+.d2panel .cell.d2cell .slotname {
+  font-size: calc(11px / var(--k, 1));
+  left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  right: 0;
+  text-align: center;
+  bottom: 50%;
+  transform: translateY(50%);
+  color: #5a5040;
+}
+.d2panel .cell.d2cell .n {
+  font-size: calc(11px / var(--k, 1));
+}
+.d2panel .cell.d2cell.upgrade::after {
+  font-size: calc(11px / var(--k, 1));
+}
+.d2gold {
+  position: absolute;
+  text-align: right;
+  font:
+    13px 'Alegreya SC',
+    serif;
+  color: #e8d080;
+  line-height: 18px;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+.d2panel .btn.d2small {
+  position: absolute;
+  min-height: 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 20px;
+  border: 1px solid #8c7a4c;
+  border-color: #b6a56c #4a3d24 #4a3d24 #b6a56c;
+  border-radius: 0;
+  background: #1c1813;
+}
+
+.d2panel .d2txt,
+.d2panel .d2lbl {
+  position: absolute;
+  font:
+    11px 'Alegreya SC',
+    serif;
+  color: #ede0b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 1px #000;
+  pointer-events: none;
+}
+.d2panel .d2txt {
+  text-align: center;
+}
+.d2panel .d2txt.name {
+  color: #ffd98a;
+}
+.d2panel .d2lbl {
+  color: #c9b78a;
+  font-size: calc(11px / var(--k, 1));
+  text-align: left;
+}
+.d2panel .d2plus {
+  position: absolute;
+  min-height: 0;
+  padding: 0;
+  font-size: 12px;
+  border: 1px solid #8c7a4c;
+  border-color: #b6a56c #4a3d24 #4a3d24 #b6a56c;
+  border-radius: 0;
+  background: #1c1813;
+  color: #ffd98a;
+  line-height: 15px;
+}
+.d2panel .d2plus:disabled {
+  opacity: 0.35;
+}
+
+.d2panel .d2arrows {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+.d2panel .sk.d2sk {
+  position: absolute;
+  padding: 0;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+}
+.d2panel .btn.d2tab {
+  font-size: calc(11px / var(--k, 1));
+  line-height: 1.1;
+  overflow: hidden;
+  white-space: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2px;
+}
+.d2panel .btn.d2tab.sel {
+  background: #3a2c16;
+  border-color: #ffd98a #6a5a30 #6a5a30 #ffd98a;
+  color: #ffd98a;
+}
+
+.d2panel .d2lock {
+  position: absolute;
+  background: rgba(20, 18, 16, 0.86);
+  pointer-events: none;
+}
+.panel.d2 .body {
+  gap: 6px;
+  padding: 6px;
+}
+/* Bulles d'objets façon Diablo II : fond noir, texte centré */
+.panel.d2 .tip {
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid #5a5548;
+  border-radius: 0;
+  text-align: center;
+}
+.panel.d2 .tip .statrow {
+  justify-content: center;
+  gap: 8px;
+}
+
+.d2hud .bars {
+  left: var(--orb-bars-left, 120px);
+}
+.orb .globe.empty {
+  box-shadow: 0 0 0 2px #2a2218;
+  border-radius: 50%;
+}
+.orb .globe:not(.empty) {
+  filter: brightness(1.35) saturate(1.2);
+}
+/* le texte de niveau et de zone passe à la ligne plutôt que de recouvrir la barre du boss */
+.d2hud .bars {
+  width: calc(150px * var(--s));
+}
+.d2hud .lvl {
+  line-height: 1.15;
+}
+
+/* écran d'attente avant l'écran de sélection (déverrouillage et téléchargement des graphismes D2) */
+.d2-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  background: #0b0908;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  animation: d2boot 1.6s ease-in-out infinite alternate;
+}
+@keyframes d2boot {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* boutons et curseurs des panneaux D2 : pierre gravée, curseurs dorés */
+.panel.d2 .body .btn:not(.d2small) {
+  background: var(--u-btn-medium) center / 100% 100% no-repeat;
+  border: 0;
+  border-radius: 0;
+  color: #efe2b8;
+  text-shadow: 0 1px 2px #000;
+}
+.panel.d2 .body .btn.sel:not(.d2small),
+.panel.d2 .body .btn:not(.d2small):active {
+  background-image: var(--u-btn-medium-down);
+  color: #ffd98a;
+}
+.panel.d2 .body .btn.primary:not(.d2small) {
+  color: #ffd98a;
+}
+.panel.d2 .body .btn.danger:not(.d2small) {
+  color: #f0a08a;
+}
+.panel.d2 input[type='range'] {
+  accent-color: #b6a56c;
+}
+/* cartes de destination du point de passage : pierre D2 sous voile sombre */
+.panel.d2 .runcard {
+  background:
+    linear-gradient(rgba(8, 6, 4, 0.78), rgba(8, 6, 4, 0.78)),
+    var(--u-panel-blank) center / cover no-repeat;
+  border: 1px solid #6c5a3a;
+  border-radius: 0;
+}
+.panel.d2 .runcard h3 {
+  color: #ffd98a;
+  text-shadow: 0 1px 2px #000;
+}
+.death small {
+  display: block;
+  margin-top: 6px;
+  font-size: calc(12px * var(--s));
+  color: #c9a89a;
+  text-align: center;
+}
+
+/* choix de compétence par appui long (menu de Diablo II) */
+.skill-picker {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+}
+.sp-back {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+.sp-box {
+  position: relative;
+  max-width: min(560px, 92vw);
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid #6c5a3a;
+}
+.sp-title {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 6px;
+}
+.sp-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 2px;
+  background: rgba(8, 6, 4, 0.85);
+  border: 1px solid #3a2c1e;
+  color: var(--ink);
+  font-size: 11px;
+  min-height: 74px;
+  touch-action: manipulation;
+}
+.sp-cell.sel {
+  border-color: #ffe0a0;
+}
+.sp-cell .icon {
+  width: 44px;
+  height: 44px;
+}
+.sp-none {
+  font-size: 30px;
+  line-height: 44px;
+  color: #6a5a48;
+}
+.sp-name {
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* lot 321 (audit 5.8): Diablo II's Tab map, the outlines over the field, without a panel; touches go through to the game (the corner
+   map, the Tab or Escape key close it) */
+.minimap-big {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(86vh, 86vw);
+  height: min(86vh, 86vw);
+  z-index: 35;
+  background: none;
+  border: 0;
+  opacity: 0.85;
+  pointer-events: none !important;
+}
+/* rangées de boutons dans les colonnes de détail : retour à la ligne, texte plus petit */
+.panel.d2 .col .tabs {
+  flex-wrap: wrap;
+}
+.panel.d2 .col .tabs .btn:not(.d2small) {
+  flex: 1 1 42%;
+  font-size: 12px;
+  min-height: 30px;
+  padding: 3px 6px;
+  line-height: 1.1;
+}
+
+/* coffre et marchand : grille de cases, un objet couvre w × h cases */
+.sidegrid {
+  grid-auto-rows: calc(44px * var(--s));
+  grid-auto-columns: calc(44px * var(--s));
+}
+
+/* dialogue des PNJ (D2) : pierre gravée, texte du PNJ, trois boutons */
+.npc-dialog {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  display: grid;
+  place-items: center;
+}
+.nd-back {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+.nd-box {
+  position: relative;
+  width: min(520px, 92vw);
+  padding: 14px 16px 12px;
+  background:
+    linear-gradient(rgba(6, 5, 4, 0.78), rgba(6, 5, 4, 0.78)),
+    var(--u-panel-blank, none) center / cover no-repeat,
+    var(--panel);
+  border: 1px solid #6c5a3a;
+  box-shadow:
+    0 0 0 2px #1a1409,
+    0 6px 30px #000;
+}
+.nd-name {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  color: #ffd98a;
+  text-align: center;
+}
+.nd-title {
+  text-align: center;
+  color: var(--ink-dim);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.nd-text {
+  min-height: 74px;
+  max-height: 42vh;
+  overflow-y: auto;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid #3a2c1e;
+  color: #ede0b8;
+  font-size: 14px;
+  line-height: 1.35;
+  user-select: text;
+}
+.nd-btns {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.nd-btn {
+  flex: 1 1 28%;
+  min-height: 34px;
+  background:
+    var(--u-btn-medium, none) center / 100% 100% no-repeat,
+    linear-gradient(#3a2a1c, #20160e);
+  border: 0;
+  border-radius: 0;
+  color: #efe2b8;
+  text-shadow: 0 1px 2px #000;
+}
+.nd-btn.primary {
+  color: #ffd98a;
+}
+
+/* ---------- écrans de démarrage D2 : menu, sélection, création (scène 800 × 600 mise à l'échelle) ---------- */
+.charselect.d2s {
+  background: #000;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+}
+.d2s .d2stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 800px;
+  height: 600px;
+  transform-origin: center;
+}
+.d2s .d2bg {
+  position: absolute;
+  inset: 0;
+  background-size: 800px 600px;
+  background-repeat: no-repeat;
+}
+.d2s .d2-sprite {
+  position: absolute;
+  background-repeat: no-repeat;
+  image-rendering: auto;
+}
+.d2s .d2t {
+  position: absolute;
+  text-align: center;
+  color: #c9b27a;
+  text-shadow:
+    0 1px 2px #000,
+    0 0 6px #000;
+  font-size: 15px;
+  line-height: 1.25;
+  pointer-events: none;
+}
+.d2s .d2t.title {
+  font-size: 26px;
+  color: #e8d49a;
+  font-variant: small-caps;
+  letter-spacing: 1px;
+}
+.d2s .d2t.sub {
+  color: #b09a6a;
+}
+.d2s .d2t.desc {
+  font-size: 14px;
+  color: #bfae84;
+}
+.d2s .d2t.foot {
+  font-size: 12px;
+  color: #7d6e50;
+}
+/* lot 318: the few words under a button of the home screen (Normal / Survivals, then the game) */
+.d2s .d2t.mdesc {
+  font-size: 14px;
+  color: #a8956a;
+}
+.d2s .d2t.err {
+  color: #e06a5a;
+}
+.d2s .d2b {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: var(--u-btn-wide) center / 100% 100% no-repeat;
+  color: #c9b27a;
+  font: inherit;
+  font-size: 15px;
+  font-variant: small-caps;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px #000;
+  cursor: pointer;
+  overflow: hidden;
+}
+.d2s .d2b.medium {
+  background-image: var(--u-btn-medium);
+}
+.d2s .d2b.short {
+  background-image: var(--u-btn-short);
+}
+.d2s .d2b.main {
+  font-size: 19px;
+  color: #d8c48c;
+}
+/* main menu's small links (sign in, how to play, credits, Discord: lot 286), small carved stone buttons (lot 292d: the menu's medium
+   button, its caps kept and its stone repeated) */
+.d2s .d2b.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border-style: solid;
+  border-width: 0 14px;
+  border-image: var(--u-btn-medium) 0 22 0 22 fill / 0 14px / 0 round stretch;
+  color: #c9b27a;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.d2s .d2b.link:active {
+  border-image-source: var(--u-btn-medium-down);
+}
+.d2s .d2b.link.discord {
+  color: #9aa3d6;
+}
+/* last mode picked (the one the page session runs) */
+.d2s .d2b.mode.cur {
+  color: #f2e2ae;
+  text-shadow:
+    0 0 6px rgba(255, 170, 60, 0.6),
+    0 1px 2px #000;
+}
+.d2s .d2b:hover {
+  color: #f2e2ae;
+  filter: brightness(1.2);
+}
+.d2s .d2b:active {
+  filter: brightness(0.85);
+}
+.d2s .d2b.hold .hold-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: rgba(190, 40, 30, 0.45);
+}
+.d2s .d2b.hold .hold-label {
+  position: relative;
+}
+.d2s .d2b.off {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+.d2s .d2b.rules {
+  font-size: 13px;
+}
+.d2s .d2t.rdesc {
+  font-size: 12px;
+  color: #a8956a;
+}
+/* écran plein d'un mod (point d'insertion d'interface : choix au level-up, menu d'un mode de jeu), la partie en pause */
+.mod-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+.d2s .d2-sprite[class] {
+  cursor: pointer;
+}
+.d2s .d2hero-hit {
+  position: absolute;
+  z-index: 30;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.d2s .d2namebox {
+  position: absolute;
+  width: 200px;
+  height: 30px;
+  background: var(--u-textbox) center / 100% 100% no-repeat;
+}
+.d2s .d2input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #e8d49a;
+  font: inherit;
+  font-size: 17px;
+  text-align: center;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.d2s .d2input::placeholder {
+  color: #7d6e50;
+}
+.d2s .d2dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px calc(var(--sab, 0px) + 8px);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85) 30%);
+  z-index: 5;
+}
+.d2s .d2dock .d2b,
+.d2s .d2dock .d2namebox {
+  position: relative;
+  flex: 0 0 auto;
+}
+.d2s .d2dock .d2b {
+  min-height: 40px;
+  font-size: 16px;
+}
+.d2s .d2b.dockbreak {
+  display: none;
+}
+.d2s .d2dock .d2b.dockbreak {
+  display: block;
+  flex: 0 0 100%;
+  height: 0;
+  min-height: 0;
+  background: none;
+}
+.d2s .d2dock .d2b.link,
+.d2s .d2topbar .d2b.link {
+  position: relative;
+  min-height: 36px;
+  width: auto !important;
+  padding: 0 6px;
+  font-size: 13px;
+}
+/* portrait: the links' corner (lot 292d), at the top right above the stage */
+.d2s .d2topbar {
+  position: absolute;
+  top: calc(var(--sat, 0px) + 8px);
+  right: 8px;
+  left: 30%;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  z-index: 6;
+}
+/* home screen in portrait (lot 304): the menu's image as large as the logo (drawn on it, with "Expansion Set") allows, prolonged above
+   and below by the same image blurred and darkened; the title, the mode buttons stacked under it and the footer in the dock over the
+   image's lower part, the links at the top right; all ≥ 44 px */
+.d2s.pmenu::before {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  background: var(--u-menu-bg) center / cover no-repeat;
+  filter: blur(8px) brightness(0.55);
+}
+.d2s.pmenu .d2stage > .d2bg {
+  -webkit-mask-image: linear-gradient(transparent, #000 5%, #000 88%, transparent);
+  mask-image: linear-gradient(transparent, #000 5%, #000 88%, transparent);
+}
+.d2s.pmenu .d2topbar {
+  left: 8px;
+}
+.d2s.pmenu .d2dock {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding-top: 0;
+  background: none;
+}
+.d2s.pmenu .d2dock .d2b {
+  min-height: 48px;
+  max-width: calc(100vw - 24px);
+}
+.d2s.pmenu .d2topbar .d2b.link {
+  min-height: 44px;
+}
+.d2s.pmenu .d2dock .d2t {
+  position: relative;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  max-width: 100%;
+}
+.d2s.pmenu .d2dock .d2t.sub {
+  font-size: 18px;
+  color: #d8c48c;
+  font-variant: small-caps;
+  letter-spacing: 0.5px;
+}
+.d2s.pmenu .d2dock .d2t.foot {
+  font-size: 11px;
+  color: #8a7a58;
+}
+.d2s.pmenu .d2dock .d2t.mdesc {
+  margin-top: -8px;
+  font-size: 13px;
+  color: #b8a67c;
+}
+.d2s .d2dock .d2namebox {
+  width: min(260px, 90vw);
+  height: 40px;
+}
+.d2s .d2credits {
+  position: absolute;
+  left: 90px;
+  top: 150px;
+  width: 620px;
+  height: 370px;
+  overflow-y: auto;
+  padding: 14px 18px;
+  background: rgba(6, 5, 4, 0.8);
+  border: 1px solid #5a4632;
+  color: #b8a67c;
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
+/* ---------- character selection laid out as in Diablo II (charlist.ts): stage (800 × 600, the game's coordinates) or compact (whole screen) ---------- */
+.d2s .d2b.tall {
+  background-image: var(--u-btn-tall);
+  white-space: normal;
+  line-height: 1.1;
+  padding: 0 14px;
+}
+.d2s.sel-compact .d2stage,
+.d2s.sel-compact .d2dock {
+  display: none;
+}
+.charlist {
+  color: #c9b27a;
+  user-select: none;
+}
+.charlist .sel-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+.charlist .sel-slot.sel {
+  background: var(--u-charselect-box) center / 100% 100% no-repeat;
+}
+.charlist:not(.art) .sel-slot.sel {
+  background: rgba(60, 42, 16, 0.55);
+  box-shadow:
+    inset 0 0 0 2px #c8a050,
+    inset 0 0 14px rgba(255, 170, 60, 0.3);
+}
+.charlist .sel-slot.off {
+  opacity: 0.55;
+  filter: grayscale(1);
+}
+.charlist .sel-fig {
+  position: relative;
+  align-self: stretch;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+.charlist .sel-fig.noart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.charlist .sel-fig.noart .icon {
+  width: 48px;
+  height: 48px;
+  color: #c9a35a;
+}
+.charlist.compact .sel-fig.noart .icon {
+  width: min(56px, 70cqh, 28cqw);
+  height: min(56px, 70cqh, 28cqw);
+}
+.charlist .sel-sprite {
+  position: absolute;
+  display: block;
+  background-repeat: no-repeat;
+  image-rendering: auto;
+  transform: scale(calc(var(--slot-h, 93) * 1.05 / var(--fy, 190)));
+  /* the selection screen's characters are drawn for the campfire light of the creation screen: lit a little here */
+  filter: brightness(1.35);
+}
+.charlist .sel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1 1 auto;
+  padding: 0 4px;
+  text-shadow: 0 1px 2px #000;
+}
+.charlist .sel-name,
+.charlist .sel-lvl,
+.charlist .sel-diff {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.charlist .sel-name {
+  color: #e8d49a;
+  font-weight: normal;
+}
+.charlist .sel-lvl {
+  color: #ddd8c8;
+}
+.charlist .sel-diff {
+  color: #5fbf4e;
+}
+/* lot 299: a mode's lines on a character's card (Survivals' Run: its progress), wrapped on two lines at most */
+.charlist .sel-diff.sel-card {
+  white-space: normal;
+  font-size: 0.86em;
+  line-height: 1.12;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.charlist .sel-off {
+  color: #e06a5a;
+  font-size: 0.85em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.charlist .sel-title {
+  text-align: center;
+  text-shadow:
+    0 1px 2px #000,
+    0 0 6px #000;
+}
+.charlist .sel-big {
+  color: #e8d49a;
+  font-variant: small-caps;
+  letter-spacing: 1px;
+}
+.charlist .sel-mode {
+  color: #a8956a;
+}
+.charlist .sel-title .err {
+  color: #e06a5a;
+}
+.charlist .sel-arrow {
+  padding: 0;
+  border: 1px solid #5d4a2a;
+  background: rgba(10, 8, 6, 0.85);
+  color: #c9b27a;
+  font: inherit;
+  cursor: pointer;
+}
+.charlist .sel-arrow:disabled,
+.charlist .sel-btn:disabled {
+  opacity: 0.45;
+  filter: grayscale(1);
+  cursor: default;
+}
+.charlist .sel-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+.charlist .sel-confirm-box {
+  max-width: min(380px, 90%);
+  padding: 18px 20px;
+  background: #0b0907;
+  border: 2px solid #5d4a2a;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 24px #000;
+  text-align: center;
+  color: #ddd8c8;
+}
+.charlist .sel-confirm-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+.charlist .sel-confirm .sel-btn {
+  position: relative;
+  left: auto;
+  top: auto;
+  min-width: 110px;
+  min-height: 44px;
+}
+.charlist .sel-confirm .sel-btn.d2b {
+  width: 128px;
+  height: 44px;
+  background-image: var(--u-btn-medium);
+}
+
+/* stage: the game's coordinates (frame at 37, 86; slots 272 × 93; buttons under the frame and at the bottom) */
+.charlist.stage {
+  position: absolute;
+  inset: 0;
+}
+.charlist.stage .sel-title {
+  position: absolute;
+  left: 37px;
+  top: 16px;
+  width: 563px;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 13px;
+}
+.charlist.stage .sel-big {
+  font-size: 26px;
+  line-height: 1.1;
+}
+.charlist.stage .sel-main {
+  position: absolute;
+  left: 37px;
+  top: 86px;
+  width: 563px;
+  height: 372px;
+}
+.charlist.stage .sel-grid {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  grid-template-rows: repeat(4, 93px);
+}
+.charlist.stage .sel-fig {
+  width: 92px;
+}
+.charlist.stage .sel-info {
+  font-size: 14px;
+}
+.charlist.stage .sel-name {
+  font-size: 16px;
+}
+.charlist.stage .sel-scroll {
+  position: absolute;
+  left: 548px;
+  top: 0;
+  width: 14px;
+  height: 372px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.charlist.stage .sel-arrow {
+  width: 14px;
+  height: 22px;
+  font-size: 9px;
+}
+.charlist.stage .sel-count {
+  display: none;
+}
+.charlist.stage .sel-bar {
+  display: contents;
+}
+.charlist.stage .sel-btn[data-act='create'] {
+  left: 33px;
+  top: 468px;
+  width: 168px;
+  height: 60px;
+}
+.charlist.stage .sel-btn[data-act='delete'] {
+  left: 433px;
+  top: 468px;
+  width: 168px;
+  height: 60px;
+}
+.charlist.stage .sel-btn[data-act='exit'] {
+  left: 33px;
+  top: 537px;
+  width: 128px;
+  height: 35px;
+}
+.charlist.stage .sel-btn[data-act='play'] {
+  left: 627px;
+  top: 537px;
+  width: 128px;
+  height: 35px;
+}
+
+/* compact: same organisation on the whole screen, targets of at least 44 px */
+.charlist.compact {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: calc(var(--sat, 0px) + 8px) calc(var(--sar, 0px) + 8px) calc(var(--sab, 0px) + 8px) calc(var(--sal, 0px) + 8px);
+  box-sizing: border-box;
+  justify-content: center;
+  background: radial-gradient(#22150b, #050403 75%);
+}
+.charlist.compact > * {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.charlist.compact .sel-title {
+  padding: 4px 8px 6px;
+  border-bottom: 3px double #6b5530;
+}
+.charlist.compact .sel-big {
+  font-size: 22px;
+  line-height: 1.15;
+}
+.charlist.compact .sel-mode,
+.charlist.compact .sel-title .err {
+  font-size: 13px;
+}
+.charlist.compact .sel-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 680px;
+  display: flex;
+  gap: 6px;
+}
+.charlist.compact .sel-grid {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(44px, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 2px solid #5d4a2a;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 0 0 1px #2a2014;
+  background: rgba(0, 0, 0, 0.55);
+}
+.charlist.compact .sel-slot {
+  min-height: 44px;
+  border: 1px solid rgba(110, 90, 55, 0.3);
+  container-type: size;
+}
+.charlist.compact .sel-fig {
+  width: min(36%, 90cqh);
+  max-width: 140px;
+}
+/* text sized to the slot (low rows on a folded phone in landscape, tall ones in portrait) */
+.charlist.compact .sel-info {
+  font-size: clamp(10px, min(19cqh, 8cqw), 15px);
+  line-height: 1.12;
+}
+.charlist.compact .sel-lvl {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.charlist.compact .sel-name {
+  font-size: 1.12em;
+}
+.charlist.compact .sel-scroll {
+  flex: 0 0 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 6px;
+}
+.charlist.compact .sel-arrow {
+  flex: 1 1 0;
+  min-height: 44px;
+  max-height: 120px;
+  font-size: 16px;
+}
+.charlist.compact .sel-count {
+  font-size: 11px;
+  text-align: center;
+  color: #a8956a;
+}
+.charlist.compact .sel-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.charlist.compact .sel-btn {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  min-height: 48px;
+  padding: 4px 8px;
+  font-size: 15px;
+  white-space: normal;
+  line-height: 1.1;
+}
+.charlist.compact .sel-btn.d2b {
+  background-image: var(--u-btn-wide);
+  background-size: 100% 100%;
+}
+.charlist.compact .sel-extras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.charlist.compact .sel-extras .btn {
+  min-height: 44px;
+}
+/* landscape: the four buttons on one row; low screens (folded phone in landscape): one-line title */
+@media (orientation: landscape) {
+  .charlist.compact .sel-bar {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+}
+@media (max-height: 480px) {
+  .charlist.compact {
+    gap: 6px;
+  }
+  .charlist.compact .sel-title {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 12px;
+    padding: 0 8px 4px;
+  }
+  .charlist.compact .sel-big {
+    font-size: 18px;
+  }
+  .charlist.compact .sel-btn {
+    min-height: 44px;
+  }
+}
+
+/* panneaux D2 : une colonne défilante doit prendre la hauteur du panneau (sinon le contenu déborde sans pouvoir défiler) */
+.panel.d2 .body > .scroll,
+.panel.d2 .body > .col {
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* boutons D2 : les embouts gravés gardent leurs proportions, seul le milieu de pierre se répète (au lieu d'étirer toute l'image sur de larges boutons) */
+.panel.d2 .body .btn:not(.d2small),
+.panel.d2 header .tabs .btn {
+  background: none;
+  border-style: solid;
+  border-width: 0 16px;
+  border-image: var(--u-btn-medium) 0 22 0 22 fill / 0 16px / 0 round;
+  min-height: 34px;
+  padding: 0 6px;
+}
+.panel.d2 .body .btn.sel:not(.d2small),
+.panel.d2 .body .btn:not(.d2small):active,
+.panel.d2 header .tabs .btn.sel {
+  background: none;
+  border-image-source: var(--u-btn-medium-down);
+}
+.charselect.d2 .btn {
+  background: none;
+  border-style: solid;
+  border-width: 0 20px;
+  border-image: var(--u-btn-wide) 0 30 0 30 fill / 0 20px / 0 round;
+}
+.charselect.d2 .btn:active {
+  background: none;
+  border-image-source: var(--u-btn-wide-down);
+}
+
+/* bonus de set : actifs en vert, inactifs en gris */
+.set-on {
+  color: #7be07b;
+}
+.set-off {
+  color: #7d7d7d;
+}
+.set-line {
+  font-size: 0.92em;
+}
+.set-piece.set-on {
+  color: var(--set);
+}
+
+/* onglets Runes / Gemmes / Matériaux du coffre (D2R) */
+/* cases carrées qui s'adaptent à la largeur de la colonne (les colonnes de la grille sont en minmax(0, …)) */
+.resgrid .rescell {
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  min-width: 0;
+  background: #0b0908;
+  border: 1px solid #3a3226;
+  position: relative;
+}
+.resgrid .rescell.dim .icon {
+  opacity: 0.18;
+  filter: grayscale(1);
+}
+.resgrid .rescell .n {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 0.8em;
+  color: #e8e0d0;
+  text-shadow: 0 0 2px #000;
+}
+
+.stashtabs {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.panel.d2 .col .tabs.stashtabs .btn:not(.d2small),
+.stashtabs .btn {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 24px;
+  padding: 2px 7px;
+  font-size: 11px;
+}
+
+/* Cube du coffre : cadre doré comme dans D2R */
+/* cases de fond des grilles latérales : carrées, largeur imposée par la colonne */
+.sidegrid .cell.fitcell {
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  min-width: 0;
+}
+.cubeframe {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 3px solid #a5842f;
+  box-shadow:
+    0 0 0 1px #3a2c0c,
+    inset 0 0 6px #000;
+  background: #050403;
+  padding: 2px;
+  align-self: flex-start;
+}
+
+/* glisser-déposer */
+.dd-src {
+  opacity: 0.35;
+}
+.dd-ghost {
+  box-shadow:
+    0 0 10px #000,
+    0 0 0 2px var(--gold);
+}
+.cell,
+.d2cell {
+  touch-action: manipulation;
+}
+
+/* durabilité */
+.tip .base.warn {
+  color: #e8a24a;
+}
+.tip .base.bad {
+  color: #e8604a;
+}
+
+/* Tactile : cibles ≥ 44 px (boutons, fermeture, onglets, menus contextuels, dialogues de PNJ) sans toucher aux cases des panneaux D2 */
+@media (pointer: coarse) {
+  /* boutons du HUD : zone de toucher agrandie à 44 px sans changer la mise en page */
+  .tbtn::after,
+  .pagebtn::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+  }
+  .btn:not(.d2small),
+  .nd-btn,
+  .ctxbtn {
+    min-height: 44px;
+  }
+  .close {
+    width: 44px;
+    height: 44px;
+  }
+  /* barre du haut des panneaux D2 (fermeture 30 à 36 px, onglets 34 px : sélecteurs plus spécifiques que ceux ci-dessus) : zone de toucher
+     élargie à 44 px sans changer la mise en page ; les onglets coupent leur texte (overflow) : la marge de découpe laisse passer la zone */
+  .panel.d2 header .close,
+  .panel.d2 header .tabs .btn {
+    position: relative;
+  }
+  .panel.d2 header .tabs .btn {
+    overflow: clip;
+    overflow-clip-margin: 8px;
+  }
+  .panel.d2 header .close::after,
+  .panel.d2 header .tabs .btn::after {
+    content: '';
+    position: absolute;
+    inset: -5px -2px;
+  }
+  .panel.d2 header .close::after {
+    inset: -7px -4px;
+  }
+}
+/* écran bas (téléphone, pliable fermé, en paysage) : la barre est collée au bord haut du panneau, qui découpe ce qui dépasse ; la marge
+   de découpe laisse la zone de toucher monter de 6 px au-dessus du panneau, le reste descend sur le haut du corps */
+@media (pointer: coarse) and (max-height: 420px) {
+  .panel.d2 {
+    overflow: clip;
+    overflow-clip-margin: 6px;
+  }
+  .panel.d2 header .tabs .btn::after {
+    inset: -6px -2px -4px;
+  }
+  .panel.d2 header .close::after {
+    inset: -8px -7px -6px;
+  }
+}
+
+.zoomctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* actions principales toujours visibles (Équiper, Jeter, Ressusciter…) : collées en haut du panneau défilant */
+.actionbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: rgba(14, 12, 10, 0.96);
+  padding: 4px 0;
+  margin: 0;
+}
+.actionbar:empty {
+  display: none;
+}
+.actionbar .btn {
+  min-height: 40px;
+  min-width: 0;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 12px;
+}
+/* menus d'actions d'objet (Artisanat ▾, Gérer ▾) : lignes de 44 px, libellé à gauche, coût ou stock à droite, raison grisée dessous */
+.actionbar .actmenu,
+.actcol .actmenu {
+  background: rgba(10, 8, 6, 0.98);
+  border: 1px solid var(--border-hi);
+}
+.actionbar .actmenu .actmenu-title,
+.actcol .actmenu .actmenu-title {
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+  opacity: 0.8;
+}
+.actionbar .actmenu .btn.actmenu-item,
+.panel.d2 .body .actionbar .actmenu .btn.actmenu-item:not(.d2small),
+.actcol .actmenu .btn.actmenu-item,
+.panel.d2 .body .actcol .actmenu .btn.actmenu-item:not(.d2small) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 8px;
+  row-gap: 1px;
+  min-height: 44px;
+  height: auto;
+  width: 100%;
+  padding: 4px 8px;
+  text-align: left;
+  white-space: normal;
+  font-size: 13px;
+  flex: 0 0 auto;
+}
+.actionbar .actmenu .am-label,
+.actcol .actmenu .am-label {
+  flex: 1 1 auto;
+}
+.actionbar .actmenu .am-right,
+.actcol .actmenu .am-right {
+  flex: 0 0 auto;
+  font-size: 11px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.actionbar .actmenu .am-sub,
+.actcol .actmenu .am-sub {
+  flex: 1 0 100%;
+  font-size: 11px;
+  opacity: 0.7;
+}
+.actionbar .actmenu .btn.disabled .am-sub,
+.actcol .actmenu .btn.disabled .am-sub {
+  color: #c9a07a;
+}
+.btn.stickybottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+/* barre d'actions compacte : embouts plus étroits pour que tous les boutons tiennent dans la zone visible */
+.panel.d2 .body .actionbar .btn:not(.d2small) {
+  border-width: 0 10px;
+  border-image-width: 0 10px;
+  padding: 0 2px;
+  min-height: 40px;
+}
+.panel.d2 .body .actionbar {
+  gap: 4px;
+}
+/* petits écrans (≈ 740 px) : la colonne d'infos n'a que ~150 px de visibles, les boutons passent à la ligne au lieu de déborder */
+@media (max-width: 780px) {
+  .panel.d2 .body .tabs.actionbar {
+    max-width: 150px;
+  }
+  .panel.d2 .body .tabs.actionbar .btn {
+    flex: 1 1 100%;
+  }
+  .panel.d2 .body .tabs.actionbar .btn.actmenu-toggle {
+    flex: 1 1 44%;
+  }
+  /* menu déplié : la liste a besoin de largeur (libellé + coût) */
+  .panel.d2 .body .tabs.actionbar.menu-open {
+    max-width: min(290px, 100%);
+  }
+}
+
+/* Import de personnages Diablo II (.d2s) : fenêtre de l'écran de sélection */
+.d2imp {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(8, 6, 5, 0.92);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: calc(var(--sat) + 10px) calc(var(--sar) + 12px) calc(var(--sab) + 10px) calc(var(--sal) + 12px);
+  color: var(--ink);
+  text-align: left;
+}
+.d2imp-panel {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.d2imp-panel h3 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 18px;
+}
+.d2imp .row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.d2imp-input {
+  display: none;
+}
+.d2imp-hint,
+.d2imp-status {
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.d2imp-folder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.d2imp-files {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 32vh;
+  overflow-y: auto;
+}
+.d2imp-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.d2imp-file .n {
+  flex: 1;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.d2imp-file .d {
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+.d2imp-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.d2imp-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.d2imp-card.ok b {
+  color: var(--gold);
+}
+.d2imp-card.bad {
+  border-color: #a44;
+}
+.d2imp-card.bad b {
+  color: #ff9a80;
+}
+.d2imp-line {
+  margin-top: 3px;
+  color: var(--ink-dim);
+  word-break: break-word;
+}
+.d2imp-folder .btn {
+  align-self: flex-start;
+}
+
+/* ------------------------- Mode PC : souris + clavier façon Diablo II ------------------------- */
+.pcbar,
+.pcorb {
+  display: none;
+}
+.pc .joy-zone,
+.pc .sbtn,
+.pc .pagebtn,
+.pc .ctxbtn {
+  display: none !important;
+}
+.pc .pcbar {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--sab) + 6px);
+  transform: translateX(-50%);
+  align-items: flex-end;
+  gap: calc(10px * var(--pcs, 1));
+  padding: 4px 8px;
+  background: linear-gradient(#1a1410, #0c0806);
+  border: 1px solid #8c7a4c;
+  border-radius: 4px;
+  box-shadow:
+    0 2px 8px #000,
+    inset 0 0 8px #000;
+  max-width: calc(100vw - 190px);
+}
+.pcgrp {
+  display: flex;
+  gap: calc(3px * var(--pcs, 1));
+}
+.pcbtn {
+  position: relative;
+  width: calc(40px * var(--pcs, 1));
+  height: calc(40px * var(--pcs, 1));
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background: radial-gradient(#2a1e14, #0e0906);
+  border: 1px solid #6a5a38;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.pcbtn.big {
+  width: calc(54px * var(--pcs, 1));
+  height: calc(54px * var(--pcs, 1));
+  border: 2px solid #c8a060;
+}
+.pcbtn:hover {
+  border-color: #ffe0a0;
+  filter: brightness(1.25);
+}
+.pcbtn .icon {
+  width: 78%;
+  height: 78%;
+}
+.pcbtn .cd {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(rgba(0, 0, 0, 0.72) var(--cd, 0deg), transparent 0);
+  pointer-events: none;
+}
+.pcbtn.nomana {
+  filter: saturate(0.3) brightness(0.6);
+}
+.pcbtn.empty {
+  opacity: 0.45;
+}
+.pcbtn .kc {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  font: 700 10px/12px sans-serif;
+  color: #d8c898;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000;
+  pointer-events: none;
+}
+.pcbtn .qty {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font: 700 11px/13px sans-serif;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+.pc .pcorb {
+  display: block;
+  position: absolute;
+  bottom: calc(var(--sab) + 6px);
+  width: calc(76px * var(--pcs, 1));
+  height: calc(76px * var(--pcs, 1));
+  border-radius: 50%;
+  border: 2px solid #8c7a4c;
+  background: #0a0605;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: 0 2px 8px #000;
+}
+.pcorb.life {
+  left: calc(var(--sal) + 8px);
+}
+.pcorb.mana {
+  right: calc(var(--sar) + 8px);
+}
+.pcorb .pcfill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.pcorb.life .pcfill {
+  background: radial-gradient(circle at 35% 30%, #ff6a5a, #a01410 60%, #5a0806);
+}
+.pcorb.mana .pcfill {
+  background: radial-gradient(circle at 35% 30%, #6a9aff, #1a40b0 60%, #0a1a5a);
+}
+.pc .bars .bar.life,
+.pc .bars .bar.mana {
+  display: none;
+}
+.pc .bars {
+  left: calc(var(--sal) + 10px);
+}
+/* curseurs de ciblage */
+#stage.cur-pc {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M14 2v8M14 18v8M2 14h8M18 14h8' stroke='%23000' stroke-width='4'/%3E%3Cpath d='M14 2v8M14 18v8M2 14h8M18 14h8' stroke='%23e8d49a' stroke-width='2'/%3E%3C/svg%3E")
+      14 14,
+    crosshair;
+}
+#stage.cur-attack {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M14 2v8M14 18v8M2 14h8M18 14h8' stroke='%23000' stroke-width='4'/%3E%3Cpath d='M14 2v8M14 18v8M2 14h8M18 14h8' stroke='%23ff4a3a' stroke-width='2'/%3E%3Ccircle cx='14' cy='14' r='3' fill='%23ff4a3a'/%3E%3C/svg%3E")
+      14 14,
+    crosshair;
+}
+#stage.cur-use {
+  cursor: pointer;
+}
+.pc .label {
+  cursor: pointer;
+}
+.pc .label:hover {
+  background: rgba(70, 55, 20, 0.95);
+  outline: 1px solid #e8d49a;
+  filter: brightness(1.3);
+}
+.pc .label.alt-show.hidden-item {
+  opacity: 1;
+}
+.pc-tip {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  max-width: 320px;
+  background: rgba(10, 8, 6, 0.96);
+  border: 1px solid #8c7a4c;
+  padding: 6px 8px;
+  border-radius: 3px;
+  box-shadow: 0 2px 10px #000;
+}
+.help-panel .help-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  font-size: 14px;
+}
+.help-panel .help-grid b {
+  color: #e8d49a;
+  white-space: nowrap;
+}
+
+/* ------------------------- Barre d'invocations ------------------------- */
+.summons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+.sumchip {
+  position: relative;
+  width: calc(26px * var(--s));
+  height: calc(26px * var(--s));
+  border: 1px solid #8c7a4c;
+  border-radius: 3px;
+  background: #140c08;
+  box-shadow: 0 1px 3px #000;
+  font-size: calc(22px * var(--s));
+  display: grid;
+  place-items: center;
+  pointer-events: auto !important;
+  cursor: help;
+}
+.sumchip .icon {
+  width: 100%;
+  height: 100%;
+}
+.sumchip .n {
+  position: absolute;
+  right: -3px;
+  bottom: -4px;
+  min-width: 12px;
+  padding: 0 2px;
+  border-radius: 6px;
+  background: #000c;
+  border: 1px solid #5a4a28;
+  color: #f4e8d0;
+  font: 700 calc(9px * var(--s)) / 1.25 sans-serif;
+  text-align: center;
+  text-shadow: 0 1px 1px #000;
+}
+.sumchip.full {
+  border-color: #e8c25a;
+}
+.sumchip.full .n {
+  background: #8a5a10;
+  border-color: #e8c25a;
+  color: #fff;
+}
+.sumtip {
+  margin-top: 3px;
+  padding: 2px 6px;
+  font-size: calc(11px * var(--s));
+  color: #f4e8d0;
+  background: #000b;
+  border: 1px solid #5a4a28;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+/* ---- Synchronisation (compte, conflits) ---- */
+.sync-overlay {
+  z-index: 80;
+  /* hauteur visible réelle (clavier virtuel) : posée par sync-ui.ts via visualViewport */
+  height: var(--vvh, auto);
+  max-height: 100dvh;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scroll-padding: 12px;
+}
+.sync-overlay .d2imp-panel {
+  margin: auto 0;
+}
+/* boutons principaux collés en bas de la fenêtre : toujours accessibles */
+.sync-overlay .sync-box > [data-act='go'],
+.sync-overlay .sync-box > [data-act='now'],
+.sync-overlay .sync-choices {
+  position: sticky;
+  bottom: -12px;
+  z-index: 2;
+  padding-block: 6px;
+  background: var(--panel);
+  box-shadow: 0 -8px 8px -4px var(--panel);
+}
+.sync-overlay .sync-choices {
+  margin-bottom: -12px;
+  padding-bottom: 12px;
+}
+@media (max-height: 460px) {
+  .sync-overlay {
+    padding-top: calc(var(--sat) + 4px);
+    padding-bottom: calc(var(--sab) + 4px);
+  }
+  .sync-overlay .d2imp-panel {
+    max-width: 640px;
+    gap: 6px;
+    padding: 8px 12px;
+  }
+  .sync-box {
+    gap: 5px;
+  }
+  .sync-box .base {
+    font-size: 12px;
+  }
+  .sync-field {
+    gap: 2px;
+    font-size: 12px;
+  }
+  .sync-input {
+    padding: 4px 8px;
+  }
+  .sync-box .tabs {
+    margin: 0;
+  }
+}
+.sync-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.sync-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.sync-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 16px; /* 16 px : pas de zoom automatique sur iOS */
+  padding: 8px 10px;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+}
+.sync-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+.sync-check input {
+  width: 20px;
+  height: 20px;
+}
+.sync-warn {
+  color: #d9a35a;
+}
+.sync-notice {
+  font-size: 13px;
+  color: #e8b0a0;
+}
+.sync-status {
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.sync-status.s-idle {
+  color: #8fd18f;
+}
+.sync-status.s-conflict,
+.sync-status.s-error {
+  color: #e8a060;
+}
+.sync-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--border-hi);
+  border-radius: 6px;
+}
+.sync-strength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sync-meter {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sync-meter i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #c0504a;
+  transition: width 0.2s;
+}
+.sync-meter i[data-s='2'] {
+  background: #d9a35a;
+}
+.sync-meter i[data-s='3'],
+.sync-meter i[data-s='4'] {
+  background: #7fbf6f;
+}
+.sync-cards {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sync-card {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-hi);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.sync-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Allure : bascule marche / course (touche R en mode PC) */
+.walkbtn {
+  position: absolute;
+  left: calc(var(--sal, 0px) + 10px);
+  bottom: calc(var(--sab, 0px) + 150px);
+  padding: 2px 9px;
+  min-width: 44px;
+  min-height: 40px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(20, 14, 10, 0.7);
+  color: var(--ink-dim);
+  font-size: 11px;
+  opacity: 0.75;
+  z-index: 3;
+}
+.walkbtn[data-mode='walk'] {
+  color: var(--ink);
+  border-color: var(--border-hi);
+  opacity: 1;
+}
+.pc .walkbtn {
+  bottom: calc(var(--sab, 0px) + 104px);
+}
+
+/* Mercenaire : la grille du sac (10 colonnes) se réduit à la largeur restante au lieu de déborder sous le menu (pliables dépliés, écrans carrés) */
+.panel.d2 .col.mercinv {
+  container-type: inline-size;
+  flex: 5 1 0;
+  min-width: 0;
+}
+.panel.d2 .col.mercsheet {
+  flex: 1 1 200px;
+  min-width: 170px;
+}
+.mercinv .grid > .cell {
+  width: max(26px, min(calc(44px * var(--s)), calc((100cqw - 30px) / 10)));
+  height: max(26px, min(calc(44px * var(--s)), calc((100cqw - 30px) / 10)));
+}
+.mercinv .grid > .cell[style*='width: auto'] {
+  width: auto;
+  height: auto;
+}
+
+/* Filtre de butin : liste de surbrillance */
+.hlresults {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+.hlrow {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #3a3226;
+  color: #e8dcc4;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.hlrow.on {
+  background: rgba(200, 160, 80, 0.22);
+  border-color: #8a6a30;
+}
+.hlrow .k {
+  flex: none;
+  width: 18px;
+  color: #c8a050;
+}
+.hlrow .m {
+  flex: none;
+  color: #9a8e78;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.hlbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.hlbar .btn {
+  flex: 1 1 auto;
+  padding: 4px 6px;
+  font-size: 12px;
+  min-height: 30px;
+}
+.hlsum {
+  font-size: 12px;
+}
+.hlpick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.hlresults > .btn {
+  flex: none;
+  margin: 4px 0;
+}
+.hlrow .n,
+.hlentry .n {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+.hlentry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 13px;
+}
+.hldot {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #1a1612;
+  padding: 0;
+  cursor: pointer;
+}
+.hldot.sel {
+  border-color: #fff;
+}
+.hlpalette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 6px 6px;
+}
+.hlcats {
+  flex-wrap: wrap;
+}
+.hlcats {
+  flex-wrap: wrap;
+}
+[data-testid='hl-search'] {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ------------------------- Coffre : Personnage | Coffre | Objet | Actions (maquette du joueur) ------------------------- */
+.itemcol {
+  gap: 6px;
+  padding-right: 2px;
+}
+.itemcol > .tip,
+.itemcol > .col,
+.itemcol > .base {
+  max-width: 460px;
+  width: 100%;
+  align-self: flex-start;
+}
+.itemcol > * {
+  flex: none;
+  box-sizing: border-box;
+}
+.itemcol .tip {
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.itemcol .itemhint {
+  text-align: center;
+  opacity: 0.85;
+}
+.panetoggle {
+  flex: none;
+}
+.panetoggle .btn {
+  flex: 1 1 0;
+  min-height: 44px;
+}
+.panel.d2 .body .panetoggle .btn.sel:not(.d2small) {
+  color: #ffd98a;
+  filter: brightness(1.35) saturate(1.2);
+}
+/* liste des cartes du coffre : une ligne par carte, le détail est dans la colonne Objet */
+.maprow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+}
+.maprow .mr-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* colonne d'actions : 8 boutons plats toujours aux mêmes places, Jeter (rouge) en bas */
+.actcol {
+  flex: none;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-self: stretch;
+  position: relative;
+}
+@media (max-width: 999px), (max-height: 559px) {
+  .actcol {
+    width: 80px;
+  }
+  .actcol .actbtn,
+  .panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+    font-size: 11px !important;
+  }
+  .itemcol .tip {
+    font-size: 11px;
+  }
+  .panel.d2 .body {
+    gap: 4px;
+    padding: 3px;
+  }
+}
+@media (max-height: 420px) {
+  .actcol {
+    gap: 2px;
+  }
+  .actcol .actbtn,
+  .panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+    height: 36px;
+    min-height: 36px;
+  }
+}
+.actcol.inflow {
+  width: 100%;
+}
+.actcol .actbtn,
+.panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+  flex: none;
+  height: 44px;
+  min-height: 44px;
+  min-width: 0;
+  padding: 0 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-size: 12px;
+  line-height: 1.08;
+  text-align: center;
+  white-space: normal;
+  overflow: hidden;
+  position: relative;
+}
+.panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+  border-width: 0 7px;
+  border-image: var(--u-btn-medium) 0 22 0 22 fill / 0 7px / 0 round;
+}
+.panel.d2 .body .actcol .btn.actbtn.sel:not(.d2small),
+.panel.d2 .body .actcol .btn.actbtn:not(.d2small):active {
+  border-image-source: var(--u-btn-medium-down);
+}
+.actcol .actbtn[data-slot='drop'] {
+  margin-top: auto;
+}
+.actcol .ab-label {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.actcol .ab-sub {
+  position: relative;
+  max-width: 100%;
+  font-size: 9px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #d9c58f;
+}
+.actcol .actbtn.disabled {
+  opacity: 0.45;
+  filter: grayscale(0.5);
+}
+.actcol .actbtn.disabled .ab-sub {
+  color: #c9a07a;
+}
+.actcol .actbtn.danger,
+.panel.d2 .body .actcol .btn.actbtn.danger:not(.d2small) {
+  color: #ff7a66;
+}
+.actcol .actbtn.danger:not(.disabled) {
+  filter: sepia(0.6) hue-rotate(-30deg) saturate(1.8);
+}
+.actcol .actbtn.hold .hold-fill {
+  z-index: 0;
+}
+/* liste flottante (Artisanat, Améliorer, Sertir) : au-dessus de la colonne Objet, à gauche des actions */
+.actcol .actmenu {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 0;
+  z-index: 30;
+  width: min(300px, 58vw);
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px;
+  background: rgba(10, 8, 6, 0.98);
+  border: 1px solid var(--border-hi);
+  box-shadow: 0 4px 18px #000;
+}
+.actcol.compact .actmenu {
+  width: min(300px, calc(100vw - 230px));
+}
+.actcol.inflow .actmenu {
+  position: static;
+  width: auto;
+  grid-column: 1 / -1;
+  max-height: 40vh;
+}
+
+/* petit écran : colonne d'actions étroite, boutons plus bas (8 boutons sur ~310 px), sous-lignes masquées */
+@media (max-height: 420px) {
+  .actcol .actbtn,
+  .panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+    height: 36px;
+    min-height: 36px;
+  }
+  .actcol .ab-sub {
+    display: none;
+  }
+}
+@media (max-width: 999px), (max-height: 559px) {
+  .actcol .actbtn,
+  .panel.d2 .body .actcol .btn.actbtn:not(.d2small) {
+    font-size: 11px;
+  }
+}
+
+/* bloc « Fusionner » du coffre de cartes : deux rangées compactes */
+.panel.d2 .col.mergeblock .tabs .btn:not(.d2small),
+.panel.d2 .col.mergeblock .tabs select.btn {
+  flex: 1 1 auto;
+  min-height: 26px;
+  font-size: 11px;
+  padding: 2px 5px;
+  line-height: 1.1;
+  width: auto;
+}
+.panel.d2 .col.mergeblock .tabs b {
+  font-size: 12px;
+}
+
+/* Comparer la qualité d'image : les panneaux s'effacent pour laisser voir la scène sans filtre */
+html.image-compare #panels > * {
+  opacity: 0.04;
+}
+
+/* Bouton de qualité d'image (au-dessus du bouton marche / course) : tap = préréglage suivant, appui long = comparer */
+.imgbtn {
+  /* sous le bouton des réglages (colonne de droite) : discret, petit, hors du jeu */
+  align-self: flex-end;
+  padding: 2px 6px;
+  min-width: 40px;
+  min-height: 28px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(20, 14, 10, 0.7);
+  color: var(--ink-dim);
+  font-size: 10px;
+  opacity: 0.55;
+  touch-action: none;
+}
+.imgbtn:not([data-mode='off']) {
+  color: var(--ink);
+  border-color: var(--border-hi);
+  opacity: 0.95;
+}
+
+/* Coffre : barres de boutons à taille réelle sous les panneaux Personnage et Coffre */
+.stashcol {
+  justify-content: center; /* centré en hauteur comme les panneaux D2 */
+}
+.stashinner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: none;
+}
+.stashinner > .d2wrap {
+  margin-block: 0;
+}
+.stashbar {
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  flex: none;
+  /* la barre prend la largeur du panneau au-dessus, sans l'élargir */
+  width: 0;
+  min-width: 100%;
+}
+.stashbar .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 36px;
+  height: 100%;
+  padding: 2px 4px;
+  font-size: 12px;
+  line-height: 1.15;
+  white-space: normal;
+}
+.stashbar .btn.stashkeep {
+  font-size: 11px;
+}
+.stashbar .btn.stashkeep:not(.sel) {
+  opacity: 0.7;
+}
+.stashcol .stashpop {
+  width: auto;
+}
+/* bulle de confirmation / d'annulation, au-dessus de la barre */
+.stashpop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 48px;
+  z-index: 5;
+  padding: 8px;
+  background: rgba(14, 11, 8, 0.96);
+  border: 1px solid #b6a56c;
+  box-shadow: 0 2px 8px #000;
+  color: #ede0b8;
+  font-size: 13px;
+  text-align: center;
+}
+.stashpop .row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.stashpop .btn {
+  flex: 1 1 0;
+  min-height: 36px;
+}
+
+/* Réglages : barre de recherche, catégories repliables, aides discrètes */
+.setpane {
+  gap: 6px;
+}
+.set-bar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+  background: rgba(14, 12, 10, 0.96);
+}
+.set-search {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  font-size: 16px;
+  color: var(--ink);
+  background: #120d08;
+  border: 1px solid var(--border-hi);
+  border-radius: 5px;
+}
+.panel.d2 .set-bar .btn.set-clear,
+.set-clear {
+  flex: 0 0 auto;
+  min-width: 44px;
+  min-height: 40px;
+}
+.set-body {
+  gap: 6px;
+}
+.setsec {
+  gap: 6px;
+  padding: 2px 0 8px 6px;
+  border-left: 2px solid var(--border-hi);
+}
+.setpane .btn.setcat,
+.panel.d2 .setpane .btn.setcat:not(.d2small) {
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+.setpane .statrow {
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 40px;
+}
+.setpane .tabs {
+  flex-wrap: wrap;
+}
+.panel.d2 .setpane .tabs .btn:not(.d2small),
+.setpane .tabs .btn,
+.panel.d2 .setpane .btn:not(.d2small) {
+  min-height: 40px;
+}
+.panel.d2 .setpane .tabs .btn:not(.d2small) {
+  flex: 0 1 auto;
+  font-size: 13px;
+  padding: 0 6px;
+}
+.setpane .btn.dflt {
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.set-help {
+  font-size: 11.5px;
+  line-height: 1.25;
+  color: #a89a82;
+  opacity: 0.9;
+  margin: -1px 0 2px;
+}
+.set-tag {
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+.setres {
+  border-bottom: 1px solid rgba(160, 120, 70, 0.25);
+  padding-bottom: 4px;
+}
+.setpane input[type='range'] {
+  min-height: 40px;
+}
+.setpane > *,
+.set-body > *,
+.setsec > *,
+.setopt,
+.setres {
+  flex-shrink: 0;
+}
+.setpane > .set-body,
+.setpane > .set-bar {
+  width: 100%;
+  max-width: 960px;
+  align-self: center;
+}
+.set-search::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* Coffre : recherche */
+.stashsearch {
+  display: flex;
+  gap: 2px;
+  align-items: stretch;
+  flex: none;
+}
+.stashsearch .ssinput {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 0;
+  box-sizing: border-box;
+  padding: 0 6px;
+  font-size: 12px;
+  color: var(--ink);
+  background: rgba(10, 8, 6, 0.9);
+  border: 1px solid var(--border-hi);
+  border-radius: 3px;
+  min-height: 22px;
+}
+.stashsearch .ssbtn,
+.panel.d2 .body .stashsearch .btn.ssbtn:not(.d2small) {
+  flex: 0 0 auto;
+  min-width: 22px;
+  width: 22px;
+  min-height: 22px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  border-width: 1px;
+  border-image: none;
+  background: linear-gradient(#3a2a1c, #20160e);
+  border-color: var(--border-hi);
+}
+.stashsearch .ssbtn.sel {
+  background: linear-gradient(#5a3e22, #2a1c10);
+  border-color: var(--gold);
+}
+.stashsearch .ssbtn:disabled {
+  opacity: 0.35;
+}
+.stashsearch .ssbtn[data-testid='stash-search-filters'] {
+  width: auto;
+  min-width: 24px;
+  padding: 0 3px;
+}
+.stashcount {
+  font-size: 12px;
+  color: #ffd98a;
+  padding: 2px 0;
+}
+.stashcount.none {
+  color: #d88;
+}
+.stashres {
+  display: none;
+  z-index: 6;
+  box-sizing: border-box;
+  background: rgba(10, 8, 6, 0.97);
+  border: 1px solid var(--gold);
+  overflow-y: auto;
+  padding: 3px;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+.stashres.open {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.d2abs {
+  position: absolute;
+}
+.stashres .srrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  min-height: 30px;
+  padding: 2px 6px;
+  font-size: 12px;
+  flex: none;
+}
+.stashres .srname {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stashres .srrow small {
+  flex: none;
+  color: #bba;
+  font-size: 10px;
+}
+.stashres .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+.stashres .chips b {
+  flex: 0 0 100%;
+  color: var(--gold);
+}
+.stashres .chip,
+.panel.d2 .body .stashres .btn.chip:not(.d2small) {
+  flex: 0 0 auto;
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-width: 1px;
+  border-image: none;
+  background: linear-gradient(#3a2a1c, #20160e);
+  border-color: var(--border-hi);
+}
+.stashres .chip.sel,
+.panel.d2 .body .stashres .btn.chip.sel:not(.d2small) {
+  background: linear-gradient(#5a3e22, #2a1c10);
+  border-color: var(--gold);
+  color: #ffe8b0;
+}
+.srempty {
+  font-size: 12px;
+  color: #bba;
+  padding: 6px;
+}
+.sr-dim {
+  opacity: 0.22;
+  filter: grayscale(0.7);
+}
+.sr-hit {
+  outline: 2px solid #ffd24a;
+  outline-offset: -2px;
+  box-shadow: 0 0 8px 1px rgba(255, 210, 74, 0.7);
+  z-index: 2;
+}
+.stashpages .btn.srhit,
+.stashtop .btn.srhit,
+.panel.d2 .body .btn.srhit {
+  outline: 2px solid #ffd24a;
+  outline-offset: -2px;
+  color: #ffe8a0;
+}
+
+/* Filtre de butin : onglet Paliers */
+.tdrow {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #3a3226;
+  font-size: 13px;
+}
+.tdrow.on {
+  background: rgba(200, 160, 80, 0.22);
+  border-color: #8a6a30;
+}
+.tdrow.mod {
+  border-left: 3px solid #e8b04a;
+}
+.tdrow .n {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+.tdrow .m {
+  flex: none;
+  max-width: 38%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #9a8e78;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.tdchk {
+  flex: none;
+  min-width: 40px;
+  min-height: 40px;
+  background: none;
+  border: 0;
+  color: #c8a050;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tdrow .tdbtn {
+  flex: none;
+  min-width: 40px;
+  min-height: 40px;
+  height: 40px;
+  padding: 0 6px;
+}
+.tddot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #5a5040;
+}
+.tddot.t3 {
+  background: #4a8cff;
+}
+.tddot.t4 {
+  background: #f0c060;
+}
+.tddot.t5 {
+  background: #ff6a3a;
+}
+.tdhead.t3 {
+  color: #6aa0ff;
+}
+.tdhead.t4 {
+  color: #f0c060;
+}
+.tdhead.t5 {
+  color: #ff8a5a;
+}
+.tdhead.t0 {
+  color: #7a6f60;
+}
+.tdhead {
+  flex: none;
+  margin-top: 4px;
+}
+/* onglet Guilde du coffre : une ligne par objet (nom + « Prendre ») */
+.guildrow {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+.guildrow .maprow {
+  flex: 1;
+  min-width: 0;
+}
+.guildtab .sync-input {
+  min-height: 40px;
+}
+
+/* graphismes Diablo II générés sur l'appareil : bandeau discret de progression et barres de la section des Réglages */
+.d2l-banner {
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+  z-index: 60;
+  max-width: min(70vw, 320px);
+  padding: 4px 8px;
+  border: 1px solid rgba(180, 140, 70, 0.5);
+  border-radius: 4px;
+  background: rgba(10, 8, 6, 0.78);
+  color: #d8c9a0;
+  font-size: 11px;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.d2l-banner .warn {
+  color: #e0a070;
+}
+.d2l-bar {
+  height: 4px;
+  margin-top: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.d2l-bar > .fill {
+  height: 100%;
+  width: 100%;
+  background: #c8a050;
+  transform-origin: left center;
+  transition: transform 0.2s linear;
+}
+.d2l-bar.indet > .fill {
+  width: 35%;
+  animation: d2indet 1.1s ease-in-out infinite alternate;
+}
+@keyframes d2indet {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(185%);
+  }
+}
+.d2l-sec .set-help.warn {
+  color: #e0a070;
+}
+
+.d2c-notice {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+/* installation de l'application (PWA) : discret, en haut à droite des écrans d'avant-jeu */
+.pwa-pill {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 210;
+}
+.pwa-install[hidden] {
+  display: none;
+}
+.pwa-install.compact .btn {
+  font-size: 12px;
+  padding: 4px 10px;
+  opacity: 0.85;
+}
+.pwa-hint {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--ink-dim);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Préférence système « réduire les animations » : fin des transitions et animations décoratives de l'interface */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Discord link of the base start screen (lot 286) */
+.charselect a.btn.discord {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+/* Game mode variants on the creation screens (lot 289: Survivals' Run / Campaign) */
+.cs-variants {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0;
+}
+.cs-variant-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.cs-variant {
+  min-height: 44px;
+  min-width: 120px;
+}
+.cs-variant-desc {
+  font-size: 13px;
+  opacity: 0.9;
+  text-align: center;
+  max-width: 420px;
+}
+.d2s .d2variants {
+  position: absolute;
+}
+.d2s .d2dock .d2variants {
+  position: relative;
+  flex: 0 0 100%;
+}
+.d2s .d2variants .cs-variant {
+  color: #e8d49a;
+  background: rgba(20, 16, 10, 0.88);
+  border: 1px solid #6b5a3a;
+  font: inherit;
+  font-size: 24px;
+  min-height: 72px;
+  min-width: 170px;
+  padding: 0 16px;
+}
+.d2s .d2dock .d2variants .cs-variant {
+  font-size: 16px;
+  min-height: 44px;
+  min-width: 120px;
+}
+.d2s .d2variants .cs-variant.sel {
+  border-color: #e8b04a;
+  color: #fff2c0;
+}
+.d2s .d2variants .cs-variant-desc {
+  color: #c8b88a;
+  font-size: 14px;
+  text-shadow: 0 1px 2px #000;
+}
+
+/*
+ * Lot 305 (owner: "in portrait the menus are really not ergonomic": tabs cut "Inv… Ch… Ski… Se…", the actions cut at the right, the D2
+ * panel small at the bottom left over a large black space): a game mode held upright (html.any-orientation, rule `ui.orientation`) on a
+ * phone in portrait stacks the panel's columns: the D2 panel at the top as wide as the screen (its scale: panels-shared.ts
+ * `portraitStack`), the actions in rows of four under it, the item's or skill's text below; the tabs' labels whole
+ */
+@media (orientation: portrait) and (max-width: 699px) {
+  /* the zone behind no longer seen through the panel ("reduce how much of the map we see behind") */
+  html.any-orientation .panel.d2 {
+    background: #060504;
+  }
+  html.any-orientation .panel.d2 header {
+    padding: 3px 4px;
+    gap: 4px;
+  }
+  html.any-orientation .panel.d2 header .tabs {
+    gap: 2px;
+  }
+  html.any-orientation .panel.d2 header .tabs .btn {
+    padding: 0 1px;
+    font-size: 10.5px;
+    letter-spacing: 0;
+    text-overflow: clip;
+  }
+  html.any-orientation .panel.d2 .body {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    gap: 6px;
+  }
+  html.any-orientation .panel.d2 .body > .d2wrap {
+    order: 0;
+    margin: 0 auto;
+  }
+  html.any-orientation .panel.d2 .body > .actcol {
+    order: 1;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-self: stretch;
+    gap: 3px;
+  }
+  html.any-orientation .panel.d2 .body > .actcol .btn.actbtn:not(.d2small) {
+    flex: 1 1 calc(25% - 3px);
+    height: 40px;
+    min-height: 40px;
+    font-size: 11px !important;
+  }
+  html.any-orientation .panel.d2 .body > .actcol .actbtn[data-slot='drop'] {
+    margin-top: 0;
+  }
+  html.any-orientation .panel.d2 .body > .col {
+    order: 2;
+    width: auto !important;
+    max-width: none;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}

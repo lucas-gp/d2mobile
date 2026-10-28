@@ -1,0 +1,13 @@
+# Faux positifs connus : noms de clés localStorage, pas des secrets
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Noms de clés localStorage"
+regexTarget = "match"
+regexes = ['''d2m\.d2(pregen|pass|skip)''']
+
+[[allowlists]]
+description = "Faux jeton des tests unitaires"
+regexTarget = "match"
+regexes = ['''jeton-de-test-0123456789''']

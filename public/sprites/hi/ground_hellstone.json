@@ -1,0 +1,1 @@
+{"id":"ground_hellstone","kind":"ground","scale":1,"tileSize":4,"splatSize":3,"variants":4,"pages":[{"file":"ground_hellstone-0.png","w":452,"h":612}],"frames":{"tile/0":[0,0,0,256,128,128,64],"splat/0":[0,257,387,192,96,96,48],"tile/1":[0,0,129,256,128,128,64],"splat/1":[0,0,516,192,96,96,48],"tile/2":[0,0,258,256,128,128,64],"tile/3":[0,0,387,256,128,128,64]}}

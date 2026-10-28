@@ -1,0 +1,1 @@
+{"id":"prop_bones","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_bones-0.png","w":24,"h":24}],"frames":{"idle/0/0":[0,0,0,21,23,10.5,21]},"shadowPages":[{"file":"prop_bones-s-0.png","w":16,"h":8}],"shadows":{"idle/0/0":[0,0,0,12,6,7.75,3.5]},"shadowScale":0.25}

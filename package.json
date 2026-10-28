@@ -1,0 +1,84 @@
+{
+  "name": "d2-mobile",
+  "version": "0.1.0",
+  "description": "D2 Mobile (D2M): fan-made mobile action RPG (PWA) inspired by the classic isometric ARPGs. Non-commercial project, not affiliated with Blizzard.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucas-gp/d2mobile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucas-gp/d2mobile/issues"
+  },
+  "homepage": "https://github.com/lucas-gp/d2mobile#readme",
+  "private": true,
+  "keywords": [
+    "arpg",
+    "pwa",
+    "pixi",
+    "typescript",
+    "game"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:lan": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tools.json",
+    "typecheck:tools": "tsc -p tsconfig.tools.json",
+    "test": "vitest run --project unit",
+    "test:build": "vitest run --project build",
+    "test:private": "node tools/ci/test-private.mjs",
+    "coverage": "vitest run --project unit --coverage --testTimeout=180000 --exclude **/node_modules/** --exclude tests/unit/campaign-reach.test.ts --exclude mods/pd2/tests/unit/map-shapes.test.ts --exclude mods/pd2/tests/unit/maps-pd2.test.ts --exclude mods/pd2/tests/unit/maps.test.ts",
+    "check": "tsc --noEmit && vitest run --project unit",
+    "check:fast": "node tools/ci/check.mjs",
+    "check:full": "node tools/ci/check.mjs --full",
+    "sprites": "tsx tools/prerender/build-sprites.ts",
+    "d2": "tsx tools/d2import/cli.ts",
+    "bot:loot": "vitest run --project bots tests/bots/loot.test.ts",
+    "bot:combat": "vitest run --project bots tests/bots/combat.test.ts",
+    "bot:progression": "tsx tools/bots/progression.ts --verbose",
+    "validate": "node tools/validate-full.mjs",
+    "deploy": "node tools/deploy.mjs",
+    "bots": "vitest run --project bots",
+    "e2e": "node tools/e2e/mobile.mjs",
+    "e2e:survivals": "node tools/e2e/survivals.mjs",
+    "e2e:survivals:quick": "node tools/e2e/survivals.mjs --quick=1",
+    "lint": "eslint .",
+    "metrics": "tsx tools/quality/metrics.ts",
+    "format": "prettier --write \"{src,api,server,tests,tools,mods}/**/*.{ts,mjs,js}\" \"*.{ts,js}\"",
+    "format:check": "prettier --check \"{src,api,server,tests,tools,mods}/**/*.{ts,mjs,js}\" \"*.{ts,js}\"",
+    "fingerprint": "tsx tools/fingerprint/fingerprint.ts",
+    "mods:residual": "tsx tools/ci/pd2-residual.ts",
+    "vanilla": "tsx tools/vanilla/gen.ts",
+    "mods:suppression": "node tools/ci/suppression.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.2",
+    "pixi.js": "^8.21.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.4",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "happy-dom": "^21.0.4",
+    "playwright-core": "1.56.1",
+    "prettier": "^3.9.10",
+    "three": "^0.186.1",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8.71.2",
+    "upng-js": "^2.1.0",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "zod": "^4.6.6"
+  }
+}

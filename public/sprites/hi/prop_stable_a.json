@@ -1,0 +1,1 @@
+{"id":"prop_stable_a","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_stable_a-0.png","w":276,"h":228}],"frames":{"idle/0/0":[0,0,0,273,226,113,154]},"shadowPages":[{"file":"prop_stable_a-s-0.png","w":140,"h":80}],"shadows":{"idle/0/0":[0,0,1,136,78,66,42.5]},"shadowScale":0.5}

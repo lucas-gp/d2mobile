@@ -1,0 +1,1 @@
+{"id":"prop_tent","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_tent-0.png","w":108,"h":88}],"frames":{"idle/0/0":[0,0,0,104,86,52,61]},"shadowPages":[{"file":"prop_tent-s-0.png","w":56,"h":28}],"shadows":{"idle/0/0":[0,0,0,53,27,27.5,14]},"shadowScale":0.5}

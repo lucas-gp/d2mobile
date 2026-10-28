@@ -1,0 +1,1 @@
+{"id":"prop_brazier","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_brazier-0.png","w":52,"h":48}],"frames":{"idle/0/0":[0,0,0,50,48,25,39]},"shadowPages":[{"file":"prop_brazier-s-0.png","w":32,"h":16}],"shadows":{"idle/0/0":[0,0,0,28,13,15.5,7.5]},"shadowScale":0.5}

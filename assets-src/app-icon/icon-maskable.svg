@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="75%"><stop offset="0" stop-color="#3a1210"/><stop offset="0.65" stop-color="#150a09"/><stop offset="1" stop-color="#0b0908"/></radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8"/><stop offset="0.35" stop-color="#e0452a"/><stop offset="1" stop-color="#7a0f12" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d27a"/><stop offset="1" stop-color="#a8761f"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256 256) scale(0.78) translate(-256 -256)">
+    <circle cx="256" cy="256" r="150" fill="url(#core)"/>
+    <circle cx="256" cy="256" r="200" fill="none" stroke="url(#gold)" stroke-width="10"/>
+    <circle cx="256" cy="256" r="168" fill="none" stroke="#b3281f" stroke-width="6"/>
+    <g stroke="url(#gold)" stroke-width="5" stroke-linecap="round"><line x1="432.0" y1="256.0" x2="452.0" y2="256.0"/><line x1="433.7" y1="303.6" x2="445.3" y2="306.7"/><line x1="408.4" y1="344.0" x2="425.7" y2="354.0"/><line x1="386.1" y1="386.1" x2="394.6" y2="394.6"/><line x1="344.0" y1="408.4" x2="354.0" y2="425.7"/><line x1="303.6" y1="433.7" x2="306.7" y2="445.3"/><line x1="256.0" y1="432.0" x2="256.0" y2="452.0"/><line x1="208.4" y1="433.7" x2="205.3" y2="445.3"/><line x1="168.0" y1="408.4" x2="158.0" y2="425.7"/><line x1="125.9" y1="386.1" x2="117.4" y2="394.6"/><line x1="103.6" y1="344.0" x2="86.3" y2="354.0"/><line x1="78.3" y1="303.6" x2="66.7" y2="306.7"/><line x1="80.0" y1="256.0" x2="60.0" y2="256.0"/><line x1="78.3" y1="208.4" x2="66.7" y2="205.3"/><line x1="103.6" y1="168.0" x2="86.3" y2="158.0"/><line x1="125.9" y1="125.9" x2="117.4" y2="117.4"/><line x1="168.0" y1="103.6" x2="158.0" y2="86.3"/><line x1="208.4" y1="78.3" x2="205.3" y2="66.7"/><line x1="256.0" y1="80.0" x2="256.0" y2="60.0"/><line x1="303.6" y1="78.3" x2="306.7" y2="66.7"/><line x1="344.0" y1="103.6" x2="354.0" y2="86.3"/><line x1="386.1" y1="125.9" x2="394.6" y2="117.4"/><line x1="408.4" y1="168.0" x2="425.7" y2="158.0"/><line x1="433.7" y1="208.4" x2="445.3" y2="205.3"/></g>
+    <polygon points="256.0,136.0 288.5,223.5 376.0,256.0 288.5,288.5 256.0,376.0 223.5,288.5 136.0,256.0 223.5,223.5" fill="#1a0a08" stroke="url(#gold)" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="256" cy="256" r="22" fill="#ffd77a"/>
+  </g>
+</svg>

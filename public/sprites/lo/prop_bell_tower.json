@@ -1,0 +1,1 @@
+{"id":"prop_bell_tower","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_bell_tower-0.png","w":112,"h":208}],"frames":{"idle/0/0":[0,0,0,110,206,55,183.5]},"shadowPages":[{"file":"prop_bell_tower-s-0.png","w":60,"h":40}],"shadows":{"idle/0/0":[0,0,0,57,40,35,28.75]},"shadowScale":0.25}

@@ -1,0 +1,19 @@
+{
+ "coins": 2,
+ "drop": 3,
+ "clink": 3,
+ "bell": 1,
+ "step_snow": 5,
+ "step_stone": 5,
+ "step_grass": 5,
+ "hurt": 3,
+ "thud": 3,
+ "boom": 3,
+ "boom_low": 1,
+ "ice": 3,
+ "tele": 1,
+ "zap": 3,
+ "click": 2,
+ "error": 1,
+ "confirm": 1
+}

@@ -1,0 +1,253 @@
+// SPDX-License-Identifier: LicenseRef-D2-Derived-Data
+// Données dérivées des tables de données de Diablo II (valeurs, noms, structure), recréées par l'auteur : NON couvertes par la licence MIT du code.
+// Noms et marques : propriété de Blizzard Entertainment, Inc. Voir LICENSE-DATA.md, DISCLAIMER.md et docs/DERIVED-DATA.md.
+/**
+ * Animation d'attaque D2 / PD2 : images de base A par classe et type d'arme (Breakpoints PD2, table « Standard »),
+ * et vitesse d'arme WSM (weapons.txt, colonne speed ; négatif = plus rapide). Générés depuis les tables D2.
+ * Images = ceil(256*A / floor(256*(100+TAS)/100)) - 1, TAS = IAS effectif + IAS de compétence - WSM.
+ */
+import type { ClassId } from './classes';
+import type { ItemBase } from './types';
+
+export type AnimCat = 'swing1' | 'thrust1' | 'sword2' | 'spear2' | 'melee2' | 'bow' | 'xbow' | 'thrown' | 'claw';
+
+const ANIM_A: Record<ClassId, Partial<Record<AnimCat, number>>> = {
+  amazon: { swing1: 14, thrust1: 13, sword2: 18, spear2: 16, melee2: 16, bow: 14, xbow: 19, thrown: 16 },
+  assassin: { swing1: 15, thrust1: 15, sword2: 23, spear2: 23, melee2: 19, bow: 16, xbow: 19, thrown: 16, claw: 13.6 },
+  barbarian: { swing1: 16, thrust1: 16, sword2: 18, spear2: 19, melee2: 19, bow: 15, xbow: 17, thrown: 16 },
+  druid: { swing1: 19, thrust1: 19, sword2: 21, spear2: 23, melee2: 17, bow: 16, xbow: 21, thrown: 18 },
+  necromancer: { swing1: 19, thrust1: 19, sword2: 23, spear2: 24, melee2: 20, bow: 18, xbow: 21, thrown: 20 },
+  paladin: { swing1: 15, thrust1: 17, sword2: 18, spear2: 20, melee2: 18, bow: 16, xbow: 19, thrown: 16 },
+  sorceress: { swing1: 18, thrust1: 17, sword2: 22, spear2: 21, melee2: 16, bow: 17, xbow: 21, thrown: 20 },
+};
+
+/** Vitesse d'arme (WSM) des bases qui ne sont pas à 0 ; valeur négative = plus rapide */
+export const WSM_BY_BASE: Record<string, number> = {
+  ancient_axe: 10,
+  arbalest: -10,
+  archon_staff: 10,
+  ataghan: -20,
+  axe: 10,
+  balanced_axe: -10,
+  balanced_knife: -20,
+  balista: 10,
+  balrog_spear: 10,
+  bardiche: 10,
+  bastard_sword: 10,
+  battle_axe: 10,
+  battle_cestus: -10,
+  battle_hammer: 20,
+  battle_scythe: -10,
+  blade: -10,
+  blade_bow: -10,
+  blade_talons: -20,
+  bone_knife: -20,
+  bone_wand: -20,
+  brandistock: -20,
+  caduceus: -10,
+  cedar_staff: 10,
+  ceremonial_bow: 10,
+  ceremonial_javelin: -10,
+  ceremonial_pike: 20,
+  champion_axe: -10,
+  champion_sword: -10,
+  chu_ko_nu: -60,
+  cinquedeas: -20,
+  claws: -10,
+  claymore: 10,
+  cleaver: 10,
+  club: -10,
+  colossal_sword: 10,
+  colossus_blade: 5,
+  colossus_crossbow: 10,
+  colossus_voulge: 10,
+  composite_bow: -10,
+  crowbill: -10,
+  crusader_bow: 10,
+  cryptic_axe: 10,
+  cryptic_sword: -10,
+  crystalline_globe: -10,
+  cudgel: -10,
+  cutlass: -30,
+  dacian_falx: 10,
+  dagger: -20,
+  decapitator: 10,
+  demon_crossbow: -60,
+  devil_star: 10,
+  dimensional_shard: 10,
+  divine_scepter: -10,
+  double_axe: 10,
+  double_bow: -10,
+  dragon_stone: 10,
+  eagle_orb: -10,
+  edge_bow: 5,
+  eldritch_orb: -10,
+  elegant_blade: -10,
+  ettin_axe: 10,
+  executioner_sword: 10,
+  falchion: 20,
+  fanged_knife: -20,
+  fascia: 10,
+  feral_axe: -15,
+  feral_claws: -20,
+  flail: -10,
+  flamberge: -10,
+  flying_axe: 10,
+  francisca: 10,
+  ghost_glaive: 20,
+  ghost_wand: 10,
+  giant_axe: 10,
+  giant_thresher: -10,
+  gidbinn: -20,
+  glaive: 20,
+  glorious_axe: 10,
+  glowing_orb: -10,
+  gnarled_staff: 10,
+  gothic_axe: -10,
+  gothic_bow: 10,
+  gothic_sword: 10,
+  grand_matron_bow: 10,
+  grand_scepter: 10,
+  great_axe: -10,
+  great_bow: -10,
+  great_maul: 20,
+  great_sword: 10,
+  greater_claws: -20,
+  greater_talons: -30,
+  grim_scythe: -10,
+  hand_scythe: -10,
+  harpoon: -10,
+  hatchet_hands: 10,
+  heavenly_stone: -10,
+  heavy_crossbow: 10,
+  highland_blade: -5,
+  holy_water_sprinkler: 10,
+  horadric_malus: 20,
+  hurlbat: -10,
+  hydra_bow: 10,
+  hydra_edge: 10,
+  hyperion_javelin: -10,
+  hyperion_spear: -10,
+  jagged_star: 10,
+  javelin: -10,
+  jo_staff: -10,
+  katar: -10,
+  knout: -10,
+  kriss: -20,
+  lance: 20,
+  large_axe: -10,
+  legend_spike: -10,
+  legend_sword: -15,
+  legendary_mallet: 20,
+  lich_wand: -20,
+  light_crossbow: -10,
+  lochaber_axe: 10,
+  long_battle_bow: 10,
+  long_siege_bow: 10,
+  long_sword: -10,
+  long_war_bow: 10,
+  maiden_javelin: -10,
+  maiden_pike: 10,
+  mancatcher: -20,
+  martel_de_fer: 20,
+  matriarchal_bow: -10,
+  matriarchal_pike: 20,
+  matriarchaljavelin: -10,
+  maul: 10,
+  military_axe: -10,
+  military_pick: -10,
+  morning_star: 10,
+  ogre_maul: 10,
+  partizan: 10,
+  pellet_bow: -10,
+  petrified_wand: 10,
+  phase_blade: -30,
+  pike: 20,
+  poignard: -20,
+  poleaxe: 10,
+  razor_bow: -10,
+  reflex_bow: 10,
+  repeating_crossbow: -40,
+  rune_staff: 20,
+  rune_sword: -10,
+  runic_talons: -30,
+  saber: -10,
+  sacred_globe: -10,
+  scimitar: -20,
+  scissors_katar: -10,
+  scourge: -10,
+  scythe: -10,
+  seraph_rod: 10,
+  shamshir: -10,
+  short_bow: 5,
+  short_spear: 10,
+  short_staff: -10,
+  simbilan: 10,
+  small_crescent: 10,
+  spear: -10,
+  spiculum: 20,
+  spider_bow: 5,
+  stalagmite: 10,
+  stilleto: -10,
+  swirling_crystal: 10,
+  tabar: 10,
+  thresher: -10,
+  throwing_axe: 10,
+  throwing_spear: -10,
+  thunder_maul: 20,
+  tomb_wand: -20,
+  truncheon: -10,
+  tulwar: 20,
+  twin_axe: 10,
+  walking_stick: -10,
+  war_club: 10,
+  war_dart: -20,
+  war_fist: 10,
+  war_fork: -20,
+  war_hammer: 20,
+  war_javelin: -10,
+  war_pike: 20,
+  war_scepter: -10,
+  war_scythe: -10,
+  war_spear: -10,
+  war_spike: -10,
+  war_staff: 20,
+  winged_axe: -10,
+  winged_harpoon: -10,
+  winged_knife: -20,
+  wrist_spike: -10,
+  wrist_sword: -10,
+  yew_wand: 10,
+  zweihander: -10,
+};
+
+export function animCat(b: Pick<ItemBase, 'type' | 'twoHanded'> | null | undefined): AnimCat {
+  if (!b) return 'swing1';
+  switch (b.type) {
+    case 'bow':
+      return 'bow';
+    case 'crossbow':
+      return 'xbow';
+    case 'javelin':
+    case 'thrown':
+      return 'thrown';
+    case 'claw':
+      return 'claw';
+    case 'dagger':
+      return 'thrust1';
+    case 'spear':
+      return b.twoHanded ? 'spear2' : 'thrust1';
+    case 'sword':
+      return b.twoHanded ? 'sword2' : 'swing1';
+    case 'staff':
+    case 'polearm':
+      return 'melee2';
+    default:
+      return b.twoHanded ? 'melee2' : 'swing1';
+  }
+}
+
+export function animA(cls: ClassId, cat: AnimCat): number {
+  const t = ANIM_A[cls];
+  return t[cat] ?? t.swing1 ?? 15;
+}

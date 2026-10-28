@@ -1,0 +1,1 @@
+{"id":"prop_torch_wall","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_torch_wall-0.png","w":16,"h":24}],"frames":{"idle/0/0":[0,0,0,13,24,6,26]},"shadowPages":[{"file":"prop_torch_wall-s-0.png","w":12,"h":4}],"shadows":{"idle/0/0":[0,0,0,11,4,8.5,4.5]},"shadowScale":0.25}

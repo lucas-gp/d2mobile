@@ -1,0 +1,47 @@
+/** Zones des campagnes qui ont un point de passage (comme Diablo II) : on l'active en le touchant, puis on s'y rend depuis n'importe quel autre point de passage de l'acte */
+export const WAYPOINT_ZONES = new Set<string>([
+  // Acte I
+  'a1_town',
+  'a1_coldplains',
+  'a1_stonyfield',
+  'a1_darkwood',
+  'a1_blackmarsh',
+  'a1_cloister',
+  'a1_jail1',
+  'a1_inner',
+  'a1_cata2',
+  // Acte II
+  'a2_town',
+  'a2_sewer2',
+  'a2_dryhills',
+  'a2_halls2',
+  'a2_oasis',
+  'a2_lostcity',
+  'a2_cellar1',
+  'a2_arcane',
+  'a2_canyon',
+  // Acte III
+  'a3_town',
+  'a3_spider',
+  'a3_marsh',
+  'a3_jungle',
+  'a3_lower',
+  'a3_bazaar',
+  'a3_upper',
+  'a3_travincal',
+  'a3_durance2',
+  // Acte IV
+  'a4_fortress',
+  'a4_city',
+  'a4_river',
+  // Acte V
+  'a5_town',
+  'a5_highlands',
+  'a5_plateau',
+  'a5_crystal1',
+  'a5_crystal2',
+  'a5_death',
+  'a5_tundra',
+  'a5_glacial1',
+  'a5_keep2',
+]);

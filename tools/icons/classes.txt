@@ -1,0 +1,160 @@
+# id candidats (auteur/nom game-icons.net, CC BY 3.0) : le premier qui existe est retenu
+bash lorc/hammer-drop lorc/punch delapouite/fist
+double_swing lorc/crossed-swords lorc/swords-emblem
+leap lorc/jump-across delapouite/jump-across lorc/pounce
+double_throw lorc/hatchets delapouite/throwing-ball
+stun lorc/stun-grenade lorc/star-swirl delapouite/dizzy
+leap_attack lorc/pounce sbed/pounce lorc/falling-boulder
+concentrate lorc/on-target lorc/target-shot lorc/headshot
+frenzy lorc/enrage lorc/sword-slice
+whirlwind lorc/whirlwind lorc/tornado
+berserk lorc/wolf-howl lorc/enrage lorc/daemon-skull
+sword_mastery lorc/broadsword lorc/relic-blade
+axe_mastery lorc/battle-axe
+mace_mastery lorc/flanged-mace delapouite/spiked-mace lorc/spiked-mace
+polearm_mastery lorc/halberd
+throwing_mastery lorc/thrown-spear lorc/hatchets
+spear_mastery lorc/stone-spear lorc/spears
+increased_stamina lorc/run delapouite/sprint delapouite/running-shoe
+iron_skin lorc/layered-armor lorc/armor-vest
+increased_speed lorc/fast-forward-button lorc/winged-leg lorc/sprint
+natural_resistance lorc/muscle-up lorc/biceps
+howl lorc/wolf-howl lorc/screaming
+find_potion lorc/round-bottom-flask lorc/potion-ball delapouite/potion-ball
+shout lorc/shouting lorc/megaphone delapouite/megaphone
+taunt lorc/angry-eyes lorc/enrage delapouite/angry-eyes
+find_item lorc/swap-bag delapouite/swap-bag lorc/locked-chest
+battle_cry lorc/battle-gear lorc/rally-the-troops
+battle_orders lorc/rally-the-troops lorc/spartan
+grim_ward lorc/skull-staff delapouite/skull-staff lorc/voodoo-doll
+war_cry lorc/screaming lorc/wolf-howl lorc/shouting
+battle_command lorc/spartan lorc/winged-shield
+sacrifice lorc/bloody-sword lorc/dripping-sword lorc/pierced-heart
+smite delapouite/shield-bash lorc/shield-bounces
+holy_bolt lorc/holy-symbol lorc/sun-radiance lorc/lightning-frequency
+zeal lorc/sword-array lorc/swords-power lorc/crossed-swords
+charge delapouite/shield-impact lorc/charging-bull lorc/horse-head
+vengeance lorc/sword-spin lorc/fire-silhouette lorc/sword-wound
+blessed_hammer lorc/thor-hammer lorc/hammer-drop delapouite/hammer-nails
+conversion lorc/angel-outfit lorc/health-increase lorc/haloed-heart
+holy_shield delapouite/templar-shield lorc/winged-shield lorc/magic-shield
+fist_of_the_heavens lorc/lightning-storm lorc/sun-radiance lorc/thunder-skull
+prayer lorc/pray lorc/praying-hands delapouite/pray
+resist_fire lorc/fire-shield
+resist_cold lorc/ice-shield
+resist_lightning lorc/lightning-shield
+defiance lorc/shield-echoes lorc/bordered-shield
+cleansing lorc/water-drop lorc/bubbles delapouite/water-drop
+vigor lorc/wingfoot lorc/winged-leg lorc/running-ninja
+meditation lorc/lotus lorc/meditation delapouite/meditation
+redemption lorc/angel-wings lorc/heart-wings lorc/heart-wings
+salvation lorc/sun-radiance lorc/health-normal lorc/glowing-hands
+might lorc/biceps lorc/muscle-up lorc/strong
+holy_fire lorc/fire-silhouette lorc/campfire lorc/flame
+thorns lorc/thorn-helix lorc/spiked-tail lorc/thorny-vine
+blessed_aim lorc/crosshair-arrow lorc/bullseye skoll/bullseye
+concentration lorc/target-arrows lorc/on-target
+holy_freeze lorc/frozen-ring lorc/snowflake-2 lorc/ice-shield
+holy_shock lorc/lightning-frequency lorc/lightning-helix lorc/lightning-storm
+sanctuary lorc/ankh delapouite/ankh lorc/holy-grail
+fanaticism lorc/fanatic-eyes lorc/enrage lorc/crowned-skull
+conviction lorc/gavel lorc/scales lorc/justice-star
+magic_arrow lorc/energy-arrow lorc/charged-arrow
+fire_arrow lorc/flaming-arrow
+cold_arrow lorc/frozen-arrow
+multiple_shot lorc/double-shot lorc/arrow-cluster
+exploding_arrow lorc/fire-bomb lorc/explosive-materials lorc/chemical-arrow
+ice_arrow lorc/ice-spear lorc/frozen-arrow
+guided_arrow lorc/return-arrow lorc/target-arrows
+immolation_arrow lorc/fire-ray lorc/burning-embers lorc/flaming-arrow
+strafe lorc/arrow-flights lorc/rapidshare-arrow lorc/imbricated-arrows
+freezing_arrow lorc/ice-bolt lorc/frozen-arrow lorc/snowflake-2
+inner_sight lorc/third-eye lorc/eye-target lorc/all-seeing-eye
+critical_strike lorc/crossed-slashes lorc/slashed-shield lorc/broken-skull
+dodge lorc/dodge felbrigg/dodge
+slow_missiles lorc/slow-blob lorc/snail lorc/time-trap
+avoid lorc/arrows-shield delapouite/avoidance
+penetrate lorc/piercing-sword lorc/pierced-body
+decoy lorc/duality-mask lorc/two-shadows delapouite/mirror-mirror
+evade lorc/dodging lorc/ninja-heroic-stance lorc/running-ninja
+valkyrie lorc/valkyrie delapouite/valkyrie lorc/winged-helmet
+pierce lorc/pierced-heart lorc/pierced-body lorc/spear-hook
+jab lorc/spear-hook lorc/thrust delapouite/thrust-bend
+power_strike lorc/lightning-frequency lorc/spear-hook
+poison_javelin lorc/poison-bottle lorc/thrown-spear
+impale lorc/impaled-spear lorc/pierced-body lorc/barbed-spear
+lightning_bolt lorc/lightning-arc lorc/lightning-frequency lorc/thunder-blade
+charged_strike lorc/lightning-branches lorc/lightning-helix
+plague_javelin lorc/poison-gas lorc/biohazard lorc/poison-cloud
+fend lorc/spears lorc/spartan
+lightning_strike lorc/lightning-tree lorc/lightning-storm
+lightning_fury lorc/lightning-trio lorc/lightning-storm
+tiger_strike lorc/tiger-head lorc/tigers-head lorc/claw-slashes
+dragon_talon lorc/kicking lorc/boot-kick delapouite/kicking
+dragon_claw lorc/claw-slashes lorc/dragon-claw delapouite/dragon-claw
+fists_of_fire lorc/fire-punch lorc/fire-dash lorc/flaming-claw
+cobra_strike lorc/cobra lorc/snake-bite lorc/snake-totem
+dragon_tail lorc/dragon-breath lorc/fire-tail lorc/dragon-head
+claws_of_thunder lorc/claw-slashes lorc/lightning-frequency
+blades_of_ice lorc/ice-bolt lorc/frozen-arrow lorc/ice-spear
+dragon_flight lorc/dragon-head lorc/winged-arrow lorc/flying-dagger
+phoenix_strike lorc/phoenix-head lorc/fire-dash lorc/flame-claws
+claw_mastery lorc/claw-slashes lorc/dragon-claw
+psychic_hammer lorc/brain lorc/psychic-waves lorc/hammer-drop
+burst_of_speed lorc/sprint lorc/fast-forward-button lorc/running-ninja
+cloak_of_shadows lorc/hood lorc/cloak-dagger lorc/ninja-mask
+weapon_block lorc/crossed-swords lorc/sword-clash
+fade lorc/ghost lorc/dread-skull lorc/spectre
+shadow_warrior lorc/dark-squad lorc/two-shadows lorc/ninja-head
+mind_blast lorc/brain-freeze lorc/psychic-waves lorc/stun-grenade
+venom lorc/poison-bottle lorc/dripping-blade
+shadow_master lorc/hooded-figure lorc/hooded-assassin lorc/ninja-mask
+fire_blast lorc/fire-bomb lorc/burning-meteor lorc/flame
+shock_web lorc/spider-web lorc/lightning-frequency lorc/sticky-web
+blade_sentinel lorc/spinning-blades lorc/shuriken lorc/boomerang
+charged_bolt_sentry lorc/tesla-turret lorc/tesla-coil lorc/lightning-branches
+wake_of_fire lorc/fire-wave lorc/fire-ray lorc/flamethrower
+blade_fury lorc/shuriken lorc/spinning-blades
+lightning_sentry lorc/tesla-coil lorc/tesla-turret lorc/lightning-arc
+wake_of_inferno lorc/fire-spell-cast lorc/fire-wave lorc/flamethrower
+death_sentry lorc/skull-bolt lorc/thunder-skull lorc/lightning-storm
+blade_shield lorc/spinning-blades lorc/shuriken lorc/energy-shield
+raise_skeleton lorc/skeleton-inside lorc/raise-skeleton lorc/skull-crossed-bones
+skeleton_mastery lorc/skull-staff lorc/bone-mace lorc/crowned-skull
+clay_golem lorc/golem-head lorc/stone-golem lorc/rock-golem
+golem_mastery lorc/rock-golem lorc/stone-tower
+skeletal_mage lorc/skull-staff lorc/wizard-face delapouite/skull-staff
+blood_golem lorc/dripping-goo lorc/blood lorc/bleeding-heart
+summon_resist lorc/magic-shield lorc/shield-echoes
+iron_golem lorc/robot-golem lorc/anvil lorc/iron-mask
+fire_golem lorc/fire-silhouette lorc/lava-golem lorc/fire-shield
+revive lorc/zombie-hand lorc/raise-zombie lorc/grasping-claws
+teeth lorc/sharp-smile lorc/fangs lorc/tooth
+bone_armor lorc/ribcage lorc/rib-cage lorc/bone-armor
+poison_dagger lorc/poison-bottle lorc/dripping-knife lorc/sacrificial-dagger
+corpse_explosion lorc/death-zone lorc/burning-skull lorc/skull-slices
+bone_wall lorc/bone-knife lorc/bones lorc/rib-cage
+poison_explosion lorc/poison-gas lorc/gas-mask lorc/poison-cloud
+bone_spear lorc/bone-mace lorc/spine-arrow lorc/stone-spear
+bone_prison lorc/dungeon-gate lorc/imprisoned lorc/prisoner
+poison_nova lorc/poison-gas lorc/toxic-cloud lorc/gas-mask
+bone_spirit lorc/spectre lorc/ghost lorc/skull-bolt
+amplify_damage lorc/spikes-full lorc/broken-skull lorc/sharp-shuriken
+dim_vision lorc/eye-shield lorc/blindfold lorc/sight-disabled
+weaken lorc/broken-bone lorc/broken-heart lorc/health-decrease
+iron_maiden lorc/spiked-tail lorc/spikes-full lorc/thorn-helix
+terror lorc/screaming lorc/dread-skull lorc/spooky-house
+confuse lorc/dizzy-swirl lorc/round-struck lorc/star-swirl
+life_tap lorc/vampire-cape lorc/blood lorc/drop
+attract lorc/magnet lorc/horseshoe-magnet lorc/magnet-blast
+decrepify lorc/broken-bone lorc/aged-star lorc/wrinkles
+lower_resist lorc/broken-shield lorc/shield-disabled lorc/cracked-shield
+type_spear delapouite/spear-feather lorc/stone-spear
+type_javelin lorc/thrown-spear lorc/aerodynamic-harpoon
+type_claw lorc/claw-slashes lorc/dragon-claw
+type_scepter lorc/rod-of-asclepius lorc/scepter lorc/magic-axe
+type_crossbow carl-olsen/crossbow lorc/crossbow
+type_thrown lorc/hatchets lorc/throwing-star
+type_primal lorc/horned-helm lorc/barbarian delapouite/barbarian
+type_head lorc/skull-in-jar lorc/skull-mask lorc/skull-ring
+type_pelt lorc/wolf-head delapouite/wolf-head

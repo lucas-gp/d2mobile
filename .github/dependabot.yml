@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # versions mineures et correctives regroupées en une seule PR par semaine ; une version majeure garde sa propre PR
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+  # toutes les actions de la CI en une seule PR par mois
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']

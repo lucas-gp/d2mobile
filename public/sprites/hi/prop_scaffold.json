@@ -1,0 +1,1 @@
+{"id":"prop_scaffold","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_scaffold-0.png","w":184,"h":144}],"frames":{"idle/0/0":[0,0,0,180,143,91,102]},"shadowPages":[{"file":"prop_scaffold-s-0.png","w":96,"h":48}],"shadows":{"idle/0/0":[0,0,0,95,47,54,27]},"shadowScale":0.5}

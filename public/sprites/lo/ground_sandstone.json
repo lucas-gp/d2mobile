@@ -1,0 +1,1 @@
+{"id":"ground_sandstone","kind":"ground","scale":0.5,"tileSize":4,"splatSize":3,"variants":4,"pages":[{"file":"ground_sandstone-0.png","w":228,"h":308}],"frames":{"tile/0":[0,0,0,128,64,64,32],"splat/0":[0,129,195,96,48,48,24],"tile/1":[0,0,65,128,64,64,32],"splat/1":[0,0,260,96,48,48,24],"tile/2":[0,0,130,128,64,64,32],"tile/3":[0,0,195,128,64,64,32]}}

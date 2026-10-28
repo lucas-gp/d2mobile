@@ -1,0 +1,32 @@
+# Icônes de public/icons dont l'identifiant n'est pas dans icons.txt (27).
+# 24 sont la même forme qu'une icône game-icons.net déjà listée dans icons.txt (empreinte du tracé identique, après retrait du fond) :
+# elles ont été renommées avec la compétence (PD2) qui les utilise. Format : <id public> alias <id source dans icons.txt> <auteur/nom game-icons.net> (CC BY 3.0).
+# 3 n'ont aucun équivalent dans game-icons.net (comparaison du tracé avec l'ensemble du dépôt game-icons/icons) : voir les lignes « original ».
+
+blood_warp alias teleport lorc/body-swapping
+bow original (tracé propre au projet, MIT comme le code : créé dans le dépôt d'origine arpg-work au commit 4d97a99 du 2026-09-29, identique octet pour octet ; aucune correspondance dans game-icons.net)
+chain_lightning_sentry alias lightning_sentry lorc/tesla-coil
+combat_reflexes alias increased_stamina lorc/run
+curse_mastery alias amplify_damage lorc/broken-skull
+cycle_of_life alias carrion_vine lorc/vine-flower
+dark_pact alias bone_armor lorc/ribcage
+deep_wounds alias thorns lorc/thorn-helix
+desecrate alias corpse_explosion lorc/death-zone
+eruption alias fissure lorc/earth-crack
+gust alias cyclone_armor lorc/shield-reflect
+holy_light alias prayer lorc/holy-symbol
+holy_nova alias frost_nova lorc/snowflake-2
+holy_sword alias sword lorc/broadsword
+javelin_mastery alias spear_mastery lorc/stone-spear
+joust alias charge delapouite/shield-impact
+one_hand_mastery alias sword lorc/broadsword
+plague_poppy alias poison_creeper lorc/vine-whip
+polearm original (tracé propre au projet, MIT comme le code : créé dans le dépôt d'origine arpg-work au commit 4d97a99 du 2026-09-29, identique octet pour octet ; aucune correspondance dans game-icons.net)
+raise_skeleton_archer alias raise_skeleton lorc/skeleton-inside
+shape_shifting alias howl lorc/wolf-howl
+slow_movement alias slow_missiles lorc/snail
+split_throw alias type_thrown lorc/hatchets
+summon_fenris alias dire_wolf lorc/hound
+two_hand_mastery alias polearm_mastery lorc/halberd
+type_quiver original (tracé propre au projet, MIT comme le code : créé dans le dépôt d'origine arpg-work au commit 1a23db2, redessiné au commit 9f2ebc4 du 2026-10-06, identique octet pour octet ; aucune correspondance dans game-icons.net)
+vines alias solar_creeper lorc/sunbeams

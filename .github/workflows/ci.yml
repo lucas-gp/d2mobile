@@ -1,0 +1,142 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 3 * * *' # nuit : bots de fumée et e2e mobile (job « nightly »), audit des dépendances
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - name: Types des outils et des services (tools/, server/)
+        run: npx tsc -p tsconfig.tools.json
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npx vitest run --project unit
+        env:
+          PERF_SLACK: 4 # budgets de temps des tests de performance (tests/perf.ts) : machines partagées
+
+  audit:
+    # Audit des dépendances de production à part : un avis publié un jour donné ne doit pas bloquer les autres contrôles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm audit --omit=dev
+
+  nightly:
+    # Chaque nuit (et à la demande) : bot de fumée vanilla (une classe par build, sans le mod), campagne Normal du mode Survivals puis
+    # Cauchemar et Enfer joués par les bots, et validation mobile Playwright (serveur de développement sans fichiers D2) ; longs, hors des
+    # contrôles de chaque envoi
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Bots de fumée vanilla (sans le mod)
+        run: npx vitest run --project bots tests/bots/vanilla-smoke.test.ts
+        env:
+          MODS: ''
+      - name: Survivals, campagne Normal jouée par les bots (les 7 classes)
+        run: npx vitest run --project bots mods/survivals/tests/bots/campaign.test.ts
+      - name: Survivals, Cauchemar puis Enfer joués par les bots (Druide, Nécromancien)
+        run: npx vitest run --project bots mods/survivals/tests/bots/difficulties.test.ts
+      - name: Navigateur de Playwright (même version que playwright-core)
+        run: npx -y playwright@$(node -p "require('playwright-core/package.json').version") install --with-deps chromium
+      - name: Validation mobile (e2e)
+        run: |
+          D2_SPRITES=0 npx vite --host 127.0.0.1 --port 5233 --strictPort &
+          npx -y wait-on@8.0.5 -t 120000 http://127.0.0.1:5233/
+          node tools/e2e/mobile.mjs --quick
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: e2e-mobile
+          path: test-results/e2e
+          retention-days: 7
+
+  coverage:
+    # Couverture avec seuils (vitest.config.ts) : les seuils sont fixés sous la couverture mesurée. Quatre tests de cartes, trop lents sous
+    # instrumentation (60 s), sont exclus ici : les trois de mods/pd2 tournent dans le job « check » ; campaign-reach lit les fichiers D2
+    # privés et se saute donc partout en CI (il ne tourne qu'en local : npm run test:private).
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run coverage
+        env:
+          PERF_SLACK: 4
+
+  suppression:
+    # Test de suppression (plan des mods, lot M14) : une copie du dépôt SANS mods/ compile, passe le lint et les tests de la base (ceux des
+    # mods disparaissent avec eux), et son build public ne contient ni le chunk ni les textes du mod ; témoin : build public avec le mod.
+    # L'inventaire des dépendances résiduelles de la base à PD2 (docs/internal/MODS-RESIDUEL.md) doit être à jour.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run mods:residual -- --check
+      - run: npm run mods:suppression
+      - name: Build public complet (tests/build, projet vitest « build »)
+        run: npm run test:build
+
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false # le jeton du dépôt ne reste pas dans .git/config
+          fetch-depth: 0 # tout l'historique est analysé
+      - name: Recherche de secrets (gitleaks, configuration .gitleaks.toml)
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+          GITLEAKS_VERSION: '8.28.0' # la version vérifiée avec ce .gitleaks.toml (syntaxe [[allowlists]])

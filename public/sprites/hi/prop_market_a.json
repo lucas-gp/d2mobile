@@ -1,0 +1,1 @@
+{"id":"prop_market_a","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_market_a-0.png","w":112,"h":112}],"frames":{"idle/0/0":[0,0,0,110,112,55,85]},"shadowPages":[{"file":"prop_market_a-s-0.png","w":64,"h":32}],"shadows":{"idle/0/0":[0,0,0,60,32,39,21]},"shadowScale":0.5}

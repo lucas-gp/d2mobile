@@ -1,0 +1,1 @@
+{"id":"prop_house2_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_house2_b-0.png","w":128,"h":140}],"frames":{"idle/0/0":[0,0,0,124,139,64,112.5]},"shadowPages":[{"file":"prop_house2_b-s-0.png","w":64,"h":36}],"shadows":{"idle/0/0":[0,0,0,63,35,38,22.25]},"shadowScale":0.25}

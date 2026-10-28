@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0908" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <title>D2 Mobile</title>
+    <style>
+      /* the "rotate" prompt hidden until the game's stylesheet decides (lot 290: it flashed at each launch, even held sideways) */
+      .rotate {
+        display: none;
+      }
+      @font-face {
+        font-family: 'Cinzel';
+        src: url('./fonts/Cinzel.ttf') format('truetype');
+        font-weight: 400 900;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alegreya SC';
+        src: url('./fonts/AlegreyaSC-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alegreya SC';
+        src: url('./fonts/AlegreyaSC-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage"></div>
+      <div id="hud"></div>
+      <div id="panels"></div>
+      <div class="rotate">
+        <div>Tournez votre appareil en paysage<br /><small class="ios-only">Pour jouer en plein écran sur iPhone : Partager → « Sur l'écran d'accueil »</small></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+node_modules
+dist
+public
+assets-src
+package-lock.json
+test-results
+*.gen.ts
+*.gen.json
+src/i18n/en.json

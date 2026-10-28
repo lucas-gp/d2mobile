@@ -1,0 +1,34 @@
+# Example systemd unit for the anonymous statistics service (server/stats). ADAPT it, then copy it to /etc/systemd/system/;
+# nothing here is installed automatically. No secret in this file: the token is read from an environment file outside the repository
+# (e.g. /etc/d2m-stats.env, mode 0600, owned by root) holding one line: STATS_ADMIN_TOKEN=<at least 16 characters>
+# Suggested port: 5330 (the guild uses 5320). Node >= 22.13 (node:sqlite).
+[Unit]
+Description=D2 Mobile - anonymous statistics
+After=network.target
+
+[Service]
+Type=simple
+User=d2m-stats
+Group=d2m-stats
+WorkingDirectory=/opt/d2m
+EnvironmentFile=/etc/d2m-stats.env
+Environment=STATS_PORT=5330
+Environment=STATS_HOST=127.0.0.1
+Environment=STATS_DATA=/var/lib/d2m-stats
+# behind a Cloudflare tunnel (cloudflared on the same machine): CF-Connecting-IP, see docs/EXPLOITATION-IP.md
+#Environment=STATS_CLIENT_IP=cloudflare
+ExecStart=/usr/bin/node server/stats/index.mjs
+Restart=on-failure
+RestartSec=5
+StateDirectory=d2m-stats
+# hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/d2m-stats
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

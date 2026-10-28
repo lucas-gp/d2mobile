@@ -1,0 +1,1 @@
+{"id":"prop_church_ruin_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":1,"pages":[{"file":"prop_church_ruin_b-0.png","w":440,"h":588}],"frames":{"idle/0/0":[0,0,0,436,587,199,484]},"shadowPages":[{"file":"prop_church_ruin_b-s-0.png","w":232,"h":128}],"shadows":{"idle/0/0":[0,0,0,229,125,131.5,75.5]},"shadowScale":0.5}

@@ -1,0 +1,1 @@
+{"id":"prop_trees_small","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_trees_small-0.png","w":68,"h":68}],"frames":{"idle/0/0":[0,0,0,65,66,33,53.5]},"shadowPages":[{"file":"prop_trees_small-s-0.png","w":40,"h":20}],"shadows":{"idle/0/0":[0,0,0,36,20,21,11.75]},"shadowScale":0.25}

@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0 AND MIT
+// Données dérivées du wiki Project Diablo 2 (CC BY-SA 4.0, voir LICENSE-DATA.md et THIRD_PARTY_NOTICES.md) ; le reste du code est MIT.
+/**
+ * Patch Project Diablo 2 (saison 13) des tables vanilla de la base (Diablo II LoD 1.13c, régénérées depuis les MPQ : tools/vanilla/gen.ts).
+ * Généré par diff (mods/pd2/tools/vanilla-diff.ts : tables du jeu pd2 d'avant le lot M6 − tables vanilla). Appliqué par mods/pd2/index.ts
+ * avant les autres ajouts du mod ; mods/pd2/tests/unit/vanilla-patch.test.ts vérifie qu'il reproduit les tables pd2 à l'identique. Une
+ * valeur PD2 changée volontairement : l'éditer ici, puis `npx tsx mods/pd2/tools/vanilla-diff.ts --no-vanilla --ref` (patch remis en
+ * forme, empreintes de référence ré-enregistrées).
+ */
+import type { RunDef, TablePatch, ZoneLevel } from '../../../src/mods/api';
+
+/** Registre `levels` : 33 entrée(s) patchée(s) */
+export const PD2_LEVELS_PATCH: TablePatch<ZoneLevel> = {
+  patch: {
+    a1_hole1: { lvl: [5, 38, 85] },
+    a1_hole2: { lvl: [5, 39, 85] },
+    a1_burial: { lvl: [3, 36, 85] },
+    a1_crypt: { lvl: [3, 37, 85] },
+    a1_cellar1: { lvl: [7, 38, 82] },
+    a1_cellar2: { lvl: [7, 39, 83] },
+    a1_cellar3: { lvl: [7, 40, 84] },
+    a1_cellar4: { lvl: [7, 41, 85] },
+    a1_cata1: { lvl: [11, 42, 80] },
+    a1_cata2: { lvl: [11, 42, 80] },
+    a1_cata3: { lvl: [12, 43, 85] },
+    a2_canyon: { lvl: [16, 48, 80] },
+    a2_stony1: { lvl: [12, 44, 85] },
+    a2_halls2: { lvl: [13, 45, 82] },
+    a2_viper1: { lvl: [14, 47, 85] },
+    a2_stony2: { lvl: [12, 44, 85] },
+    a2_halls3: { lvl: [13, 45, 85] },
+    a2_viper2: { lvl: [14, 47, 85] },
+    a2_maggot1: { lvl: [17, 45, 85] },
+    a2_maggot2: { lvl: [17, 45, 85] },
+    a3_pit1: { lvl: [21, 51, 85] },
+    a3_pit2: { lvl: [21, 51, 85] },
+    a3_flayer2: { lvl: [22, 51, 85] },
+    a3_pit3: { lvl: [21, 51, 85] },
+    a3_flayer3: { lvl: [22, 51, 85] },
+    a3_sewer1: { lvl: [23, 52, 85] },
+    a3_temple1: { lvl: [23, 53, 85] },
+    a3_temple2: { lvl: [23, 53, 85] },
+    a3_temple3: { lvl: [23, 53, 85] },
+    a5_echo: { lvl: [29, 61, 85] },
+    a5_abaddon: { lvl: [39, 60, 85] },
+    a5_acheron: { lvl: [39, 61, 85] },
+    a5_infernal: { lvl: [39, 62, 85] },
+  },
+};
+
+/** Registre `runs` : 53 entrée(s) patchée(s) */
+export const PD2_RUNS_PATCH: TablePatch<RunDef> = {
+  patch: {
+    tristram: { zoneLevel: [16, 39, 82] },
+    a1_burial: { zoneLevel: [3, 36, 85], recLevel: [2, 33, 80] },
+    a1_crypt: { zoneLevel: [3, 37, 85], recLevel: [2, 34, 80] },
+    a1_hole1: { zoneLevel: [5, 38, 85], recLevel: [4, 35, 80] },
+    a1_hole2: { zoneLevel: [5, 39, 85], recLevel: [4, 36, 80] },
+    countess: { zoneLevel: [7, 42, 85] },
+    a1_tristram: { zoneLevel: [6, 39, 82], recLevel: [5, 36, 77] },
+    a1_cellar1: { zoneLevel: [7, 38, 82], recLevel: [6, 35, 77] },
+    a1_cellar2: { zoneLevel: [7, 39, 83], recLevel: [6, 36, 78] },
+    a1_cellar3: { zoneLevel: [7, 40, 84], recLevel: [6, 37, 79] },
+    a1_cellar4: { zoneLevel: [7, 41, 85], recLevel: [6, 38, 80] },
+    a1_countess: { zoneLevel: [7, 42, 85], recLevel: [6, 39, 80] },
+    a1_cata1: { zoneLevel: [11, 42, 80], recLevel: [10, 39, 75] },
+    a1_cata2: { zoneLevel: [11, 42, 80], recLevel: [10, 39, 75] },
+    a2_stony1: { zoneLevel: [12, 44, 85], recLevel: [11, 41, 80] },
+    a2_stony2: { zoneLevel: [12, 44, 85], recLevel: [11, 41, 80] },
+    a1_cata3: { zoneLevel: [12, 43, 85], recLevel: [11, 40, 80] },
+    a1_andariel: { zoneLevel: [12, 43, 85], recLevel: [11, 40, 80] },
+    a2_halls2: { zoneLevel: [13, 45, 82], recLevel: [12, 42, 77] },
+    a2_halls3: { zoneLevel: [13, 45, 85], recLevel: [12, 42, 80] },
+    a2_viper1: { zoneLevel: [14, 47, 85], recLevel: [13, 44, 80] },
+    a2_viper2: { zoneLevel: [14, 47, 85], recLevel: [13, 44, 80] },
+    andariel: { zoneLevel: [12, 43, 85] },
+    a2_canyon: { zoneLevel: [16, 48, 80], recLevel: [15, 45, 75] },
+    tombs: { zoneLevel: [17, 49, 82] },
+    a2_tomb1: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb2: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb3: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb4: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb5: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb6: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_tomb7: { zoneLevel: [17, 49, 82], recLevel: [16, 46, 77] },
+    a2_maggot1: { zoneLevel: [17, 45, 85], recLevel: [16, 42, 80] },
+    a2_maggot2: { zoneLevel: [17, 45, 85], recLevel: [16, 42, 80] },
+    a3_pit1: { zoneLevel: [21, 51, 85], recLevel: [20, 48, 80] },
+    a3_pit2: { zoneLevel: [21, 51, 85], recLevel: [20, 48, 80] },
+    a3_pit3: { zoneLevel: [21, 51, 85], recLevel: [20, 48, 80] },
+    a3_flayer2: { zoneLevel: [22, 51, 85], recLevel: [21, 48, 80] },
+    a3_flayer3: { zoneLevel: [22, 51, 85], recLevel: [21, 48, 80] },
+    a3_sewer1: { zoneLevel: [23, 52, 85], recLevel: [22, 49, 80] },
+    a3_temple1: { zoneLevel: [23, 53, 85], recLevel: [22, 50, 80] },
+    a3_temple2: { zoneLevel: [23, 53, 85], recLevel: [22, 50, 80] },
+    a3_temple3: { zoneLevel: [23, 53, 85], recLevel: [22, 50, 80] },
+    a4_plains: { zoneLevel: [26, 56, 85] },
+    a5_echo: { zoneLevel: [29, 61, 85], recLevel: [28, 58, 80] },
+    a5_abaddon: { zoneLevel: [39, 60, 85], recLevel: [38, 57, 80] },
+    a5_acheron: { zoneLevel: [39, 61, 85], recLevel: [38, 58, 80] },
+    a5_infernal: { zoneLevel: [39, 62, 85], recLevel: [38, 59, 80] },
+    uber_lilith: { zoneLevel: [50, 75, 85] },
+    uber_duriel: { zoneLevel: [50, 75, 85] },
+    uber_izual: { zoneLevel: [50, 75, 85] },
+    uber_tristram: { zoneLevel: [50, 75, 85] },
+    uber_dclone: { desc: 'Vision de la terreur : le Clone de Diablo et ses squelettes. Il lâche Annihilus ; aux niveaux de difficulté 1 et 2, une exclusivité est possible.' },
+  },
+};

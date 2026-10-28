@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["tools", "server", "src/platform/web-ext.d.ts"]
+}

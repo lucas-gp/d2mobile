@@ -1,0 +1,1 @@
+{"id":"prop_stonehouse_b","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_stonehouse_b-0.png","w":152,"h":192}],"frames":{"idle/0/0":[0,0,0,150,189,75,153.5]},"shadowPages":[{"file":"prop_stonehouse_b-s-0.png","w":88,"h":52}],"shadows":{"idle/0/0":[0,0,0,86,51,51,32.75]},"shadowScale":0.25}

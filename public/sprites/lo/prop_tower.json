@@ -1,0 +1,1 @@
+{"id":"prop_tower","kind":"prop","dirs":1,"anims":{"idle":{"frames":1,"fps":1,"loop":false,"action":-1,"dirs":1}},"scale":0.5,"pages":[{"file":"prop_tower-0.png","w":88,"h":172}],"frames":{"idle/0/0":[0,0,0,87,170,43,149]},"shadowPages":[{"file":"prop_tower-s-0.png","w":52,"h":36}],"shadows":{"idle/0/0":[0,0,0,49,34,35,25.5]},"shadowScale":0.25}
