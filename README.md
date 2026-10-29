@@ -6,6 +6,8 @@ runewords, a Horadric-style cube, mercenaries, and automated "bot" players used 
 extended by mods (`mods/<id>/`, see [docs/MODS.md](docs/MODS.md)); corrupted zones and endgame maps belong to a Project Diablo 2
 mod that ships with the repository and can be removed (see [docs/MODS.md](docs/MODS.md)). Written in TypeScript, rendered with Pixi.js.
 
+**Play:** [d2mobile.vercel.app](https://d2mobile.vercel.app/) (in a mobile or desktop browser; you need your own Diablo II: Lord of Destruction files, imported locally).
+
 **Community:** join the game's [Discord server](https://discord.gg/j6w8YVauR) for questions, feedback and bug reports.
 
 > **Fan project, not affiliated with or endorsed by Blizzard Entertainment or Project Diablo 2.**
