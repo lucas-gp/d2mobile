@@ -59,23 +59,23 @@
   },
   "dependencies": {
     "@vercel/blob": "^2.8.2",
-    "pixi.js": "^8.21.0"
+    "pixi.js": "^8.22.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.20.4",
-    "@vitest/coverage-v8": "^5.0.5",
-    "eslint": "^10.12.0",
-    "globals": "^17.13.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
     "happy-dom": "^21.0.4",
-    "playwright-core": "1.56.1",
+    "playwright-core": "1.65.0",
     "prettier": "^3.9.10",
-    "three": "^0.186.1",
+    "three": "^0.187.0",
     "tsx": "^4.23.15",
     "typescript": "~5.9",
-    "typescript-eslint": "^8.71.2",
+    "typescript-eslint": "^8.72.1",
     "upng-js": "^2.1.0",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "vitest": "^5.0.5"
   },
   "overrides": {
